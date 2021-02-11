@@ -1,0 +1,113 @@
+<factura id="factura">
+	<div class="row col-lg-12 col-md-12 col-sm-12">
+		{cantidad}
+	</div>
+<script type="text/javascript">
+
+
+</script>
+<!-- 	<script>
+
+		__clienteAutocomplete();
+		__productoAutocomplete();
+
+		function __clienteAutocomplete()
+		{
+		 var options = {
+		  url: function (phrase) {
+		      return baseUrl()+'findclient/'+phrase;
+		    },
+		   getValue: "documento",
+		    template: {
+		        type: "description",
+		        fields: {
+		            description: "nombre"
+		        }
+		    },
+
+		    list: {
+		        match: {
+		            enabled: false
+		        },
+		        onKeyEnterEvent: function() {
+		            var e = $("#documento").getSelectedItemData();
+		            $("nombre").text(e.nombre+" "+e.apellidos);
+		             $("documento").text(e.documento);
+		             $("direccion").text(e.direccion);
+		             $("telefono").text(e.telefono);
+		             $("email").text(e.email);
+		        },
+		        onClickEvent: function() {
+		            var e = $("#documento").getSelectedItemData();
+		            $("nombre").text(e.nombre+" "+e.apellidos);
+		             $("documento").text(e.documento);
+		             $("direccion").text(e.direccion);
+		             $("telefono").text(e.telefono);
+		             $("email").text(e.email);
+		        },
+		        showAnimation: {
+		              type: "fade", //normal|slide|fade
+		              time: 400,
+		              callback: function() {}
+		            },
+
+		            hideAnimation: {
+		              type: "slide", //normal|slide|fade
+		              time: 400,
+		              callback: function() {}
+		            }
+
+		    },
+		    autoSelect: true,
+
+		    theme: "plate-dark"
+		 };
+		 $("#documento").easyAutocomplete(options);
+		}
+
+		function __productoAutocomplete()
+		{
+		 var options = {
+		  url: function (phrase) {
+		      return baseUrl()+'findproducto/'+phrase;
+		    },
+		   getValue: "nombre",
+
+		    template: {
+		        type: "description",
+		        fields: {
+		            description: "precio_venta"
+		        }
+		    },
+
+		    list: {
+		        match: {
+		            enabled: false
+		        },
+		        onKeyEnterEvent: function() {
+
+		        },
+		        onClickEvent: function() {
+
+		        },
+		        showAnimation: {
+		              type: "fade", //normal|slide|fade
+		              time: 400,
+		              callback: function() {}
+		            },
+
+		            hideAnimation: {
+		              type: "slide", //normal|slide|fade
+		              time: 400,
+		              callback: function() {}
+		            }
+
+		    },
+		    autoSelect: true,
+
+		    theme: "plate-dark"
+		 };
+		 $("#nombre").easyAutocomplete(options);
+		}
+	</script> -->
+</factura>

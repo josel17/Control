@@ -1,0 +1,3 @@
+npm install webpack-laravel-mix-manifest --save-dev
+
+para env caso de que no se cargue el mix manifest
