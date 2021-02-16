@@ -19,6 +19,9 @@ class AppDataController extends Controller
             } catch (Exception $e) 
             {
               return back()->with('error','Se ha presentado un error al intentar abrir la pagina');
+              
+
+
 
             }
     }
