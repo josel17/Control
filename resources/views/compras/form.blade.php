@@ -29,16 +29,12 @@
 				<div class="x_content">
 				<form method="get" action="{{route('compras.orden.select_proveedor')}} ">
 					@csrf
-					<div class="row col-lg-12 col-md-12 col-ms-12">
-						<div class="col-md-3 col-sm-3 col-lg-3">
-		                    <label>Seleccionar proveedor</label>
-		                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
-								 <select class="form-control has-feedback-left {{ $errors->has('proveedor') ? 'is-invalid' : '' }}" name="proveedor" id="proveedor">
+						<div class="col-md-12 col-sm-12 col-lg-12" >
+							<label class="col-md-5 col-sm-5 col-lg-5">Seleccionar proveedor</label>
+		                    <div class="col-md-10 col-sm-10 col-lg-10 has-feedback form-group" >
+								 <select class="col-md-4 col-sm-4 col-lg-4 form-control has-feedback-left {{ $errors->has('proveedor') ? 'is-invalid' : '' }}" name="proveedor" id="proveedor">
 								 	@foreach($proveedores as $item)
-  										<option value="{{$item->id}}"
-  											@if($proveedor->id === $item->id)
-  												selected="selected"
-  											@endif>
+  										<option value="{{$item->id}}">
   											{{$item->nombre}}</option>
   									@endforeach
                               </select>
@@ -48,21 +44,23 @@
 		                            <strong>{{ $message }}</strong>
 		                        </span>
 		                      @enderror
-		                    </div>
-			            </div>
-			            <div class="col-md-3 col-sm-3 col-lg-3">
-							<label >.</label>
-		                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
 									<button class="btn btn-link" style="text-decoration: none;">
 										<span class="fa fa-search"></span> Buscar
 									</button>
 		                    </div>
 			            </div>
-					</div>
+			           {{--  <div class="col-md-3 col-sm-3 col-lg-3" style="background-color: red;">
+		                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
+									<button class="btn btn-link" style="text-decoration: none;">
+										<span class="fa fa-search"></span> Buscar
+									</button>
+		                    </div>
+			            </div> --}}
 					<div class="row col-lg-12 col-md-12 col-ms-12">
 						<div class="col-md-3 col-sm-3 col-lg-3">
 							<div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
-								<input class="icheckbox_flat-green Checked" type="checkbox" name="list_productos" value="1" @if($all_productos === 1)  @else  checked @endif> <label>Productos especificos del proveedor</label>
+								<input class="icheckbox_flat-green Checked" type="checkbox" name="list_productos" value="1" @if($all_productos === 1)  @else  checked @endif>
+								<label>Productos del proveedor </label>
 							</div>
 						</div>
 					</div>

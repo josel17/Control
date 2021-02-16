@@ -16,7 +16,6 @@ class CreateUmeTable extends Migration
         Schema::create('ume', function (Blueprint $table) {
             $table->integerIncrements('id');
             $table->string('nombre');
-            $table->integer('conversion');
             $table->timestamps();
         });
     }

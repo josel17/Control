@@ -26,11 +26,11 @@ class SaveProveedorRequest extends FormRequest
     public function rules()
     {
         return [
-            'nit' => ['required','numeric',Rule::unique('proveedor')->ignore($this->route('proveedor'))],
+            'nit' => ['required','numeric',Rule::unique('proveedores')->ignore($this->route('proveedor'))],
             'nombre' => 'required',
             'direccion' => 'required',
             'telefono' => 'required',
-            'tipo_proveedor' => '',
+            'tipo_proveedor' => 'required',
         ];
     }
 
@@ -42,6 +42,7 @@ class SaveProveedorRequest extends FormRequest
             'nit.unique' => 'Este NIT ya se encuentra registrado',
             'nombre.required' => 'El campo nombre es obligatorio',
             'telefono.required' => 'El campo telefono es obligatorio',
+            'tipo_proveedor.required' => 'Selecciona e tipo de proveedor a regitrar',
         ];
     }
 }

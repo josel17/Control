@@ -22,11 +22,10 @@ class CreateProductosTable extends Migration
             $table->unsignedInteger('id_proveedor');
             $table->unsignedInteger('id_laboratorio');
             $table->string('reg_sanitario');
-            $table->bigInteger('ean');
+            $table->bigInteger('ean')->nullable();
             $table->unsignedInteger('id_presentacion');
-            $table->unsignedInteger('conte_primario');
-            $table->integer('id_presentacion_venta');
-            $table->unsignedInteger('medida_venta');
+            $table->unsignedInteger('contenido');
+            $table->unsignedInteger('id_ume');
             $table->unsignedInteger('precio_compra');
             $table->unsignedInteger('precio_venta');
             $table->unsignedInteger('id_regla_impuesto');

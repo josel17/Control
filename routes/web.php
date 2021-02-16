@@ -121,9 +121,9 @@ Route::group([
 		function()
 		{
 			Route::get('categorias','CategoriasController@index')->name('almacen.categorias.index');
+			Route::get('categorias/create','CategoriasController@create')->name('almacen.categorias.create');
 			Route::get('categorias/{categoria}','CategoriasController@edit')->name('almacen.categorias.edit');
 			Route::put('categorias/{categoria}','CategoriasController@update')->name('almacen.categorias.update');
-			Route::get('categorias/create','CategoriasController@create')->name('almacen.categorias.create');
 			Route::delete('categorias/{categoria}','CategoriasController@destroy')->name('almacen.categorias.delete');
 			Route::post('categorias','CategoriasController@store')->name('almacen.categorias.store');
 
@@ -201,6 +201,12 @@ Route::group([
 		function(){
 			Route::get('caja/balance','CajaController@index')->name('caja.balance');
 			Route::post('caja/balance','CajaController@buscar')->name('caja.balance.buscar');
+		});
+
+	Route::group([
+		'middleware' => 'auth'],
+		function(){
+			Route::get('app/index','AppDataController@index')->name('app.index');
 		});
 	Route::get('ciudades/{id}','PersonaController@lciudad')->name('persona.ciudades');
 	Route::get('buscarproveedor','ComprasController@buscarproveedor')->name('orden.buscarproveedor');

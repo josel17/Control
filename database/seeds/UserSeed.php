@@ -17,7 +17,7 @@ class UserSeed extends Seeder
 	'username'=>'admin',
 	'id_persona'=>'1',
 	//'email_verified_at'=>'',
-	'password'=>'$2y$10$BYLqb6RlCURS9bg6fJ2z.O3uaOUJXdJcwvHm08Ld4B4ow0k7..ZLu',
+	'password'=>'$2y$10$nHuvePMWPrKVX1IkEHr//.vcV9te/1Rur3UAcl.RmtRISumh8NGEi',
 	'descripcion'=>'Usuario Administrador creado por el sistema',]);
     }
 

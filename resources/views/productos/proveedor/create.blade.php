@@ -1,3 +1,4 @@
+
 @extends('layout')
 
 @section('title','Compras')
@@ -99,18 +100,10 @@
 	              			<div class="radio " >
 								<label>
 									<div class="icheckbox_flat-green " >
-										<input name="tipo_proveedor" type="radio" class="flat"
+										<input name="tipo_proveedor" type="checkbox" class="flat"
 										 value="1" {{$proveedor->tipo_proveedor === 1 ? 'checked' : ''}} >
 									</div>
-			                	</label>
-			              	</div>
-			              	<div class="radio " >
-								<label>
-									<div class="icheckbox_flat-green " >
-										<input name="tipo_proveedor" type="radio" class="flat"
-										 value="0" {{$proveedor->tipo_proveedor === 0 ? 'checked' : ''}} >
-									</div>
-			                	</label>
+			                	Marque si es un laboratorio</label>
 			              	</div>
 						</div>
 						<div class="row col-lg-12 col-sm-12 col-xs-12 p-3">

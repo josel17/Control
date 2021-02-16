@@ -47,28 +47,34 @@ class VentasController extends Controller
             $factura = new Factura;
             $this->authorize('create', $factura);
             $empresa = DatosEmpresa::where('id',1)->first();
-            $factura = Factura::get()->last();
-            if(is_null($factura))
-            {
-                $numero_factura = 0001;
+            if ($empresa==null) {
+                return back()->with('info','Primero debes actualizar los datos de tu empresa');
             }
             else
             {
-                $numero_factura = $factura->numero + 1;
+                $factura = Factura::get()->last();
+                if(is_null($factura))
+                {
+                    $numero_factura = 0001;
+                }
+                else
+                {
+                    $numero_factura = $factura->numero + 1;
+                }
+
+                $deptos = Departamento::get();
+
+             return view('ventas.facturar',
+                [
+                    'producto' => Producto::all(),
+                    'tipoform' => 'cliente',
+                    'titleModal' => 'Crear nuevo Cliente',
+                    'deptos' => $deptos,
+                    'empresa' => $empresa,
+                    'numero_factura' => $numero_factura,
+                    'fecha_factura' => Carbon::now(),
+                ]);
             }
-
-            $deptos = Departamento::get();
-
-         return view('ventas.facturar',
-            [
-                'producto' => Producto::all(),
-                'tipoform' => 'cliente',
-                'titleModal' => 'Crear nuevo Cliente',
-                'deptos' => $deptos,
-                'empresa' => $empresa,
-                'numero_factura' => $numero_factura,
-                'fecha_factura' => Carbon::now(),
-            ]);
     }
 
 

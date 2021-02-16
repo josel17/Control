@@ -36,8 +36,8 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-
         $proveedor = new Proveedor;
+
         $this->authorize('create',$proveedor);
 
         return view('productos.proveedor.create',[
@@ -56,7 +56,7 @@ class ProveedorController extends Controller
     {
         try {
 
-            $this->authorize('create',$proveedor);
+                $this->authorize('create',$proveedor);
             if (isset($request->tipo_proveedor))
             {
             }
@@ -64,6 +64,7 @@ class ProveedorController extends Controller
             {
                 $request->tipo_proveedor =0;
             }
+
             Proveedor::create($request->validated());
             return back()->with('success','Proveedor registrado exitosamente');
         }

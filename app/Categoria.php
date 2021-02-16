@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-	protected $guarded =[];
-	protected $table = 'categoria';
+    protected $guarded =[];
+    protected $table = "categoria";
 
     public function user()
     {

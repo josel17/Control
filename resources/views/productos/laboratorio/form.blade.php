@@ -51,7 +51,7 @@
 	              			<div class="row col-md-6 col-sm-6 col-lg-6 " >
 			                    <label>Pagina Web</label>
 			                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
-									<input type="web" name="web" placeholder="Direccion web del laboratorio" value="{{old('web',$laboratorio->web)}}" class="form-control has-feedback-left  {{ $errors->has('web') ? 'is-invalid' : '' }}">
+									<input type="text" name="web" placeholder="Direccion web del laboratorio" value="{{old('web',$laboratorio->web)}}" class="form-control has-feedback-left  {{ $errors->has('web') ? 'is-invalid' : '' }}">
 			                      <span class="fa fa-globe-americas  form-control-feedback left blue" aria-hidden="true"></span>
 			                    </div>
 							</div>

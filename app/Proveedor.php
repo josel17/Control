@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proveedor extends Model
 {
 	protected $guarded =[];
-	protected $table = 'proveedor';
+	protected $table = 'proveedores';
 
 	public function producto()
 	{

@@ -47,13 +47,12 @@ class ComprasController extends Controller
     {
       try {
          $this->authorize('create',$orden);
-          $proveedores = Proveedor::all();
-          $proveedor = $proveedores[0];
+          $proveedores = Proveedor::get()->all();
           $productos = Producto::all();
           return view('compras.form',
             [
               'proveedores' => $proveedores,
-              'proveedor' => $proveedor,
+
               'productos' => $productos,
               'all_productos' => 0,
             ]);

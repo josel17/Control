@@ -24,9 +24,19 @@
               Inicio
           </a>
         </li>
+        <li class="{{ setActiveRoute('app*')}}">
+            <a>
+              <i class="fa fa-window-maximize {{ setActiveColor('app*')}}"></i>App<span class="fa fa-chevron-down"></span>
+            </a>
+            <ul class="nav child_menu" style="{{ openmenu('app*')}}">
+              <li class="" >
+                <a class="" href="{{route('app.index')}}">Datos de Aplicación</a>
+              </li>
+            </ul>
+        </li>
         <li class="{{ setActiveRoute('persona*')}}">
             <a>
-              <i class="fa fa-cogs {{ setActiveColor('persona*')}}"></i>Configuracion<span class="fa fa-chevron-down"></span>
+              <i class="fa fa-users {{ setActiveColor('persona*')}}"></i>Usuarios<span class="fa fa-chevron-down"></span>
             </a>
             <ul class="nav child_menu" style="{{ openmenu('persona*')}}">
               <li class="" >
@@ -35,6 +45,7 @@
               <li>
                 <a class=""  href="{{route('persona.usuarios.roles.index')}}">Roles</a>
               </li>
+
 
             </ul>
         </li>

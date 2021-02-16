@@ -27,7 +27,7 @@ class SaveCategoriaRequest extends FormRequest
         return [
             'nombre' => ['required',Rule::unique('categoria')->ignore($this->route('categorias'))],
             'id_estado' => 'required',
-            'descripcion' => 'max:255',
+            'descripcion' => ['max:255','required'],
             'user_register_id' => '',
         ];
     }
@@ -37,6 +37,7 @@ class SaveCategoriaRequest extends FormRequest
         return [
             'nombre.required' => 'El campo nombre es obligatorio',
             'descripcion.max' => 'La descripcion no puede exceder mas de 255 caracteres',
+            'descripcion.required' => 'Debes ingresar una descripcion de la categoria',
             'id_estado.required' => 'El campo estado es obligatorio'
         ];
     }

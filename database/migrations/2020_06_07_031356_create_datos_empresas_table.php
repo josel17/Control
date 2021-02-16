@@ -16,7 +16,6 @@ class CreateDatosEmpresasTable extends Migration
         Schema::create('datos_empresas', function (Blueprint $table) {
             $table->integerIncrements('id');
             $table->bigInteger('nit');
-            $table->integer('digito_verificacion');
             $table->string('nombre');
             $table->bigInteger('telefono');
             $table->string('direccion');
