@@ -13,9 +13,12 @@ class AppDataController extends Controller
      */
     public function index()
     {
-          try {
-                return view('app/index');
-            } catch (Exception $e) {
+          try
+            {
+               return view('app/index');
+            } catch (Exception $e) 
+            {
+              return back()->with('error','Se ha presentado un error al intentar abrir la pagina');
 
             }
     }
