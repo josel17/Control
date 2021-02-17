@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Request\DatosEmpresaRequest;
 
 class AppDataController extends Controller
 {
@@ -19,10 +20,6 @@ class AppDataController extends Controller
             } catch (Exception $e) 
             {
               return back()->with('error','Se ha presentado un error al intentar abrir la pagina');
-              
-
-
-
             }
     }
 
@@ -33,7 +30,7 @@ class AppDataController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -42,9 +39,20 @@ class AppDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DatosEmpresaRequest $request, DatosEmpresa $datosempresa)
     {
-        //
+        try 
+        {
+          $data = DatosEmpresa::create($request->validate());
+          if ($data == true) {
+            return back()->with('success','Datos registrados correctamente');
+          }
+          else {
+            return back()->with('Se ha presentado un error al guardar la informacion');
+          }
+        } catch (Exception $e) {
+          return back()->with('error','Se ha presentado un error al grabar la informacion',$e->message());
+        }
     }
 
     /**
