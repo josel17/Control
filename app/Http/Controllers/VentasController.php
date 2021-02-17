@@ -46,8 +46,8 @@ class VentasController extends Controller
     {
             $factura = new Factura;
             $this->authorize('create', $factura);
-            $empresa = DatosEmpresa::where('id',1)->first();
-            if ($empresa==null) {
+            $empresa = DatosEmpresa::get()->first();
+            if(!isset($empresa)) {
                 return back()->with('info','Primero debes actualizar los datos de tu empresa');
             }
             else

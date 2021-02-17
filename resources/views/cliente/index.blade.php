@@ -58,28 +58,19 @@
                         </thead>
 
                         <tbody>
-                        	@foreach($personas as $persona)
+                        	@foreach($clientes as $cliente)
                         	<tr class="even pointer">
-	                            <td class="a-center">{{$persona->id}} </td>
-                                <td class="">{{$persona->documento }}</td>
-	                            <td class="">{{$persona->nombre}} {{$persona->apellidos}}</td>
-	                            <td class="">{{$persona->email }}</td>
-	                            <td class="">{{$persona->telefono }}</td>
-	                            <td class="d-none d-lg-block">{{$persona->direccion }}</td>
+	                            <td class="a-center">{{$cliente->id}} </td>
+                                <td class="">{{$cliente->documento }}</td>
+	                            <td class="">{{$cliente->nombre}} {{$cliente->apellidos}}</td>
+	                            <td class="">{{$cliente->email }}</td>
+	                            <td class="">{{$cliente->telefono }}</td>
+	                            <td class="d-none d-lg-block">{{$cliente->direccion }}</td>
 	                            <td class="">
 	                            	<div class="d-none d-sm-block">
-                                        <a href="{{route('persona.show',$persona)}} ">
+                                        <a href="{{route('cliente.show',$cliente)}} ">
                                             <span class="fa fa-pencil fa-1x"></span>
                                         </a>
-                                        @isset($persona->user->username)
-                                            <a href="{{route('persona.user.show',$persona)}} ">
-                                                <span class="fa fa-user green fa-1x"></span>
-                                            </a>
-                                        @else
-                                            <a href="{{route('persona.user.show',$persona)}} ">
-                                                <span class="fa fa-user black fa-1x"></span>
-                                            </a>
-                                        @endif
                                     </div>
                                     <div class="d-md-none">
                                         <div class="dropdown">
@@ -88,17 +79,8 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item fa fa-pencil fa-1x"
-                                                    href="{{route('persona.show',$persona)}} "> Actualizar
+                                                    href="{{route('cliente.show',$cliente)}} "> Actualizar
                                                 </a>
-                                                @isset($persona->user->username)
-                                                    <a class="dropdown-item fa fa-user green fa-1x"
-                                                        href="{{route('persona.user.show',$persona)}} "> Usuario
-                                                    </a>
-                                                @else
-                                                    <a class="dropdown-item fa fa-user black fa-1x"
-                                                        href="{{route('persona.user.show',$persona)}} "> Usuario
-                                                    </a>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -119,7 +101,7 @@
                 			<div class="col-sm-7">
                 				<div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
                 					<ul class="pagination">
-                						{{ $personas->links() }}
+                						{{ $clientes->links() }}
                 					</ul>
                 				</div>
                 			</div>

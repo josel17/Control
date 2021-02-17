@@ -43,6 +43,11 @@
 			                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
 									<input type="text" name="nombre" placeholder="Nombre del laboratorio" value="{{old('nombre',$laboratorio->nombre)}}" class="form-control has-feedback-left  {{ $errors->has('nombre') ? 'is-invalid' : '' }}">
 			                      <span class="fa fa-font  form-control-feedback left blue" aria-hidden="true"></span>
+			                      <div class="invalid-feedback">
+						          		@error('nombre')
+						          			{{$message}}
+						          		@enderror
+						        	</div>
 			                    </div>
 							</div>
 						</div>
@@ -53,6 +58,11 @@
 			                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
 									<input type="text" name="web" placeholder="Direccion web del laboratorio" value="{{old('web',$laboratorio->web)}}" class="form-control has-feedback-left  {{ $errors->has('web') ? 'is-invalid' : '' }}">
 			                      <span class="fa fa-globe-americas  form-control-feedback left blue" aria-hidden="true"></span>
+			                      <div class="invalid-feedback">
+						          		@error('web')
+						          			{{$message}}
+						          		@enderror
+						        	</div>
 			                    </div>
 							</div>
 							<!-- EMAIL-->
@@ -61,6 +71,11 @@
 			                    <div class="col-md-12 col-sm-12 col-lg-12 has-feedback form-group">
 									<input type="email" name="email" placeholder="E-mail del laboratorio" value="{{old('email',$laboratorio->email)}}" class="form-control has-feedback-left  {{ $errors->has('email') ? 'is-invalid' : '' }}">
 			                      <span class="fa fa-envelope  form-control-feedback left blue" aria-hidden="true"></span>
+			                      <div class="invalid-feedback">
+						          		@error('email')
+						          			{{$message}}
+						          		@enderror
+						        	</div>
 			                    </div>
 							</div>
 						</div>

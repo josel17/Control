@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClienteRequest;
-use Illuminate\Http\Request;
+use App\Ciudad;
 use App\Departamento;
+use App\Http\Requests\ClienteRequest;
 use App\Persona;
+use Illuminate\Http\Request;
 
 
 class ClienteController extends Controller
@@ -28,11 +29,11 @@ class ClienteController extends Controller
         {
             $tipoform = 'cliente';
             $deptos = Departamento::get();
-            $personas = Persona::where('tipo',2)->with(['user'])->paginate(10);
+            $clientes = Persona::where('tipo',2)->with(['user'])->paginate(10);
             $titleModal = 'Crear nuevo Cliente';
             $title = 'Lista de clientes registrados';
             //$users = User::get();
-            return view('cliente.index',compact('personas','deptos','title','titleModal','tipoform'));
+            return view('cliente.index',compact('clientes','deptos','title','titleModal','tipoform'));
         }else
         {
             return back()->withInput();
@@ -68,9 +69,21 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Persona $cliente)
     {
-        //
+        $this->authorize('view',$cliente);
+        $deptos = Departamento::get();
+        $ciudad = $this->lciudad($cliente->id_departamento);
+        return view('persona.show',[
+            'persona' => $cliente,
+            'deptos' => $deptos,
+            'ciudad' => $ciudad,
+            ]);
+    }
+
+     public function lciudad($id)
+    {
+        return Ciudad::where('id_departamento',$id)->get();
     }
 
     /**

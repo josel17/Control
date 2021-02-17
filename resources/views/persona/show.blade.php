@@ -219,7 +219,7 @@
 					                        <div class="col-md-12 col-sm-12 col-xs-12 form-group ">
 					                        	<select class="form-control has-feedback-left {{ $errors->has('id_ciudad') ? 'is-invalid' : '' }}" name="id_ciudad" id="id_ciudad">
 												<option value="">Seleccione una ciudad</option>
-													@foreach($ciduad as $item)
+													@foreach($ciudad as $item)
 														<option value="{{old('id_ciudad', $item->id)}}" @if($persona->id_ciudad==$item->id)  selected="selected" @endif>{{$item->codigo." - ".$item->nombre}} </option>
 													@endforeach
 												</select>

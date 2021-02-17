@@ -53,11 +53,11 @@ class PersonaController extends Controller
     {
     	$this->authorize('view',$persona);
     	$deptos = Departamento::get();
-    	$ciduad = $this->lciudad($persona->id_departamento);
+    	$ciudad = $this->lciudad($persona->id_departamento);
     	return view('persona.show',[
     		'persona' => $persona,
     		'deptos' => $deptos,
-    		'ciduad' => $ciduad,
+    		'ciudad' => $ciudad,
     		]);
     }
 

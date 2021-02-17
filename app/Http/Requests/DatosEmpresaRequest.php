@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DatosEmpresaRequest extends FormRequest
 {
@@ -13,7 +14,6 @@ class DatosEmpresaRequest extends FormRequest
      */
     public function authorize()
     {
-
         return true;
     }
 
@@ -29,7 +29,7 @@ class DatosEmpresaRequest extends FormRequest
             'nombre' => ['required'],
             'direccion' => ['required'],
             'telefono' => ['required','numeric'],
-            'email' => ['']
+            'email' => ['email']
         ];
 
     }
@@ -42,7 +42,8 @@ class DatosEmpresaRequest extends FormRequest
         'nombre.required' => 'El campo nombre es obligatorio',
         'direccion.required' => 'El campo direccion es obligatorio',
         'telefono.required' => 'El campo telefono es obligatorio',
-        'telefono.numeric' => 'El campo telefono debe ser un numero'
+        'telefono.numeric' => 'El campo telefono debe ser un numero',
+        'email.email' => 'El campo email no es un correo electronico valido',
         ];
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DatosEmpresa;
+use App\Http\Requests\DatosEmpresaRequest;
 use Illuminate\Http\Request;
-use App\Http\Request\DatosEmpresaRequest;
 
 class AppDataController extends Controller
 {
@@ -16,8 +17,19 @@ class AppDataController extends Controller
     {
           try
             {
-               return view('app/index');
-            } catch (Exception $e) 
+                $datos = DatosEmpresa::get()->first();
+                if(is_null($datos))
+                {
+                    $datos = new DatosEmpresa;
+                }
+
+                    return view('app/index',
+                        [
+                            'titulo' => 'Datos de la empresa',
+                            'datos' => $datos,
+                        ]);
+
+            } catch (Exception $e)
             {
               return back()->with('error','Se ha presentado un error al intentar abrir la pagina');
             }
@@ -30,7 +42,7 @@ class AppDataController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -41,9 +53,9 @@ class AppDataController extends Controller
      */
     public function store(DatosEmpresaRequest $request, DatosEmpresa $datosempresa)
     {
-        try 
+        try
         {
-          $data = DatosEmpresa::create($request->validate());
+          $data = DatosEmpresa::create($request->validated());
           if ($data == true) {
             return back()->with('success','Datos registrados correctamente');
           }
@@ -84,9 +96,17 @@ class AppDataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DatosEmpresa $datosempresa, DatosEmpresaRequest $request)
     {
-        //
+        try
+        {
+
+            $this->authorize('update',$datosempresa);
+            $datosempresa->update($request->validated());
+            return back()->with('success','Datos actualizados correctamente');
+        } catch (Exception $e) {
+            return back()->with('error','Se ha presentado un error al actualizar los datos');
+        }
     }
 
     /**

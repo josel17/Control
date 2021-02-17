@@ -41,7 +41,6 @@
 			    				<th style="width: 1%">No</th>
 								<th style="width: 2%">ID</th>
 								<th style="width: 10%">Nombre</th>
-								<th style="width: 10%">Usuario</th>
 								<th style="width: 10%">Acciones</th>
 			    			</tr>
 			  			</thead>
@@ -55,8 +54,6 @@
 											<td style="width: 1%">{{$no=$no+1}}</td>
 											<td style="width: 2%">{{$categoria->id}} </td>
 											<td style="width: 10%">{{$categoria->nombre}} </td>
-											<td style="width: 10%">{{$categoria->user->username}} </td>
-
 											<td style="width: 10%">
 												<a href="{{route('almacen.categorias.edit',$categoria)}}" class="btn btn-link fa fa-pencil green"></a>
 												@if(auth()->user()->hasPermissionTo('Delete category'))<button onclick="return confirm('¿Estás seguro de querer eliminar la categoria?')" class="btn btn-link fa fa-trash red"></button>@endif

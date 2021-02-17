@@ -24,10 +24,10 @@ Route::get('/home', 'HomeController@index')->name('home.index');
 Route::group([
 	'middleware' => 'auth'],
 	function(){
-		Route::get('usuarios','PersonaController@index')->name('persona.index');
-		Route::post('usuarios', 'PersonaController@store')->name('persona.store');
-		Route::get('usuarios/{persona}','PersonaController@show')->name('persona.show');
-		Route::patch('usuarios/{persona}','PersonaController@update')->name('persona.update');
+		Route::get('persona','PersonaController@index')->name('persona.index');
+		Route::post('persona', 'PersonaController@store')->name('persona.store');
+		Route::get('persona/{persona}','PersonaController@show')->name('persona.show');
+		Route::patch('persona/{persona}','PersonaController@update')->name('persona.update');
 });
 
 //RUTAS PARA CLIENTES
@@ -206,7 +206,9 @@ Route::group([
 	Route::group([
 		'middleware' => 'auth'],
 		function(){
-			Route::get('app/index','AppDataController@index')->name('app.index');
+			Route::get('datosEmpresa','AppDataController@index')->name('app.index');
+			Route::post('datosEmpresa','AppDataController@store')->name('app.datosempresa.store');
+			Route::put('datosEmpresa/{datos}','AppDataController@update')->name('app.datosempresa.update');
 		});
 	Route::get('ciudades/{id}','PersonaController@lciudad')->name('persona.ciudades');
 	Route::get('buscarproveedor','ComprasController@buscarproveedor')->name('orden.buscarproveedor');
