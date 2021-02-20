@@ -131,6 +131,20 @@
               </li>
             </ul>
         </li>
+        <li class="{{ setActiveRoute('carrito*')}}">
+          <a>
+            <i class="fa fa-shopping-cart {{ setActiveColor('carrito*')}}"></i>
+              Carrito
+              <span class="fa fa-chevron-down"></span>
+            </a>
+            <ul class="nav child_menu " style="{{ openmenu('carrito*')}}">
+               <li class="{{ setActiveroute('carrito.vitrina*')}}">
+                <a class="" href="{{route('carrito.vitrina.index')}}">
+                 Vitrina
+                </a>
+              </li>
+            </ul>
+        </li>
         <li class="{{ setActiveRoute('inventario*')}}">
           <a>
             <i class="fa fa-boxes {{ setActiveColor('inventario*')}}"></i>

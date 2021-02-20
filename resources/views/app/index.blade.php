@@ -102,7 +102,7 @@
 	        				</div>
 	        				<div class="row ">
 	        					<div class="col-lg-12 col-md-12 col-sm-12  text-right p-4">
-	        						@isset($datos)
+	        						@isset($datos->id)
 	        							<button class="btn btn btn-success">
 			              					<span class="fa fa-pencil dark"></span>
 			              					{{__('Update')}}

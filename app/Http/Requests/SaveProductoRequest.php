@@ -40,7 +40,7 @@ class SaveProductoRequest extends FormRequest
             'id_regla_impuesto' => 'required',
             'precio_venta' => 'required',
             'id_estado' => 'required',
-            'descripcion' => 'max:255',
+            'descripcion' => ['min:0','max:255'],
         ];
     }
 

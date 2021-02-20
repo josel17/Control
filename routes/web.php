@@ -210,6 +210,14 @@ Route::group([
 			Route::post('datosEmpresa','AppDataController@store')->name('app.datosempresa.store');
 			Route::put('datosEmpresa/{datos}','AppDataController@update')->name('app.datosempresa.update');
 		});
+
+	Route::group([
+		'middleware' => 'auth'],
+		function(){
+			Route::get('carrito','CarritoController@index')->name('carrito.vitrina.index');
+			Route::post('carrito/buscar','CarritoController@buscar')->name('carrito.vitrina.buscar');
+
+		});
 	Route::get('ciudades/{id}','PersonaController@lciudad')->name('persona.ciudades');
 	Route::get('buscarproveedor','ComprasController@buscarproveedor')->name('orden.buscarproveedor');
 	Route::get('pdf/{id}','PdfController@generar')->name('pdf.generar');

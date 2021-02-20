@@ -30,7 +30,7 @@ class CreateProductosTable extends Migration
             $table->unsignedInteger('precio_venta');
             $table->unsignedInteger('id_regla_impuesto');
             $table->unsignedInteger('id_estado');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
             $table->foreign('id_categoria')->references('id')->on('categoria');
             $table->foreign('id_proveedor')->references('id')->on('proveedores');

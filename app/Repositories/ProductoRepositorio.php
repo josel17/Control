@@ -15,7 +15,7 @@ class ProductoRepositorio
 
 	public function buscarxnombre($query)
 	{
-		return $this->model->where('nombre','like', "%$query%")->with(['impuesto','presentacion'])->get();
+		return $this->model->where('nombre','like', "%$query%")->with(['impuesto','presentacion','laboratorio'])->get();
 	}
 
 }
