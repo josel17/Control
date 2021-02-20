@@ -1,3 +1,7 @@
+
+/**Controlador AppDataControlleren controla las funciones de la vista Datos de la aplicacion control.**/
+
+
 <?php
 
 namespace App\Http\Controllers;
@@ -8,11 +12,13 @@ use Illuminate\Http\Request;
 
 class AppDataController extends Controller
 {
+  
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+     *Description: Funcion para llamar la view de datos de la App
+     *@Param:Sin parametroa
+     * @return: View la cual lleva los datosnde la empresa 
+    */
     public function index()
     {
           try
@@ -36,9 +42,9 @@ class AppDataController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 
+     *@Param
+     * @return 
      */
     public function create()
     {
@@ -46,10 +52,11 @@ class AppDataController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Funcion que permite grabar los datos de la empresa en el modelo DatosEmpresa
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request de tipo Illuminate/Http/Request/DatosEmpresaRequest
+     * @Param datosempresa Modelonde la tabla datos_empresa
+     * @return Mensaje de estadonde la transaccion. 
      */
     public function store(DatosEmpresaRequest $request, DatosEmpresa $datosempresa)
     {
@@ -89,13 +96,15 @@ class AppDataController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
+      /**
+       * Description: Funcion para actualizar los datos del modelo DatosEmpresa 
+       * 
+       *@Param: @datosempresa: Modelo DatosEmpresa
+       *@param: @request formRequest rl cual validara los datos del formulario enviado
+       * 
+       * @return: Respueata del estado de la operacion
+       */
     public function update(DatosEmpresa $datosempresa, DatosEmpresaRequest $request)
     {
         try
