@@ -1,3 +1,6 @@
+/**Controlador para guardar los datos de las imágenes. 
+**/
+
 <?php
 
 namespace App\Http\Controllers;
@@ -10,7 +13,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
 {
-
+/**
+     * Función para guardar datos de ubicación de las imágenes de los productos. 
+     *
+     * @param  Producto $producto. 
+     * @return guardamos la Url de la imagen y el id del producto asociado a la imagen. 
+     */
 	public function store(Producto $producto)
 	{
 

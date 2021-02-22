@@ -14,9 +14,9 @@ class ProveedorController extends Controller
         $this->middleware('auth');
     }
     /**
-     * Display a listing of the resource.
+     * Metodo para llamar la vista principal 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista
      */
     public function index()
     {
@@ -30,9 +30,9 @@ class ProveedorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Carga la vista que contiene el formulario para crear un nuevo proveedor. 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista proveedor.create
      */
     public function create()
     {
@@ -47,10 +47,10 @@ class ProveedorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo para registrar la información del nuevo proveedor
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SaveProveedorRequest $request
+     * @return respuesta del servidor según el estado de la transacción. 
      */
     public function store(SaveProveedorRequest $request, Proveedor $proveedor)
     {
@@ -86,9 +86,9 @@ class ProveedorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * llama la vista que contiene el formulario para editar el proveedor.
      *
-     * @param  int  $id
+     * @param Proveedor $proveedor
      * @return \Illuminate\Http\Response
      */
     public function edit(Proveedor $proveedor)
@@ -106,11 +106,11 @@ class ProveedorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Metodo para actualizar la información del proveedor enviada desde la vista
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  SaveProveedorRequest $request 
+     * @param  Proveedor $proveedor
+     * @return Respuesta del servidor según el estado de la transacción. 
      */
     public function update(SaveProveedorRequest $request, Proveedor $proveedor)
     {
@@ -126,10 +126,10 @@ class ProveedorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar la información del proveedor.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Proveedor $proveedor. 
+     * @return Respuesta del servidor según el estado de la transacción. 
      */
     public function destroy(Proveedor $proveedor)
     {

@@ -1,3 +1,8 @@
+    /**
+     * Controlador para realizar el CRUD de la vista Caja
+    */
+
+
 <?php
 
 namespace App\Http\Controllers;
@@ -11,12 +16,21 @@ use Illuminate\Http\Request;
 class CajaController extends Controller
 {
 
-
+    /**
+     *Description: Funcion para llamar la vista Caja.index
+     *@Param:
+     * @return:Vista Caja
+    */
     public function index()
     {
     	return view('caja.index');
     }
 
+    /**
+     *Description: Funcion para buscar los datos de las ventas.
+     *@Param: Request contiene el rango de fechas a consultar.
+     * @return: Consolidado de ventas y compras en el rango de fechas seleccionado.
+    */
     public function buscar(BuscarBalanceRequest $request)
     {
     	$request->validated();

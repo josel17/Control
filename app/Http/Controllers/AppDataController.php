@@ -98,12 +98,12 @@ class AppDataController extends Controller
 
   
       /**
-       * Description: Funcion para actualizar los datos del modelo DatosEmpresa 
+       * Description: Funcion para actualizar los datos de la tabla datos_empresa utiñizando el modelo DatosEmpresa 
        * 
        *@Param: @datosempresa: Modelo DatosEmpresa
-       *@param: @request formRequest rl cual validara los datos del formulario enviado
+       *@param: @request formRequest el cual validara los datos enviados desde el formulario en la vista
        * 
-       * @return: Respueata del estado de la operacion
+       * @return: Respuesta del estado de la transaccion
        */
     public function update(DatosEmpresa $datosempresa, DatosEmpresaRequest $request)
     {

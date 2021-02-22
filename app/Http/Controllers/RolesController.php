@@ -15,24 +15,27 @@ class RolesController extends Controller
     {
         $this->middleware('auth');
 
-    }
-
+    } 
+ /**
+     * Metodo para llamar la vista principal Role
+     *
+     * @param  
+     * @return Vista roles.index
+     */
     public function index()
     {
-
-            return view('usuarios.roles.index',[
-                'roles' => Role::paginate(10),
-            ]);
+      return view('usuarios.roles.index',
+      ['roles' => Role::paginate(10)]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Llamar la vista para crear un nuevo Rol. 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista con el formulario. 
      */
     public function create()
     {
-        //if(Auth()->user()->hasPermission()
+        z//if(Auth()->user()->hasPermission()
         return view('usuarios.roles.create',[
                     'role' => new Role,
                     'permissions' => Permission::all(),
@@ -40,10 +43,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo para guardar la información del nuevo rol creado. 
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  SaveRoleRequest $request
+     * @return Respuesta del servidor según el estado de la transacción.
      */
     public function store(SaveRoleRequest $request)
     {
@@ -56,10 +59,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Vista para visualizar la información del Rol
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Rol $rol
+     * @return Vista roles.create 
      */
     public function show(Role $role)
     {
@@ -74,7 +77,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified .
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -85,11 +88,11 @@ class RolesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Metodo para actualizar la información de los roles. 
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SaveRoleRequest $request 
+     * @param  Role $role
+     * @return Respuesta del servidor según el estado de la transacción. 
      */
     public function update(SaveRoleRequest $request,Role $role)
     {
@@ -113,10 +116,10 @@ class RolesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar el rol seleccionado. 
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Role $role
+     * @return respuesta del servidor según el estado de la transacción. 
      */
     public function destroy(Role $role)
     {

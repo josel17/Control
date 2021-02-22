@@ -1,3 +1,5 @@
+/**Controller for Producto Model 
+
 <?php
 
 namespace App\Http\Controllers;
@@ -22,9 +24,9 @@ class ProductoController extends Controller
         $this->middleware('auth');
     }
     /**
-     * Display a listing of the resource.
+     * Función para cargar la vista index con el formulario para crear productos. 
      *
-     * @return \Illuminate\Http\Response
+     * @return retorna la vista productos.index con el objeto Productos
      */
     public function index()
     {
@@ -35,9 +37,9 @@ class ProductoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * carga la vista productos.form con una nueva instancia de Producto. 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista productos.form con los objetos proveedores, laboratorios, presentacion, categoría, estado, impuesto, ume para crear un nuevo producto
      */
     public function create()
     {
@@ -76,10 +78,11 @@ class ProductoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Función para grabar los datos del nuevo producto enviados desde el formulario
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SaveProductoRequest $request
+     * @param Producto $producto. 
+     * @return respuesta del servidor según el estado de la transacción. 
      */
     public function store(SaveProductoRequest $request, Producto $producto)
     {
@@ -97,10 +100,10 @@ class ProductoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Función para cargar la vista para visualizar la información de un producto
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Producto $producto.
+     * @return Vista productos.form con el objeto Producto consultado, 
      */
     public function show(Producto $producto)
     {
@@ -145,11 +148,11 @@ class ProductoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Función para actualizar datos en el modelo Producto
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SaveProductoRequest $request
+     * @param Producto $producto
+     * @return respuesta del servidor según estado de la transacción
      */
     public function update(SaveProductoRequest $request, Producto $producto)
     {
@@ -167,10 +170,10 @@ class ProductoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * se eliminará ellos datos del usuario seleccionado. 
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Producto $producto. 
+     * @return respuesta del servidor según el estado de la transacción
      */
     public function destroy(Producto $producto)
     {
@@ -185,6 +188,13 @@ class ProductoController extends Controller
             return back()->with('error','Ha ocurrido un error', $ex->message());
         }
     }
+
+ /**
+     * Función para llamar la vista view en la que se mostrarán los datos del producto seleccionado. 
+     *
+     * @param Producto $producto. 
+     * @return Llamdo a la vista con el objeto Producto. 
+     */
 
     public function view(Producto $producto)
     {

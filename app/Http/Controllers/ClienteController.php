@@ -1,3 +1,7 @@
+/**
+* ClienteController administrar el CRUD del modelo Cliente.
+**/
+
 <?php
 
 namespace App\Http\Controllers;
@@ -12,6 +16,7 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
 
+/**Cargar el middaleware para verificar la autenticacion**/
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,11 +24,12 @@ class ClienteController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * Funcion para Cargar la vista cliente 
      *
-     * @return \Illuminate\Http\Response
+     * @return vista Cliente.index con los Object Deptos, Clientes, 
+     * 
      */
-        public function index()
+    public function index()
     {
         if(Auth()->user()->hasRole('Admin'))
         {
@@ -51,10 +57,10 @@ class ClienteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Funcion store para guardar los datos del cliente que se reciben del formulario atraves de request
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  ClienteRequest $request.
+     * @return Respuesta del servidor segun el estado de la transaccion.
      */
     public function store(ClienteRequest $request)
     {
@@ -64,10 +70,10 @@ class ClienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Funcion para mostrar los datos del cliente en la vista persona.show.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Persona $cliente
+     * @return Regresa la vista show con el Object Cliente
      */
     public function show(Persona $cliente)
     {
@@ -81,6 +87,13 @@ class ClienteController extends Controller
             ]);
     }
 
+
+    /**
+     * Funcion para cargar las ciudades una ves seleccionado el departamento en la vista Persona/Cliente
+     *
+     * @param  int $id
+     * @return retorna a la vista por medio ajax el Obj Ciudad.
+     */
      public function lciudad($id)
     {
         return Ciudad::where('id_departamento',$id)->get();
@@ -90,7 +103,7 @@ class ClienteController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -98,11 +111,11 @@ class ClienteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Funcion para actualizar los datos enviados desde el formulario en la tabla Personas
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ClienteRequest $request
+     * @param  Persona  $persona
+     * @return Respuesta del servidor segun el estado de la transaccion update
      */
     public function update(Persona $persona, ClienteRequest $request)
     {

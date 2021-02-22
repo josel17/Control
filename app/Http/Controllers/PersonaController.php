@@ -1,3 +1,5 @@
+/** Controller for the model Persona
+
 <?php
 
 namespace App\Http\Controllers;
@@ -20,6 +22,9 @@ class PersonaController extends Controller
         $this->middleware('auth');
     }
 
+
+/**Function for load the view persona.index with the Object Departamento and Persona 
+**/
 	public function index()
 	{
 		if(Auth()->user()->hasRole('Admin') || Auth()->user()->hasPermissionTo('View users'))
@@ -33,22 +38,40 @@ class PersonaController extends Controller
 			return view('persona.index',compact('personas','deptos','title','titleModal','tipoform'));
 		}else
 		{
-			return back()->withInput();
+			return back()->withInput('info','No se han encontrado registros en la base de datos');
 		}
 	}
 
+/**
+     * Función que guardará los datos del formulario persona en la tabla persona
+     *
+     * @param SavePersonaRequest $request
+     * @return respuesta del servidor según el estado de la transacción 
+     */
 	public function store(SavePersonaRequest $request)
 	{
-        $request->tipo = 1;
-		Persona::create($request->validated());
-		return redirect()->route('persona.index');
+	  try {
+	    $request->tipo = 1;
+	    Persona::create($request->validated());
+	    return back()->with('info','Registros guardados correctamente');
+	  } catch (Exception ) 
+	  {
+	    return back()->with('error','Se ha presentado un error al guardar la información');
+	  }
 	}
+
+/**Función para cargar los datos de la ciudad según el departamento seleccionado. **/
+
 
 	 public function lciudad($id)
     {
     	return Ciudad::where('id_departamento',$id)->get();
     }
 
+/**Función para llamar la vista show y cargar los datos de una persona
+ * @param Persona $persona
+ * @return Vista con los objetos Persona, Departamento y Ciudad 
+ **/
     public function show(Persona $persona)
     {
     	$this->authorize('view',$persona);
@@ -61,6 +84,14 @@ class PersonaController extends Controller
     		]);
     }
 
+
+/**
+     * Función para actualizar los datos del modelo persona 
+     *
+     * @param SavePersonaRequest $request
+     * @ñaram Persona $persona 
+     * @return respuesta del servidor según el estado de la transacción. 
+     */
     public function update(Persona $persona, SavePersonaRequest $request)
     {
 

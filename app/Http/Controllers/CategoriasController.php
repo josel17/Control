@@ -1,3 +1,8 @@
+/**
+* Controlador CategoriasController para administrar el CRUD del modelo categorias.
+*
+**/
+
 <?php
 
 namespace App\Http\Controllers;
@@ -9,9 +14,9 @@ use App\Http\Requests\SaveCategoriaRequest;
 class CategoriasController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Consular las categorias y enviarlas a la vista Categorias.index
      *
-     * @return \Illuminate\Http\Response
+     * @return Object Categorias a la vista index
      */
     public function index()
     {
@@ -24,9 +29,9 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar la vista categorias.form en la cual esta el formulario para registrar las categorias.
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista categorias.form
      */
     public function create()
     {
@@ -39,10 +44,12 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Registrar en la tabla Categorias los datos que se envian desde el formulario.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Object $request
+     * @Param. Object $Categoria
+     * 
+     * @return estado de la transaccion 
      */
     public function store(SaveCategoriaRequest $request, Categoria $categoria)
     {
@@ -70,10 +77,11 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Mostrar la vista que contiene el formulario para editar la categoria.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Object  $Categoria.
+     * 
+     * @return vista Categorias.form
      */
     public function edit(Categoria $categoria)
     {
@@ -85,11 +93,12 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar datos de la categoria seleccionada.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Object $request
+     * @param Object $categoria
+     * 
+     * @return Respuesta del servidor segun el estado de la transaccion.
      */
     public function update(SaveCategoriaRequest $request, Categoria $categoria)
     {
@@ -104,10 +113,10 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar la categoria de la base de datos
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Object $categoria
+     * @return Respuesta del servidor segun el estado de la transaccion 
      */
     public function destroy(Categoria $categoria)
     {

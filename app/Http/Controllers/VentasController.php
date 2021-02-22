@@ -1,3 +1,5 @@
+/**Controller for the model VentasController
+
 <?php
 
 namespace App\Http\Controllers;
@@ -15,22 +17,23 @@ use Illuminate\Http\Request;
 
 class VentasController extends Controller
 {
-
+//declaración de atributos encapsulados. 
     private $cliente = null;
     private $_productoRepo;
     private $_facturaRepo;
 
-
+/** Asignar el objeto inyectado al atributo encapsulado. */
     public function __CONSTRUCT(ProductoRepositorio $productoRepo, FacturaRepositorio $facturaRepo)
     {
         $this->cliente = new Persona();
         $this->_productoRepo = $productoRepo;
         $this->_facturaRepo = $facturaRepo;
     }
+    
     /**
-     * Display a listing of the resource.
+     * metodo para llamar la vista principal de las facturas. 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista index. 
      */
     public function index()
     {
@@ -42,42 +45,51 @@ class VentasController extends Controller
     }
 
 
+ /**
+     * Metodo para llamar la vista de facturación 
+     *
+     * @return Vista de facturación con el object de los datos de facturación. 
+     */
     public function facturar()
     {
-            $factura = new Factura;
-            $this->authorize('create', $factura);
-            $empresa = DatosEmpresa::get()->first();
-            if(!isset($empresa)) {
-                return back()->with('info','Primero debes actualizar los datos de tu empresa');
-            }
-            else
-            {
-                $factura = Factura::get()->last();
-                if(is_null($factura))
-                {
-                    $numero_factura = 0001;
-                }
-                else
-                {
-                    $numero_factura = $factura->numero + 1;
-                }
-
-                $deptos = Departamento::get();
-
-             return view('ventas.facturar',
-                [
-                    'producto' => Producto::all(),
-                    'tipoform' => 'cliente',
-                    'titleModal' => 'Crear nuevo Cliente',
-                    'deptos' => $deptos,
-                    'empresa' => $empresa,
-                    'numero_factura' => $numero_factura,
-                    'fecha_factura' => Carbon::now(),
-                ]);
-            }
+      $factura = new Factura;
+      $this->authorize('create', $factura);
+      $empresa = DatosEmpresa::get()->first();
+      if(!isset($empresa)) {
+        return back()->with('info','Primero debes actualizar los datos de tu empresa');
+        
+      }
+      else
+      {
+        $factura = Factura::get()->last();
+        if(is_null($factura))
+        {
+          $numero_factura = 0001;
+        }
+        else
+        {
+          $numero_factura = $factura->numero + 1;
+        }
+        $deptos = Departamento::get();
+        return view('ventas.facturar',
+        [
+          'producto' => Producto::all(),
+          'tipoform' => 'cliente',
+          'titleModal' => 'Crear nuevo Cliente',
+          'deptos' => $deptos,
+          'empresa' => $empresa,
+          'numero_factura' => $numero_factura,
+          'fecha_factura' => Carbon::now(),
+        ]);
+      }
     }
 
-
+ /**
+     * Metodo para buscar el cliente a facturar 
+     *
+     * @param Int $doc
+     * @return Objet cliente. 
+     */
     public function buscarCliente($doc)
     {
 
@@ -85,6 +97,12 @@ class VentasController extends Controller
 
     }
 
+ /**
+     * metodo para buscar productos a facturar. 
+     *
+     * @param string $producto. 
+     * @return Object producto
+     */
     public function buscarProducto($producto)
     {
         $result =  $this->_productoRepo->buscarxnombre($producto);
@@ -102,13 +120,14 @@ class VentasController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo que guardará la la factura en la base de datos. 
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return Respuesta del servidor según el estado de la transacción
      */
     public function store(Request $request)
     {
+      //pasar la información de la cabecera de la factura en el request a un Object
         $data = (object)
         [
             'numero' => $request->input('numero'),
@@ -118,9 +137,11 @@ class VentasController extends Controller
             'total' => $request->input('total'),
             'detalle' => [],
         ];
+        //pasar el detalle de la factura al Object $factura
 
         $factura = $request->input('detalle');
-
+        
+        //Pasar el detalle de la factura a una posición cada fila de la factura. 
          for ($i=0; $i < count($factura); $i++) {
                  $data->detalle[] =
                     [
@@ -132,7 +153,8 @@ class VentasController extends Controller
                     'total' => $factura[$i][7]
                  ];
             }
-
+            
+           //Grabar la factura en la base de datos. 
             return $this->_facturaRepo->grabarfactura($data);
     }
 

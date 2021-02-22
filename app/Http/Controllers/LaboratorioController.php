@@ -1,3 +1,6 @@
+/** Controller for model laboratorio 
+
+
 <?php
 
 namespace App\Http\Controllers;
@@ -15,9 +18,9 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Función para llamar la vista laboratorio 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista laboratorio con el Objeto Laboratorio 
      */
     public function index()
     {
@@ -30,9 +33,9 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Función para mostrar la vista laboratorio.form en la cual contiene el formulario para crear un laboratorio. 
      *
-     * @return \Illuminate\Http\Response
+     * @return Vista laboratorio.form 
      */
     public function create()
     {
@@ -46,10 +49,12 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Función para guardar los datos enviados desde el formulario laboratorio. 
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param LaboratorioRequest $request
+     * @param Laboratorio $laboratorio
+     * 
+     * @return respuesta del servidor según el estado de la transacción 
      */
     public function store(LaboratorioRequest $request, laboratorio $laboratorio)
     {
@@ -78,10 +83,10 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Llamar la vista laboratorio.form para editar los datos del laboratorio.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Laboratorio $laboratorio
+     * @return regresa la vista form con el Objeto Laboratorio
      */
     public function edit(Laboratorio $laboratorio)
     {
@@ -93,11 +98,11 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Función update que actualizará los datos del laboratorio. 
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param LaboratorioRequest $request 
+     * @param Laboratorio $laboratorio
+     * @return respuesta del servidor según estado de la transacción
      */
     public function update(LaboratorioRequest $request, Laboratorio $laboratorio)
     {
@@ -111,10 +116,10 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función que eliminará el laboratorio seleccionado.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Laboratorio $laboratorio. 
+     * @return respuesta del servidor según el estado de la transacción 
      */
     public function destroy(Laboratorio $laboratorio)
     {

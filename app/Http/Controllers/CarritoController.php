@@ -1,3 +1,8 @@
+/**
+*Controlador CarritoController para la vista Carrito de compras.
+* 
+**/
+
 <?php
 
 namespace App\Http\Controllers;
@@ -10,17 +15,18 @@ class CarritoController extends Controller
 {
     private $_productoRepo;
 
-
+// Encapsulacion de la variable productoRepo
+ 
     public function __CONSTRUCT(ProductoRepositorio $productoRepo)
     {
           $this->_productoRepo = $productoRepo;
     }
-
+    
 
     /**
-     * Display a listing of the resource.
+     * Funcion para cargar la vista vitrina.
      *
-     * @return \Illuminate\Http\Response
+     * @return object Productos para mostrarlos en la vista Vitrina.
      */
     public function index()
     {
@@ -30,11 +36,16 @@ class CarritoController extends Controller
         );
 
     }
-
+    
+    /**
+    *Description: Funcion para buscar los productos que se solicitan desde la vista
+    *@Param: $request->parametroBusqueda String
+     * @return: consulta desde el repositorio busqueda por nombre.  
+     */
     public function buscar(Request $request)
     {
-        $parametrosbusqueda = $_POST['parametrosBusqueda'];
-        $result =  $this->_productoRepo->buscarxnombre($parametrosbusqueda);
+        $parametrosBusqueda = $_POST['parametrosBusqueda'];
+        $result =  $this->_productoRepo->buscarxnombre($parametrosBusqueda);
         return $result;
     }
 

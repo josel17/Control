@@ -21,9 +21,9 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Mostrar la vista Home en el dashboard
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Vista principal. 
      */
     public function index()
     {
