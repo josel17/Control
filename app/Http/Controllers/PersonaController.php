@@ -1,4 +1,4 @@
-/** Controller for the model Persona
+/** Controller for the model Persona**/
 
 <?php
 

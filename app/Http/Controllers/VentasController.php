@@ -1,4 +1,4 @@
-/**Controller for the model VentasController
+/**Controller for the model VentasController**/
 
 <?php
 

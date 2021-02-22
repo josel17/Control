@@ -1,4 +1,4 @@
-//Controlador para gestionar las órdenes de compras ya creadas. 
+//Controlador para gestionar las órdenes de compras ya creadas. **/
 
 <?php
 

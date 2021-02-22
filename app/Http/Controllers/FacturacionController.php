@@ -1,4 +1,4 @@
-//Controlador para gestionar la verificación de las facturas 
+/**Controlador para gestionar la verificación de las facturas **/
 
 
 <?php

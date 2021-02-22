@@ -35,7 +35,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        z//if(Auth()->user()->hasPermission()
+        //if(Auth()->user()->hasPermission()
         return view('usuarios.roles.create',[
                     'role' => new Role,
                     'permissions' => Permission::all(),

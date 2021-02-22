@@ -1,4 +1,4 @@
-/** Controller for model laboratorio 
+/** Controller for model laboratorio **/
 
 
 <?php
