@@ -43,11 +43,11 @@ class ComprasController extends Controller
             'compras' => $compras,
             ]);
     }
-    
+
    /**
    * Funcion para cargar la vista compras.form en la cual se dijitara el pedido.
    * @param  OrdenCompra $Orden
-   * @return Retornamos la vista con los objetos Proveedores, Productos, 
+   * @return Retornamos la vista con los objetos Proveedores, Productos,
    */
     public function form(OrdenCompra $orden)
     {
@@ -124,52 +124,48 @@ class ComprasController extends Controller
     }
 
     /**
-     * Carga una vista con los datos de una orden seleccionada para editar los datos del pedido. 
+     * Carga una vista con los datos de una orden seleccionada para editar los datos del pedido.
      *
      * @param  int  $id
      * @param OrdenCompra $orden
-     * @return retorna los datos de la consulta para ser mostrados en la vista. 
+     * @return retorna los datos de la consulta para ser mostrados en la vista.
      */
     public function edit(OrdenCompra $order,$id)
     {
-        try {
-                $this->authorize('update',$order);
-                $orden =  OrdenCompra::where('id',$id)->with(['cliente','proveedor','estado','detalleoc','detalle'])->get();
+      try {
+        $this->authorize('update',$order);
+        $orden =  OrdenCompra::where('id',$id)->with(['cliente','proveedor','estado','detalleoc','detalle'])->get();
 
-                if(count($orden)===0)
-                {
-                    return redirect(route('compras.orden.index'))->with('warning','No se encontraron datos');
-                }
-
-                return view('compras.pedido',[
-
-                    'fecha' => $orden[0]->created_at,
-                    'update_at' => $orden[0]->updated_at,
-                    'numero' => $orden[0]->numero,
-                    'proveedor' => $orden[0]->proveedor,
-                    'cliente' => $orden[0]->cliente,
-                    'productos' => $orden[0]->detalleoc,
-                    'detalle' => $orden[0]->detalle,
-                ]);
-
-
-        } catch (Exception $e) {
-            return back()->with('error','Se ha presentado un error',$ex->message());
+        if(count($orden)===0)
+        {
+          return redirect(route('compras.orden.index'))->with('warning','No se encontraron datos');
         }
+        return view('compras.pedido',[
+            'fecha' => $orden[0]->created_at,
+            'update_at' => $orden[0]->updated_at,
+            'numero' => $orden[0]->numero,
+            'proveedor' => $orden[0]->proveedor,
+            'cliente' => $orden[0]->cliente,
+            'productos' => $orden[0]->detalleoc,
+            'detalle' => $orden[0]->detalle,
+        ]);
+      } catch (Exception $e) {
+          return back()->with('error','Se ha presentado un error',$ex->message());
+      }
     }
 
     /**
      * Función para actualizar la información la tabla suministrada por el formulario por el request.
-     * Datos: están dividos en 2 secciones cabecera y cuerpo de la orden. Por lo que se almacenan en 2 tablas diferentes. 
+     * Datos: están dividos en 2 secciones cabecera y cuerpo de la orden. Por lo que se almacenan en 2 tablas diferentes.
      *
      * @param Request $request
-     * @return 
+     * @return
      */
     public function update(Request $request)
     {
       try {
         DB::beginTransaction();
-        foreach ($request->cantidad as $key ) 
+        foreach ($request->cantidad as $key )
         {
          if(is_numeric($key))
          {
@@ -178,8 +174,8 @@ class ComprasController extends Controller
            return redirect()->route('compras.orden.index')->with('error','Debes ingresar valores numericos ');
          }
         }
-        
-        $detalle = 
+
+        $detalle =
         [
           'numero_orden' => $request->input('numero_orden'),
           'codigo_producto' => $request->input('codigo'),
@@ -188,15 +184,15 @@ class ComprasController extends Controller
           'valor_impuesto' => $request->input('iva'),
           'neto' => $request->input('neto'),
         ];
-        
+
         $value = array_values($detalle);
         $keys = array_keys($detalle);
         $valor =0;
-        
+
         for($i=0; $i < count($value[0]) ; $i++) {
           $valor = $valor + $value[2][$i] * $value[3][$i];
         }
-        
+
         $orden =
         [
           'numero' => $request->input('orden'),
@@ -211,10 +207,10 @@ class ComprasController extends Controller
         ];
         //actualizamos los datos de cabecera de la orden
         $oc = OrdenCompra::where('numero',$orden['numero'])->update(['valor_compra'=>$orden['valor_compra'],'cant_total' => $orden['cant_total']]);
-        
-        for($i=0; $i < count($value[0]) ; $i++) 
+
+        for($i=0; $i < count($value[0]) ; $i++)
         {
-          for ($a=0; $a < count($keys); $a++) 
+          for ($a=0; $a < count($keys); $a++)
           {
             $doc =
             [
@@ -226,7 +222,7 @@ class ComprasController extends Controller
               'valor_total' => $value[5][$i],
             ];
           }
-           //actualizamos los datos del cuerpo de la orden 
+           //actualizamos los datos del cuerpo de la orden
            $detalle = DetalleOc::where('numero_orden',$doc['numero_orden'])->where('codigo_producto',$doc['codigo_producto'])->update(['cantidad' => $doc['cantidad'], 'valor_impuesto'=> $doc['valor_impuesto']]);
         }
         DB::commit();
@@ -242,10 +238,10 @@ class ComprasController extends Controller
     }
 
     /**
-     * Eliminar una orden de compra específica. 
+     * Eliminar una orden de compra específica.
      *
      * @param  OrdenCompra  $orden
-     * @return Respuesta del servidor según sea el estado de la transacción 
+     * @return Respuesta del servidor según sea el estado de la transacción
      */
     public function destroy(OrdenCompra $orden)
     {
@@ -255,27 +251,27 @@ class ComprasController extends Controller
     }
 
     /**
-    * Buscar productos de un proveedor especifico. 
+    * Buscar productos de un proveedor especifico.
     *
     * @param  OrdenCompra  $orden
-    * @return Respuesta del servidor según sea el estado de la transacción 
+    * @return Respuesta del servidor según sea el estado de la transacción
     */
     public function buscarproveedor(Request $request )
     {
-      $productos = 
+      $productos =
       Producto::where([['id_estado',1],['id_proveedor',$request->proveedor]])
       ->with(['proveedor','categoria'])
       ->paginate(10);
-      
+
       $proveedor = Proveedor::all();
       return view('compras.form',['proveedores' =>$proveedor,'productos' => $productos,]);
     }
-    
+
   /**
-  * Generar datos para crear una orden nueva 
+  * Generar datos para crear una orden nueva
   *
   * @param  Request $request
-  * @return retorna la vista pedido con los objetos correspondientes a la nueva orden. 
+  * @return retorna la vista pedido con los objetos correspondientes a la nueva orden.
   */
     public function orden(Request $request)
     {
@@ -302,17 +298,17 @@ class ComprasController extends Controller
     }
 
     /**
-     * procesar la orden generada en la vista pedido para guardar una nueva orden. 
+     * procesar la orden generada en la vista pedido para guardar una nueva orden.
      *
      * @param  OrdenCompra  $orden
-     * @return Respuesta del servidor según sea el estado de la transacción 
+     * @return Respuesta del servidor según sea el estado de la transacción
      */
     public function procesar(Request $request)
     {
       try {
         DB::beginTransaction();
        //Cargar el array detalle con los datos de formulario a través de request
-        $detalle = 
+        $detalle =
         [
           'numero_orden' => $request->input('numero_orden'),
           'codigo_producto' => $request->input('codigo'),
@@ -322,16 +318,16 @@ class ComprasController extends Controller
           'valor_total' => $request->input('neto'),
           'id_estado' => 1,
         ];
-        
+
         $value = array_values($detalle);
         $keys = array_keys($detalle);
         $valor =0;
-        
-        for($i=0; $i < count($value[0]) ; $i++) 
+
+        for($i=0; $i < count($value[0]) ; $i++)
         {
           $valor = $valor + $value[2][$i] * $value[3][$i];
         }
-        
+
         //Cargar el array orden con los datos de la cabecera de la orden
         $orden =
         [
@@ -340,19 +336,19 @@ class ComprasController extends Controller
           'id_proveedor' => $request->input('id_proveedor'),
           'valor_compra' => $request->input('total'),
           'cant_total' => $request->input('cant_total'),
-          'cant_recibida' => 0, 
+          'cant_recibida' => 0,
           'id_user' => Auth()->user()->id,
           'id_estado' => 4,
           'observaciones' => '',
           'created_at' =>Carbon::now(),
         ];
-        
-        //Guardar los datos de la orden en la base de datos. 
+
+        //Guardar los datos de la orden en la base de datos.
         OrdenCompra::create($orden);
-        
-        for($i=0; $i < count($value[0]) ; $i++) 
+
+        for($i=0; $i < count($value[0]) ; $i++)
         {
-          for ($a=0; $a < count($keys); $a++) 
+          for ($a=0; $a < count($keys); $a++)
           {
             $doc =
             [
@@ -366,11 +362,11 @@ class ComprasController extends Controller
               'cant_recibida' => 0,
             ];
           }
-          
+
           $detalle = DetalleOc::create($doc);
         }
         DB::commit();
-        
+
         return redirect()->route('compras.orden.index')->with('success','La orden de compra se ha grabado con exito');
       } catch (Exception $ex)
       {

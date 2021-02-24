@@ -1,7 +1,3 @@
-/**
-* ClienteController administrar el CRUD del modelo Cliente.
-**/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -24,10 +20,10 @@ class ClienteController extends Controller
 
 
     /**
-     * Funcion para Cargar la vista cliente 
+     * Funcion para Cargar la vista cliente
      *
-     * @return vista Cliente.index con los Object Deptos, Clientes, 
-     * 
+     * @return vista Cliente.index con los Object Deptos, Clientes,
+     *
      */
     public function index()
     {

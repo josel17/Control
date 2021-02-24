@@ -1,8 +1,3 @@
-    /**
-     * Controlador para realizar el CRUD de la vista Caja
-    **/
-
-
 <?php
 
 namespace App\Http\Controllers;

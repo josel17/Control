@@ -1,8 +1,3 @@
-/**
-* Controlador CategoriasController para administrar el CRUD del modelo categorias.
-*
-**/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -48,8 +43,8 @@ class CategoriasController extends Controller
      *
      * @param  Object $request
      * @Param. Object $Categoria
-     * 
-     * @return estado de la transaccion 
+     *
+     * @return estado de la transaccion
      */
     public function store(SaveCategoriaRequest $request, Categoria $categoria)
     {
@@ -80,7 +75,7 @@ class CategoriasController extends Controller
      * Mostrar la vista que contiene el formulario para editar la categoria.
      *
      * @param  Object  $Categoria.
-     * 
+     *
      * @return vista Categorias.form
      */
     public function edit(Categoria $categoria)
@@ -97,7 +92,7 @@ class CategoriasController extends Controller
      *
      * @param Object $request
      * @param Object $categoria
-     * 
+     *
      * @return Respuesta del servidor segun el estado de la transaccion.
      */
     public function update(SaveCategoriaRequest $request, Categoria $categoria)
@@ -116,7 +111,7 @@ class CategoriasController extends Controller
      * Eliminar la categoria de la base de datos
      *
      * @param  Object $categoria
-     * @return Respuesta del servidor segun el estado de la transaccion 
+     * @return Respuesta del servidor segun el estado de la transaccion
      */
     public function destroy(Categoria $categoria)
     {

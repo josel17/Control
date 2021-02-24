@@ -1,5 +1,3 @@
-/**Controller for the model VentasController**/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -17,7 +15,7 @@ use Illuminate\Http\Request;
 
 class VentasController extends Controller
 {
-//declaración de atributos encapsulados. 
+//declaración de atributos encapsulados.
     private $cliente = null;
     private $_productoRepo;
     private $_facturaRepo;
@@ -29,11 +27,11 @@ class VentasController extends Controller
         $this->_productoRepo = $productoRepo;
         $this->_facturaRepo = $facturaRepo;
     }
-    
+
     /**
-     * metodo para llamar la vista principal de las facturas. 
+     * metodo para llamar la vista principal de las facturas.
      *
-     * @return Vista index. 
+     * @return Vista index.
      */
     public function index()
     {
@@ -46,9 +44,9 @@ class VentasController extends Controller
 
 
  /**
-     * Metodo para llamar la vista de facturación 
+     * Metodo para llamar la vista de facturación
      *
-     * @return Vista de facturación con el object de los datos de facturación. 
+     * @return Vista de facturación con el object de los datos de facturación.
      */
     public function facturar()
     {
@@ -57,7 +55,7 @@ class VentasController extends Controller
       $empresa = DatosEmpresa::get()->first();
       if(!isset($empresa)) {
         return back()->with('info','Primero debes actualizar los datos de tu empresa');
-        
+
       }
       else
       {
@@ -85,10 +83,10 @@ class VentasController extends Controller
     }
 
  /**
-     * Metodo para buscar el cliente a facturar 
+     * Metodo para buscar el cliente a facturar
      *
      * @param Int $doc
-     * @return Objet cliente. 
+     * @return Objet cliente.
      */
     public function buscarCliente($doc)
     {
@@ -98,9 +96,9 @@ class VentasController extends Controller
     }
 
  /**
-     * metodo para buscar productos a facturar. 
+     * metodo para buscar productos a facturar.
      *
-     * @param string $producto. 
+     * @param string $producto.
      * @return Object producto
      */
     public function buscarProducto($producto)
@@ -120,7 +118,7 @@ class VentasController extends Controller
     }
 
     /**
-     * Metodo que guardará la la factura en la base de datos. 
+     * Metodo que guardará la la factura en la base de datos.
      *
      * @param  Request $request
      * @return Respuesta del servidor según el estado de la transacción
@@ -140,8 +138,8 @@ class VentasController extends Controller
         //pasar el detalle de la factura al Object $factura
 
         $factura = $request->input('detalle');
-        
-        //Pasar el detalle de la factura a una posición cada fila de la factura. 
+
+        //Pasar el detalle de la factura a una posición cada fila de la factura.
          for ($i=0; $i < count($factura); $i++) {
                  $data->detalle[] =
                     [
@@ -153,8 +151,8 @@ class VentasController extends Controller
                     'total' => $factura[$i][7]
                  ];
             }
-            
-           //Grabar la factura en la base de datos. 
+
+           //Grabar la factura en la base de datos.
             return $this->_facturaRepo->grabarfactura($data);
     }
 

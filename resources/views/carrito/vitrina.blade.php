@@ -4,6 +4,9 @@
 
 @section('content')
 <div class="x_panel">
+	Carrito(0)
+</div>
+<div class="x_panel">
 	<form class="form-group" name="frm-buscar" method="POST" accept-charset="utf-8" >
 		@csrf
 		<div class="item form-group">
@@ -18,38 +21,41 @@
 <div class="x_panel">
 	<div class="x_content">
 		<div class="" id="datos"></div>
-		@foreach($productos as $producto)
-			<div class="col-md-4 col-sm-6  col-lg-2 col-12">
-				<div class="pricing">
-
-					<div class="x_content" id="contenido">
-						<div class="">
-							<div class="pricing_features">
-								<ul class="list-unstyled text-left">
-									<a href=""><img src="./images/picture.jpg" width="100%" height="100%"></a>
-								</ul>
-							</div>
-						</div>
-						<div class="pricing_footer ui-ribbon-container">
-							<div class="ui-ribbon-wrapper d-none">
-								<div class="ui-ribbon">
-									30% Off
+		<div class="row" id="contenido">
+				@foreach($productos as $producto)
+					<div class="col-md-4 col-sm-6  col-lg-2 col-12">
+						<div class="pricing">
+							<form class="" method="POST" name="frm-item-producto" id="frm-item-producto">
+								<div class="x_content" id="contenido">
+									<div class="">
+										<div class="pricing_features">
+											<ul class="list-unstyled text-left">
+												<a href=""><img src="./images/picture.jpg" width="100%" height="100%"></a>
+											</ul>
+										</div>
+									</div>
+									<div class="pricing_footer ui-ribbon-container">
+										<div class="ui-ribbon-wrapper d-none">
+											<div class="ui-ribbon">
+												30% Off
+											</div>
+										</div>
+										<div class="text-left">
+											<label class="" role="">{{$producto->nombre}} </label>
+										</div>
+										<div class="message_wrapper text-left">
+											<label><i class="fa fa-dollar"></i> {{number_format($producto->precio_venta,0)}}</label><br>
+											<label><i class="fa fa-shop"></i> {{$producto->laboratorio->nombre}}</label><br>
+											<button class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></button>
+											<button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button>
+										</div>
+									</div>
 								</div>
-							</div>
-							<div class="text-left">
-								<label class="" role="">{{$producto->nombre}} </label>
-							</div>
-							<div class="message_wrapper text-left">
-								<label><i class="fa fa-dollar"></i> {{number_format($producto->precio_venta,2)}}</label><br>
-								<label><i class="fa fa-shop"></i> {{$producto->laboratorio->nombre}}</label><br>
-								<button class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></button>
-								<button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button>
-							</div>
+							</form>
 						</div>
 					</div>
-				</div>
-			</div>
-		@endforeach
+				@endforeach
+		</div>
 	</div>
 
 	<div class="row">
@@ -66,7 +72,6 @@
 	<script type="text/javascript">
 		function buscar()
 			{
-
 				datos = $('#parametrosbusqueda').val();
 			  $.ajax({
 			  		data: {parametrosBusqueda:datos},
@@ -79,13 +84,20 @@
 			      	headers: {
 					'X-CSRF-TOKEN': '{{ csrf_token()}}'
 					}
-			  }).done(function(respuesta){
-			    alert(respuesta);
+			  }).done(function(datos){
+			  	var html_content ='';
+			  	document.getElementById("contenido").innerHTML="";
+			  	if(datos.length<=0)
+			  	{
+			  		var html_content= 'No se encontraron datos';
+			  	}else
+			  	{
+			  		for(var i=0; i<datos.length; ++i)
+			  		html_content += '<div class="col-md-4 col-sm-6  col-lg-2 col-12"><div class="pricing"><div class="x_content" id="contenido"><div class=""><div class="pricing_features"><ul class="list-unstyled text-left"><a href=""><img src="./images/picture.jpg" width="100%" height="100%"></a></ul></div></div><div class="pricing_footer ui-ribbon-container"><div class="ui-ribbon-wrapper d-none"><div class="ui-ribbon">30% Off</div></div><div class="text-left"><label class="" role="">'+datos[i].nombre+'</label></div><div class="message_wrapper text-left"><label><i class="fa fa-dollar"></i> '+new Intl.NumberFormat("en-IN").format(datos[i].precio_venta)+'</label><br><label><i class="fa fa-shop"></i> '+datos[i].laboratorio.nombre+'</label><br><button class="btn btn-success btn-sm"><i class="fa fa-shopping-cart"></i></button> <button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button></div></div></div></div></div>';
+			  	}
+			  		$('#contenido').html(html_content);
 			  });
 			  console.log();
 			}
 	</script>
-
-
-
 @endpush

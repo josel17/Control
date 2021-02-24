@@ -1,6 +1,3 @@
-/**Controlador para gestionar la verificación de las facturas **/
-
-
 <?php
 
 namespace App\Http\Controllers;

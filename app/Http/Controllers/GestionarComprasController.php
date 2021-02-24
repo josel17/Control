@@ -1,5 +1,3 @@
-//Controlador para gestionar las órdenes de compras ya creadas. **/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -23,10 +21,10 @@ class GestionarComprasController extends Controller
     }
 
      /**
-     * Función para buscar las ordenes de compra a ingresar 
+     * Función para buscar las ordenes de compra a ingresar
      *
      * @param  BuscarOrdenRequest  $request
-     * @return regresa el objeto a la vista con la consulta realizada a la base de datos según la orden a buscar. 
+     * @return regresa el objeto a la vista con la consulta realizada a la base de datos según la orden a buscar.
      */
     public function buscar(BuscarOrdenRequest $request)
     {
@@ -35,7 +33,7 @@ class GestionarComprasController extends Controller
     	  $validated = $request->validated();
     		$orden =  OrdenCompra::where('numero',$request->numero_orden)->where('id_estado','<>','3')->with(['cliente','proveedor','estado','detalleoc','detalle'])->get();
     		$tipo_mov = TipoMovimientos::get();
-    		
+
     		if(count($orden)===0)
     		{
     		  return back()->with('warning','La orden de compra no existe o se encuentra anulada');
@@ -43,11 +41,11 @@ class GestionarComprasController extends Controller
     		elseif($orden[0]->cant_total === $orden[0]->cant_recibida)
     		{
     		  return back()->with('warning','La orden no tiene posiciones seleccionables');
-    		  
+
     		}
     		$fecha = Carbon::now();
     		$fecha = $fecha->format('Y-m-d');
-    		
+
     		return view('compras.movimientos',
     		['orden' => $request->numero_orden,
     		 'tipo_mov' => $tipo_mov,
@@ -59,12 +57,12 @@ class GestionarComprasController extends Controller
     		 'productos' => $orden[0]->detalleoc,
     		 'detalle' => $orden[0]->detalle,
     		]);
-    	} catch (Exception $e) 
+    	} catch (Exception $e)
     	{
     		return back()->with('error','Se ha presentado un error: '.$e.message());
     	}
     }
-    
+
     /**
     * Grabar los datos de la orden que se van a ingresar al inventario.
     * @param  Request $request
@@ -75,8 +73,8 @@ class GestionarComprasController extends Controller
     {
     	DB::beginTransaction();
     	try {
-//Cargargamos el array $movimiento con los datos del request, 
-//cada posición contiene los datos de las filas de la orden. 
+//Cargargamos el array $movimiento con los datos del request,
+//cada posición contiene los datos de las filas de la orden.
     		if(isset($request->selected))
     		{
     			$movimiento = [
@@ -91,14 +89,14 @@ class GestionarComprasController extends Controller
     				'user' => $request->usuario
     			];
     			//return $movimiento['cantidad'];
-//sacamos los $values y las $keys del array movimiento en array diferentes. 
+//sacamos los $values y las $keys del array movimiento en array diferentes.
 				$value = array_values($movimiento);
 				$keys = array_keys($movimiento);
 				$cantidad = 0;
 				$cant_total = 0;
 				$cantidad_orden = 0;
 
-// cargamos el array posicion con los $keys y los $value, una posición del array por cada fila de la orden que vamos a guardar. 
+// cargamos el array posicion con los $keys y los $value, una posición del array por cada fila de la orden que vamos a guardar.
 
 				 for($i=0; $i < count($value[0]) ; $i++)
          {
@@ -120,18 +118,18 @@ class GestionarComprasController extends Controller
 
 //cuando se tenga el array con las posiciones grabamos en la tabla MovimientosProducto una fila por cada posición del array
           	MovimientosProducto::create($posicion);
-          	
-//consultamos la cantidad de productos que contiene la orden 
+
+//consultamos la cantidad de productos que contiene la orden
             $cantposicion = DetalleOc::where('codigo_producto',$posicion['codigo_material'])->where('numero_orden',$posicion['orden'])->get();
-//verificamos las cantidades a ingresar y le sumamos a la cantidad que ya se han recibido esto en el casino de que sean ingresos parciales. 
+//verificamos las cantidades a ingresar y le sumamos a la cantidad que ya se han recibido esto en el casino de que sean ingresos parciales.
             $cantidad_orden = $cantidad_orden + $posicion['cantidad'];
             $cat_total = $cantposicion[0]->cant_recibida + $posicion['cantidad'];
 
-//actualizamos las cantidades recibidas de cada material en la orden con eso sabremos que queda pendiente por recibir. 
+//actualizamos las cantidades recibidas de cada material en la orden con eso sabremos que queda pendiente por recibir.
             DetalleOc::where('codigo_producto',$posicion['codigo_material'])->where('numero_orden',$posicion['orden'])->update(['cant_recibida' => $posicion['cantidad']]);
 
 		    }
-//consultamos y comparamos las cantidades recibidas. 
+//consultamos y comparamos las cantidades recibidas.
 
           $orden = OrdenCompra::where('numero',$posicion['orden'])->get();
           $total_recibido = $orden[0]->cant_recibida + $cantidad_orden;
@@ -145,7 +143,7 @@ class GestionarComprasController extends Controller
           {
           	$estado = 5;
           }
-//actualizar el estado de la orden. 
+//actualizar el estado de la orden.
            $rqs = OrdenCompra::where('numero',$posicion['orden'])->update(['cant_recibida'=>$total_recibido,'id_estado'=>$estado]);
 
            DB::commit();

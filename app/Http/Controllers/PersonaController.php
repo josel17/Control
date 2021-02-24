@@ -1,5 +1,3 @@
-/** Controller for the model Persona**/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -23,7 +21,7 @@ class PersonaController extends Controller
     }
 
 
-/**Function for load the view persona.index with the Object Departamento and Persona 
+/**Function for load the view persona.index with the Object Departamento and Persona
 **/
 	public function index()
 	{
@@ -46,7 +44,7 @@ class PersonaController extends Controller
      * Función que guardará los datos del formulario persona en la tabla persona
      *
      * @param SavePersonaRequest $request
-     * @return respuesta del servidor según el estado de la transacción 
+     * @return respuesta del servidor según el estado de la transacción
      */
 	public function store(SavePersonaRequest $request)
 	{
@@ -54,7 +52,7 @@ class PersonaController extends Controller
 	    $request->tipo = 1;
 	    Persona::create($request->validated());
 	    return back()->with('info','Registros guardados correctamente');
-	  } catch (Exception ) 
+	  } catch (Exception )
 	  {
 	    return back()->with('error','Se ha presentado un error al guardar la información');
 	  }
@@ -70,7 +68,7 @@ class PersonaController extends Controller
 
 /**Función para llamar la vista show y cargar los datos de una persona
  * @param Persona $persona
- * @return Vista con los objetos Persona, Departamento y Ciudad 
+ * @return Vista con los objetos Persona, Departamento y Ciudad
  **/
     public function show(Persona $persona)
     {
@@ -86,11 +84,11 @@ class PersonaController extends Controller
 
 
 /**
-     * Función para actualizar los datos del modelo persona 
+     * Función para actualizar los datos del modelo persona
      *
      * @param SavePersonaRequest $request
-     * @ñaram Persona $persona 
-     * @return respuesta del servidor según el estado de la transacción. 
+     * @ñaram Persona $persona
+     * @return respuesta del servidor según el estado de la transacción.
      */
     public function update(Persona $persona, SavePersonaRequest $request)
     {

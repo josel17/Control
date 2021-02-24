@@ -1,5 +1,3 @@
-/**Controller for Producto Model**/ 
-
 <?php
 
 namespace App\Http\Controllers;
@@ -24,7 +22,7 @@ class ProductoController extends Controller
         $this->middleware('auth');
     }
     /**
-     * Función para cargar la vista index con el formulario para crear productos. 
+     * Función para cargar la vista index con el formulario para crear productos.
      *
      * @return retorna la vista productos.index con el objeto Productos
      */
@@ -37,7 +35,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * carga la vista productos.form con una nueva instancia de Producto. 
+     * carga la vista productos.form con una nueva instancia de Producto.
      *
      * @return Vista productos.form con los objetos proveedores, laboratorios, presentacion, categoría, estado, impuesto, ume para crear un nuevo producto
      */
@@ -81,8 +79,8 @@ class ProductoController extends Controller
      * Función para grabar los datos del nuevo producto enviados desde el formulario
      *
      * @param SaveProductoRequest $request
-     * @param Producto $producto. 
-     * @return respuesta del servidor según el estado de la transacción. 
+     * @param Producto $producto.
+     * @return respuesta del servidor según el estado de la transacción.
      */
     public function store(SaveProductoRequest $request, Producto $producto)
     {
@@ -103,7 +101,7 @@ class ProductoController extends Controller
      * Función para cargar la vista para visualizar la información de un producto
      *
      * @param Producto $producto.
-     * @return Vista productos.form con el objeto Producto consultado, 
+     * @return Vista productos.form con el objeto Producto consultado,
      */
     public function show(Producto $producto)
     {
@@ -170,9 +168,9 @@ class ProductoController extends Controller
     }
 
     /**
-     * se eliminará ellos datos del usuario seleccionado. 
+     * se eliminará ellos datos del usuario seleccionado.
      *
-     * @param Producto $producto. 
+     * @param Producto $producto.
      * @return respuesta del servidor según el estado de la transacción
      */
     public function destroy(Producto $producto)
@@ -190,10 +188,10 @@ class ProductoController extends Controller
     }
 
  /**
-     * Función para llamar la vista view en la que se mostrarán los datos del producto seleccionado. 
+     * Función para llamar la vista view en la que se mostrarán los datos del producto seleccionado.
      *
-     * @param Producto $producto. 
-     * @return Llamdo a la vista con el objeto Producto. 
+     * @param Producto $producto.
+     * @return Llamdo a la vista con el objeto Producto.
      */
 
     public function view(Producto $producto)

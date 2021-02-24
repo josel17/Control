@@ -1,6 +1,3 @@
-/** Controller for model laboratorio **/
-
-
 <?php
 
 namespace App\Http\Controllers;
@@ -18,9 +15,9 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Función para llamar la vista laboratorio 
+     * Función para llamar la vista laboratorio
      *
-     * @return Vista laboratorio con el Objeto Laboratorio 
+     * @return Vista laboratorio con el Objeto Laboratorio
      */
     public function index()
     {
@@ -33,9 +30,9 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Función para mostrar la vista laboratorio.form en la cual contiene el formulario para crear un laboratorio. 
+     * Función para mostrar la vista laboratorio.form en la cual contiene el formulario para crear un laboratorio.
      *
-     * @return Vista laboratorio.form 
+     * @return Vista laboratorio.form
      */
     public function create()
     {
@@ -49,12 +46,12 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Función para guardar los datos enviados desde el formulario laboratorio. 
+     * Función para guardar los datos enviados desde el formulario laboratorio.
      *
      * @param LaboratorioRequest $request
      * @param Laboratorio $laboratorio
-     * 
-     * @return respuesta del servidor según el estado de la transacción 
+     *
+     * @return respuesta del servidor según el estado de la transacción
      */
     public function store(LaboratorioRequest $request, laboratorio $laboratorio)
     {
@@ -98,9 +95,9 @@ class LaboratorioController extends Controller
     }
 
     /**
-     * Función update que actualizará los datos del laboratorio. 
+     * Función update que actualizará los datos del laboratorio.
      *
-     * @param LaboratorioRequest $request 
+     * @param LaboratorioRequest $request
      * @param Laboratorio $laboratorio
      * @return respuesta del servidor según estado de la transacción
      */
@@ -118,8 +115,8 @@ class LaboratorioController extends Controller
     /**
      * Función que eliminará el laboratorio seleccionado.
      *
-     * @param  Laboratorio $laboratorio. 
-     * @return respuesta del servidor según el estado de la transacción 
+     * @param  Laboratorio $laboratorio.
+     * @return respuesta del servidor según el estado de la transacción
      */
     public function destroy(Laboratorio $laboratorio)
     {

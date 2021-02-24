@@ -1,7 +1,3 @@
-
-/**Controlador AppDataControlleren controla las funciones de la vista Datos de la aplicacion control.**/
-
-
 <?php
 
 namespace App\Http\Controllers;
@@ -12,12 +8,12 @@ use Illuminate\Http\Request;
 
 class AppDataController extends Controller
 {
-  
+
 
     /**
      *Description: Funcion para llamar la view de datos de la App
      *@Param:Sin parametroa
-     * @return: View la cual lleva los datosnde la empresa 
+     * @return: View la cual lleva los datosnde la empresa
     */
     public function index()
     {
@@ -42,9 +38,9 @@ class AppDataController extends Controller
     }
 
     /**
-     * 
+     *
      *@Param
-     * @return 
+     * @return
      */
     public function create()
     {
@@ -56,7 +52,7 @@ class AppDataController extends Controller
      *
      * @param Request de tipo Illuminate/Http/Request/DatosEmpresaRequest
      * @Param datosempresa Modelonde la tabla datos_empresa
-     * @return Mensaje de estadonde la transaccion. 
+     * @return Mensaje de estadonde la transaccion.
      */
     public function store(DatosEmpresaRequest $request, DatosEmpresa $datosempresa)
     {
@@ -96,13 +92,13 @@ class AppDataController extends Controller
         //
     }
 
-  
+
       /**
-       * Description: Funcion para actualizar los datos de la tabla datos_empresa utiñizando el modelo DatosEmpresa 
-       * 
+       * Description: Funcion para actualizar los datos de la tabla datos_empresa utiñizando el modelo DatosEmpresa
+       *
        *@Param: @datosempresa: Modelo DatosEmpresa
        *@param: @request formRequest el cual validara los datos enviados desde el formulario en la vista
-       * 
+       *
        * @return: Respuesta del estado de la transaccion
        */
     public function update(DatosEmpresa $datosempresa, DatosEmpresaRequest $request)
