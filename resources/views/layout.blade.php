@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php session_start(); ?>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <link rel="shortcut icon" href="../images/square.ico" >
 <head>
@@ -106,6 +107,26 @@
                               @csrf
                           </form>
                       </div>
+                    </li>
+
+                    <li role="presentation" class="nav-item dropdown open">
+                      <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-shopping-cart"></i>
+                          <span class="badge bg-red"><?php count($_SESSION['carrito']); ?></span>
+                      </a>
+                      <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
+                        <li class="nav-item">
+                          <a class="dropdown-item">
+                            <span>
+                            <span>Carrito</span>
+                            <span class="time">1</span>
+                            </span>
+                            <span class="message">
+                              Jose Luis Escobar Ramirez
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
                     </li>
 
                     <!--SECCION PARA MENSAJES Y NOTIFICACIONES-->

@@ -52,7 +52,7 @@ class PersonaController extends Controller
 	    $request->tipo = 1;
 	    Persona::create($request->validated());
 	    return back()->with('info','Registros guardados correctamente');
-	  } catch (Exception )
+	  } catch (Exception $e)
 	  {
 	    return back()->with('error','Se ha presentado un error al guardar la información');
 	  }

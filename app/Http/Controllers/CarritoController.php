@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Producto;
 use App\Repositories\ProductoRepositorio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class CarritoController extends Controller
 {
+
     private $_productoRepo;
 
 // Encapsulacion de la variable productoRepo
 
     public function __CONSTRUCT(ProductoRepositorio $productoRepo)
     {
+            session_start();
           $this->_productoRepo = $productoRepo;
     }
 
@@ -55,14 +59,54 @@ class CarritoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Funcion para agregar items al carrito de compras.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param $request Request
+     * @return
      */
-    public function store(Request $request)
+    public function add(Request $request)
     {
-        //
+
+        if(isset($_POST['btn_add']))
+        {
+            switch ($_POST['btn_add']) {
+                case 'add':
+                    if(!isset($_SESSION['carrito']))
+                    {
+                        $item = array
+                        (
+                            'id' => Crypt::DecryptString($request->id),
+                            'nombre' => Crypt::DecryptString($request->nombre),
+                            'precio' => Crypt::DecryptString($request->precio),
+                            'cantidad' => $request->cantidad,
+
+                        );
+                        $_SESSION['carrito'][0] = $item;
+
+                    }
+                    else
+                    {
+                        $cantidadCarrito =count($_SESSION['carrito']);
+                        $item = array
+                        (
+                            'id' => Crypt::DecryptString($request->id),
+                            'nombre' => Crypt::DecryptString($request->nombre),
+                            'precio' => Crypt::DecryptString($request->precio),
+                            'cantidad' => $request->cantidad,
+
+                        );
+
+                        $_SESSION['carrito'][$cantidadCarrito] = $item;
+
+                    }
+                    return back();
+                    break;
+
+            }
+        }else
+        {
+            return false;
+        }
     }
 
     /**

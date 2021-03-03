@@ -94,7 +94,7 @@
               Compras
               <span class="fa fa-chevron-down"></span>
             </a>
-            <ul class="nav child_menu " style="{{ openmenu('compras*')}}">
+            <ulca class="nav child_menu " style="{{ openmenu('compras*')}}">
               <li class="{{ setActiveRoute('compras*')}}">
                 <a class="" href="{{route('compras.orden.index')}}  ">
                   Orden de compra
