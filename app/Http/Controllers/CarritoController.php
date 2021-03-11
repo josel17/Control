@@ -17,8 +17,8 @@ class CarritoController extends Controller
 
     public function __CONSTRUCT(ProductoRepositorio $productoRepo)
     {
-            session_start();
-          $this->_productoRepo = $productoRepo;
+         session_start();
+        $this->_productoRepo = $productoRepo;
     }
 
 
@@ -69,8 +69,10 @@ class CarritoController extends Controller
 
         if(isset($_POST['btn_add']))
         {
+            $carrito = session('carrito');
             switch ($_POST['btn_add']) {
                 case 'add':
+
                     if(!isset($_SESSION['carrito']))
                     {
                         $item = array
@@ -81,22 +83,40 @@ class CarritoController extends Controller
                             'cantidad' => $request->cantidad,
 
                         );
+
+
                         $_SESSION['carrito'][0] = $item;
 
                     }
                     else
                     {
                         $cantidadCarrito =count($_SESSION['carrito']);
-                        $item = array
-                        (
-                            'id' => Crypt::DecryptString($request->id),
-                            'nombre' => Crypt::DecryptString($request->nombre),
-                            'precio' => Crypt::DecryptString($request->precio),
-                            'cantidad' => $request->cantidad,
+                       foreach ($_SESSION['carrito'] as $key => $value) {
 
-                        );
+                           if($value["id"]==Crypt::DecryptString($request->id))
+                           {
+                                $nueva_cantidad = $value['cantidad'] + $request->cantidad;
+                                return $nueva_cantidad;
+                                $item = array
+                                ('' =>, );
+                           }
+                           else
+                           {
+                                $item = array
+                                (
+                                    'id' => Crypt::DecryptString($request->id),
+                                    'nombre' => Crypt::DecryptString($request->nombre),
+                                    'precio' => Crypt::DecryptString($request->precio),
+                                    'cantidad' => $request->cantidad,
 
-                        $_SESSION['carrito'][$cantidadCarrito] = $item;
+                                );
+                           }
+
+                       }
+
+                        session()->push('carrito', $item);
+
+                        return back();
 
                     }
                     return back();
@@ -110,14 +130,19 @@ class CarritoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Funcion para llamar la vista ver carrito
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function view()
     {
-        //
+        try {
+            return view('carrito.verCarrito');
+        } catch (Exception $ex)
+        {
+            return back()->with('error','Ha ocurrido un error al cargar el carrito');
+        }
     }
 
     /**

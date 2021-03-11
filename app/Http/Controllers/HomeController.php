@@ -17,16 +17,23 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware('auth');
     }
 
     /**
      * Mostrar la vista Home en el dashboard
      *
-     * @return Vista principal. 
+     * @return Vista principal.
      */
     public function index()
     {
+
+        if(session()->exists('carrito'))
+        {
+            $carrito = count(session('carrito'));
+        }
+
         $clientes = Persona::all();
         $productos = Producto::all();
         $facturas = Factura::all();

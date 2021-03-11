@@ -217,6 +217,7 @@ Route::group([
 			Route::get('carrito','CarritoController@index')->name('carrito.vitrina.index');
 			Route::post('carrito/buscar','CarritoController@buscar')->name('carrito.vitrina.buscar');
 			Route::post('carrito/add','CarritoController@add')->name('carrito.vitrina.add');
+			Route::get('carrito/view','CarritoController@view')->name('carrito.vitrina.view');
 
 		});
 	Route::get('ciudades/{id}','PersonaController@lciudad')->name('persona.ciudades');
