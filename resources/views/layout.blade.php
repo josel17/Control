@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-
+{{setlocale(LC_MONETARY,"es_ES")}}
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <link rel="shortcut icon" href="../images/square.ico">
 <head>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Producto;
 use App\Repositories\ProductoRepositorio;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -12,12 +13,12 @@ class CarritoController extends Controller
 {
 
     private $_productoRepo;
+    private $_id=1;
 
 // Encapsulacion de la variable productoRepo
 
     public function __CONSTRUCT(ProductoRepositorio $productoRepo)
     {
-         session_start();
         $this->_productoRepo = $productoRepo;
     }
 
@@ -67,65 +68,46 @@ class CarritoController extends Controller
     public function add(Request $request)
     {
 
-        if(isset($_POST['btn_add']))
+       if(isset($_POST['btn_add']))
         {
-            $carrito = session('carrito');
             switch ($_POST['btn_add']) {
                 case 'add':
+                    $item
+                    = array(
+                        'id'=> $request->id,
+                        'nombre'=> $request->nombre,
+                        'precio'=> $request->precio,
+                        'cantidad'=> $request->cantidad,
+                    );
 
-                    if(!isset($_SESSION['carrito']))
+
+                    if(session()->exists('carrito'))
                     {
-                        $item = array
-                        (
-                            'id' => Crypt::DecryptString($request->id),
-                            'nombre' => Crypt::DecryptString($request->nombre),
-                            'precio' => Crypt::DecryptString($request->precio),
-                            'cantidad' => $request->cantidad,
+                        $carrito = session('carrito');
+                        $posicion=0;
+                        $nuevacantidad=0;
 
-                        );
+                        foreach ($carrito as $key => $value) {
+                            $posicion=$posicion+1;
+                            if($value['id']==$item['id'])
+                            {
+                                $nuevacantidad=$value['cantidad']+1;
+                                $item['cantidad']=$nuevacantidad;
 
-
-                        $_SESSION['carrito'][0] = $item;
+                                session()->forget('carrito.'.$value['id']);
+                            }
+                        }
 
                     }
-                    else
-                    {
-                        $cantidadCarrito =count($_SESSION['carrito']);
-                       foreach ($_SESSION['carrito'] as $key => $value) {
 
-                           if($value["id"]==Crypt::DecryptString($request->id))
-                           {
-                                $nueva_cantidad = $value['cantidad'] + $request->cantidad;
-                                return $nueva_cantidad;
-                                $item = array
-                                ('' =>, );
-                           }
-                           else
-                           {
-                                $item = array
-                                (
-                                    'id' => Crypt::DecryptString($request->id),
-                                    'nombre' => Crypt::DecryptString($request->nombre),
-                                    'precio' => Crypt::DecryptString($request->precio),
-                                    'cantidad' => $request->cantidad,
-
-                                );
-                           }
-
-                       }
-
-                        session()->push('carrito', $item);
-
-                        return back();
-
-                    }
-                    return back();
+                    Session()->put('carrito.'.$item['id'],$item);
+                    return back()->with('info','Producto agregado al carrito.');
                     break;
 
             }
         }else
         {
-            return false;
+
         }
     }
 

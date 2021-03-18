@@ -1,5 +1,3 @@
-/**Controlador ComprasController administra la vista compras**/
-
 <?php
 
 namespace App\Http\Controllers;
@@ -285,14 +283,15 @@ class ComprasController extends Controller
           $orden = $orden->numero + 1;
         }
         $proveedor = Proveedor::where('id',$request->proveedorSelect)->get();
-        $cliente = DatosEmpresa::where('id',1)->get();
+        $cliente = DatosEmpresa::get()->first();
+
         $productosOrder = Producto::whereIn('codigo',$request->selected)->with(['ume','presentacion'])->get();
         //return $productosOrder;
         return view('compras.pedido',[
           'proveedor' => $proveedor[0],
           'fecha' => Carbon::now(),
           'numero' => $orden,
-          'cliente' => $cliente[0],
+          'cliente' => $cliente,
           'productos' =>$productosOrder,
         ]);
     }
