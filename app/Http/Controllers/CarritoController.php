@@ -30,7 +30,7 @@ class CarritoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::with(['categoria','imagenes','laboratorio'])->paginate(2);
+        $productos = Producto::with(['categoria','imagenes','laboratorio','impuesto'])->paginate(2);
         return view('carrito.vitrina',
             ['productos' => $productos]
         );
@@ -47,6 +47,7 @@ class CarritoController extends Controller
         $parametrosBusqueda = $_POST['parametrosBusqueda'];
         $result =  $this->_productoRepo->buscarxnombre($parametrosBusqueda);
         return $result;
+
     }
 
     /**
@@ -67,7 +68,7 @@ class CarritoController extends Controller
      */
     public function add(Request $request)
     {
-
+        /*session()->flush();*/
        if(isset($_POST['btn_add']))
         {
             switch ($_POST['btn_add']) {
@@ -77,6 +78,7 @@ class CarritoController extends Controller
                         'id'=> $request->id,
                         'nombre'=> $request->nombre,
                         'precio'=> $request->precio,
+                        'impuesto' => $request->impuesto,
                         'cantidad'=> $request->cantidad,
                     );
 
