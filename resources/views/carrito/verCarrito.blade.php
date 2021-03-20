@@ -31,7 +31,8 @@
 			            <div class="card col-lg-12 col-md-12 col-sm-12 col-12">
 			                <div class="row">
 			                    <div class="col-md-12 mx-0">
-			                        <form id="msform">
+			                        <form id="msform" action="" method="POST">
+			                        	@csrf
 			                            <!-- progressbar -->
 			                            <ul id="progressbar">
 			                                <li class="active" id="account"><strong>Pedido</strong></li>
@@ -47,13 +48,14 @@
 															<th style="width: 1%">#</th>
 															<th style="width: 30%">Nombe</th>
 															<th style="width: 10%">Cantidad</th>
-															<th style="width: 10%">Precio</th>
-															<th style="width: 10%">Impuesto</th>
-															<th style="width: 10%">Sub Total</th>
+															<th style="width: 10%">Precio ($)</th>
+															<th style="width: 10%">Impuesto ($)</th>
+															<th style="width: 10%">Sub Total ($)</th>
+															<th style="width: 5%"></th>
 														</tr>
 													</thead>
 													<tbody>
-														@if(session()->exists('carrito'))
+														@if(count(session('carrito'))>0 && session()->exists('carrito'))
 														<div class="d-none">{{$item=0}}</div>
 															@foreach(session('carrito') as $carrito)
 															<tr>
@@ -63,20 +65,30 @@
 <th>
 <input type="number" name="cantidad_{{$carrito['id']}}" id="cantidad_{{$carrito['id']}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$carrito['id']}});">
 </th>
-<td><input type="text" name="precio_{{$carrito['id']}}" id="precio_{{$carrito['id']}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices'))  readonly @endif></td>
-<td><input type="text" name="impuesto_{{$carrito['id']}}" id="impuesto_{{$carrito['id']}}" value="{{number_format((($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2, '.', '.')}}" class="form-control form-control-plaintext" readonly="true"></td>
-<td><input type="text" name="subtotal_{{$carrito['id']}}" id="subtotal_{{$carrito['id']}}" value="{{number_format($carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2, '.', '.')}}" class="form-control"></td>
+<td><input type="text" name="precio_{{$carrito['id']}}" id="precio_{{$carrito['id']}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
+<td><input type="text" name="impuesto_{{$carrito['id']}}" id="impuesto_{{$carrito['id']}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
+<td><input type="text" name="subtotal_{{$carrito['id']}}" id="subtotal_{{$carrito['id']}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
+<td><a href="{{route('carrito.remove',$carrito['id'])}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
 </tr>
 															@endforeach
+
+															<tr>
+																<th colspan="2">Total Pedido</th>
+																<th><div id="totalcantidad"></div></th>
+																<th><div id=""></div></th>
+																<th><div id="totalimpuesto"></div></th>
+																<th><div id="totalfactura"></div></th>
+															</tr>
+
 														@else
 															<tr>
-																<td colspan="5">No hay productos en el carrito</td>
+																<td colspan="7">El carrito esta vacio, <a href="{{route('carrito.vitrina.index')}}" class="btn btn-link" style="text-decoration: none;">Regresar para seguir comprando</a></td>
 															</tr>
 														@endif
 													</tbody>
 												</table>
 			                                </div>
-			                                <button type="button" name="next" class="next btn btn-success @if(session()->exists('carrito'))  @else d-none @endif}">Siguiente</button>
+			                                <button type="button" name="next" class="next btn btn-success @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}">Resumen <span class="fa fa-arrow-right"></span></button>
 			                            </fieldset>
 			                            <fieldset>
 			                                <div class="form-card">
@@ -87,29 +99,33 @@
 																<th>#</th>
 																<th>Producto</th>
 																<th>Cantidad</th>
-																<th>Precio</th>
-																<th>Iva</th>
-																<th>Subtotal</th>
+																<th>Precio ($)</th>
+																<th>Iva ($)</th>
+																<th>Subtotal ($)</th>
 															</tr>
 														</thead>
 														<tbody>
+															@if(session()->exists('carrito'))
+																<div class="d-none">{{$item=1}}</div>
 															@foreach(session('carrito') as $carrito)
 															<tr>
-																<th scope="row">1</th>
-																<td>{{$carrito['nombre']}}</td>
-																<td>{{$carrito['id']}}</td>
-																<td>{{$carrito['precio']}}</td>
-																<td>{{$carrito['precio']}}</td>
-																<td>{{$carrito['precio']*$carrito['cantidad']}}</td>
+																<th scope="row">{{$item}}</th>
+																<td><div id="lblnombre">{{$carrito['nombre']}}</div></td>
+																<td><div id="lblcantidad_{{$carrito['id']}}">{{$carrito['cantidad']}}</div></td>
+																<td><div id="lblprecio_{{$carrito['id']}}">{{$carrito['precio']}}</div></td>
+																<td><div id="lblimpuesto_{{$carrito['id']}}">{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}</div></td>
+																<td><div id="lblsubtotal_{{$carrito['id']}}">{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}</div></td>
 															</tr>
+															<div class="d-none">{{$item=$item+1}}</div>
 															@endforeach
+															@endif
 														</tbody>
 														</table>
 			                                	</div>
 
 			                                </div>
-			                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-			                                <input type="button" name="next" class="next action-button" value="Next Step" />
+			                                <button type="button" name="next" class="next btn btn-dark @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}"><span class="fa fa-arrow-left"></span> Pedido</button>
+			                                <button type="button" name="next" class="next btn btn-success @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}">Pago <span class="fa fa-arrow-right"></span></button>
 			                            </fieldset>
 			                            <fieldset>
 			                                <div class="form-card">
@@ -246,13 +262,13 @@
 					    box-shadow: none !important;
 					    border: none;
 					    font-weight: bold;
-					    border-bottom: 2px solid skyblue;
+					    border-bottom: 2px solid #2A3F54;
 					    outline-width: 0
 					}
 
 					#msform .action-button {
 					    width: 100px;
-					    background: skyblue;
+					    background: #2A3F54;
 					    font-weight: bold;
 					    color: white;
 					    border: 0 none;
@@ -293,7 +309,7 @@
 					}
 
 					select.list-dt:focus {
-					    border-bottom: 2px solid skyblue
+					    border-bottom: 2px solid #2A3F54
 					}
 
 					.card {
@@ -375,7 +391,7 @@
 
 					#progressbar li.active:before,
 					#progressbar li.active:after {
-					    background: skyblue
+					    background: #2A3F54
 					}
 
 					.radio-group {
@@ -388,7 +404,7 @@
 					    width: 204;
 					    height: 104;
 					    border-radius: 0;
-					    background: lightblue;
+					    background: #2A3F54;
 					    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
 					    box-sizing: border-box;
 					    cursor: pointer;
@@ -445,15 +461,47 @@
 		var subtotal = 0;
 		var total =0;
 		var subtotalimpuesto = 0;
+		var totalcantidad = 0;
+		var totalimpuesto = 0;
+		var totalfactura = 0;
+
+		const options2 = { style: 'currency', currency: 'USD' };
+		const numberFormat2 = new Intl.NumberFormat('en-US', options2);
+
+
 
 
 		subtotal = cantidad*precio;
+
 		subtotalimpuesto = (subtotal * impuesto)/100;
+
 		total = subtotalimpuesto+subtotal;
-		$("#impuesto_" + idx).val(subtotalimpuesto.toFixed(2));
-		$("#subtotal_" + idx).val(total.toFixed(2));
+		$("#lblcantidad_" + idx).text(cantidad);
 
 
+		$("#impuesto_" + idx).val(subtotalimpuesto);
+		$("#lblimpuesto_" + idx).text(subtotalimpuesto);
+
+
+		$("#subtotal_" + idx).val(total);
+		$("#lblsubtotal_" + idx).text(total);
+
+
+		$("input[id^='cantidad_']").each(function() {
+        	totalcantidad += Number($(this).val());
+       	});
+
+        $("input[id^='impuesto_']").each(function() {
+        	totalimpuesto += Number($(this).val());
+       	});
+
+       $("input[id^='subtotal_']").each(function() {
+        	totalfactura += Number($(this).val());
+       	});
+
+       $("#totalcantidad").text(totalcantidad);
+       $("#totalimpuesto").text(numberFormat2.format(totalimpuesto));
+       $("#totalfactura").text(numberFormat2.format(totalfactura));
 	}
 
 	$(document).ready(function(){

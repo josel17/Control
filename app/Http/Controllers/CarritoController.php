@@ -68,7 +68,7 @@ class CarritoController extends Controller
      */
     public function add(Request $request)
     {
-        /*session()->flush();*/
+
        if(isset($_POST['btn_add']))
         {
             switch ($_POST['btn_add']) {
@@ -102,13 +102,18 @@ class CarritoController extends Controller
 
                     }
 
+
                     Session()->put('carrito.'.$item['id'],$item);
                     return back()->with('info','Producto agregado al carrito.');
-                    break;
+                break;
+                case 'remove':
+
+                break;
 
             }
         }else
         {
+            return false;
 
         }
     }
@@ -158,8 +163,14 @@ class CarritoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function remove($id)
     {
-        //
+        try {
+
+                session()->forget("carrito.".$id);
+                return back()->with('success','Producto eliminado del carrito.');
+           } catch (Exception $e) {
+
+           }
     }
 }
