@@ -6,7 +6,8 @@
 <div class="row">
 	<div class="x_panel">
 		<div class="x_title">
-			<h2></h2>
+			<h2>Factura No: {{$numero_carrito}}</h2>
+			<input type="number" name="numero_factura" id="numero_factura" value="{{$numero_carrito}}" class="d-none">
 			<ul class="nav navbar-right panel_toolbox">
 				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 				</li>
@@ -31,7 +32,7 @@
 			            <div class="card col-lg-12 col-md-12 col-sm-12 col-12">
 			                <div class="row">
 			                    <div class="col-md-12 mx-0">
-			                        <form id="msform" action="" method="POST">
+			                        <form id="msform">
 			                        	@csrf
 			                            <!-- progressbar -->
 			                            <ul id="progressbar">
@@ -41,7 +42,7 @@
 			                                <li id="confirm"><strong>Facturacion</strong></li>
 			                            </ul> <!-- fieldsets -->
 			                            <fieldset>
-			                               <div >
+			                               	<div>
 												<table class=" table table-bordered	col-sm-11 al col-lg-11 al col-md-11 ">
 													<thead class="dark">
 														<tr>
@@ -55,31 +56,28 @@
 														</tr>
 													</thead>
 													<tbody>
-														@if(count(session('carrito'))>0 && session()->exists('carrito'))
+
+														@if(session()->exists('carrito') && count(session('carrito'))>0)
 														<div class="d-none">{{$item=0}}</div>
 															@foreach(session('carrito') as $carrito)
-															<tr>
-<div class="d-none">{{$item=$item+1}}<input type="text" name="impuest_{{$carrito['id']}}" id="impuest_{{$carrito['id']}}" value="{{$carrito['impuesto']}}"></div>
-<th scope="row">{{$item}}</th>
-<th>{{$carrito['nombre']}}</th>
-<th>
-<input type="number" name="cantidad_{{$carrito['id']}}" id="cantidad_{{$carrito['id']}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$carrito['id']}});">
-</th>
-<td><input type="text" name="precio_{{$carrito['id']}}" id="precio_{{$carrito['id']}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
-<td><input type="text" name="impuesto_{{$carrito['id']}}" id="impuesto_{{$carrito['id']}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
-<td><input type="text" name="subtotal_{{$carrito['id']}}" id="subtotal_{{$carrito['id']}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
-<td><a href="{{route('carrito.remove',$carrito['id'])}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
-</tr>
+																<tr>
+																	<div class="d-none">{{$item=$item+1}}<input type="text" name="impuest_{{$carrito['id']}}" id="impuest_{{$carrito['id']}}" value="{{$carrito['impuesto']}}"></div>
+																	<th scope="row">{{$item}}</th>
+																	<th><input type="text" name="">{{$carrito['nombre']}}</th>
+																	<th><input type="number" name="cantidad_{{$carrito['id']}}" id="cantidad_{{$carrito['id']}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$carrito['id']}});"></th>
+																	<td><input type="text" name="precio_{{$carrito['id']}}" id="precio_{{$carrito['id']}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
+																	<td><input type="text" name="impuesto_{{$carrito['id']}}" id="impuesto_{{$carrito['id']}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
+																	<td><input type="text" name="subtotal_{{$carrito['id']}}" id="subtotal_{{$carrito['id']}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
+																	<td><a href="{{route('carrito.remove',$item)}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
+																</tr>
 															@endforeach
-
-															<tr>
-																<th colspan="2">Total Pedido</th>
-																<th><div id="totalcantidad"></div></th>
-																<th><div id=""></div></th>
-																<th><div id="totalimpuesto"></div></th>
-																<th><div id="totalfactura"></div></th>
-															</tr>
-
+																<tr>
+																	<th colspan="2">Total Pedido</th>
+																	<th><div id="totalcantidad"></div></th>
+																	<th><div id=""></div></th>
+																	<th><div id="totalimpuesto"></div></th>
+																	<th><div id="totalfactura"></div></th>
+																</tr>
 														@else
 															<tr>
 																<td colspan="7">El carrito esta vacio, <a href="{{route('carrito.vitrina.index')}}" class="btn btn-link" style="text-decoration: none;">Regresar para seguir comprando</a></td>
@@ -112,53 +110,52 @@
 																<th scope="row">{{$item}}</th>
 																<td><div id="lblnombre">{{$carrito['nombre']}}</div></td>
 																<td><div id="lblcantidad_{{$carrito['id']}}">{{$carrito['cantidad']}}</div></td>
-																<td><div id="lblprecio_{{$carrito['id']}}">{{$carrito['precio']}}</div></td>
-																<td><div id="lblimpuesto_{{$carrito['id']}}">{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}</div></td>
-																<td><div id="lblsubtotal_{{$carrito['id']}}">{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}</div></td>
+																<td><div id="lblprecio_{{$carrito['id']}}">$ {{number_format($carrito['precio'],2,'.','.')}}</div></td>
+																<td><div id="lblimpuesto_{{$carrito['id']}}">$ {{number_format((($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
+																<td><div id="lblsubtotal_{{$carrito['id']}}">$ {{number_format($carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
 															</tr>
 															<div class="d-none">{{$item=$item+1}}</div>
 															@endforeach
+															<tr>
+																<th colspan="2">Total Pedido</th>
+																<th><div id="resumentotalcantidad"></div></th>
+																<th><div id=""></div></th>
+																<th><div id="resumentotalimpuesto"></div></th>
+																<th><div id="resumentotalfactura"></div></th>
+															</tr>
 															@endif
 														</tbody>
 														</table>
 			                                	</div>
 
 			                                </div>
-			                                <button type="button" name="next" class="next btn btn-dark @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}"><span class="fa fa-arrow-left"></span> Pedido</button>
+			                                <button type="button" name="previous" class="previous action-button-previous @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}"  value="Previous"><span class="fa fa-arrow-left"></span> Pedido</button>
 			                                <button type="button" name="next" class="next btn btn-success @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}">Pago <span class="fa fa-arrow-right"></span></button>
 			                            </fieldset>
 			                            <fieldset>
 			                                <div class="form-card">
-			                                    <h2 class="fs-title">Payment Information</h2>
-			                                    <div class="radio-group">
-			                                        <div class='radio' data-value="credit"><img src="https://i.imgur.com/XzOzVHZ.jpg" width="200px" height="100px"></div>
-			                                        <div class='radio' data-value="paypal"><img src="https://i.imgur.com/jXjwZlj.jpg" width="200px" height="100px"></div> <br>
-			                                    </div> <label class="pay">Card Holder Name*</label> <input type="text" name="holdername" placeholder="" />
-			                                    <div class="row">
-			                                        <div class="col-9"> <label class="pay">Card Number*</label> <input type="text" name="cardno" placeholder="" /> </div>
-			                                        <div class="col-3"> <label class="pay">CVC*</label> <input type="password" name="cvcpwd" placeholder="***" /> </div>
-			                                    </div>
-			                                    <div class="row">
-			                                        <div class="col-3"> <label class="pay">Expiry Date*</label> </div>
-			                                        <div class="col-9"> <select class="list-dt" id="month" name="expmonth">
-			                                                <option selected>Month</option>
-			                                                <option>January</option>
-			                                                <option>February</option>
-			                                                <option>March</option>
-			                                                <option>April</option>
-			                                                <option>May</option>
-			                                                <option>June</option>
-			                                                <option>July</option>
-			                                                <option>August</option>
-			                                                <option>September</option>
-			                                                <option>October</option>
-			                                                <option>November</option>
-			                                                <option>December</option>
-			                                            </select> <select class="list-dt" id="year" name="expyear">
-			                                                <option selected>Year</option>
-			                                            </select> </div>
-			                                    </div>
-			                                </div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="make_payment" class="next action-button" value="Confirm" />
+			                                    <h2 class="fs-title">Información de pago</h2>
+			                                    <table class="table table-bordered">
+			                                    	<thead>
+			                                    		<tr>
+			                                    			<td>
+			                                    				<label>Valor factura:</label>
+			                                    				<div id="currency_col"></div>
+			                                    				<input type="text" name="val_factura" id="val_factura" size="5" class="" style="font-family: Arial; font-size: 30pt;">
+			                                    			</td>
+			                                    			<td>
+			                                    				<label>Efectivo:</label>
+			                                    				$ <input type="text" id="val_recibido" id="val_recibido" size="1" style="font-family: Arial; font-size: 30pt;" onkeyup="calcular_cambio();" >
+			                                    			</td>
+			                                    			<td>
+			                                    				<label>Cambio:</label>
+			                                    				$ <input type="text" id="val_cambio" size="1" style="font-family: Arial; font-size: 30pt;">
+			                                    			</td>
+			                                    		</tr>
+			                                    	</thead>
+			                                    </table>
+			                                </div> <button type="button" name="previous" class="previous action-button-previous @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}"  value="Previous"><span class="fa fa-arrow-left"></span> Resumen</button>
+			                                <button type="button" class=" next btn btn-success" name="btn_facturar" value="facturar" onclick="facturar({{json_encode(session('carrito'))}});">Facturar <span class="fa fa-arrow-right"></span></button>
 			                            </fieldset>
 			                            <fieldset>
 			                                <div class="form-card">
@@ -187,7 +184,7 @@
 
 @push('styles')
 <link href="../build/css/custom.min.css" rel="stylesheet">
-		<style>
+	<style>
 					* {
 					    margin: 0;
 					    padding: 0
@@ -424,6 +421,11 @@
 					    object-fit: cover
 				}
 
+				#input{
+				  /* Importante definir un width y un height para que no se vaya haciendo más pequeño al disminuir el tamaño */
+				  width: 100%;
+				  height: 50px;
+				}
 	</style>
 
 
@@ -435,29 +437,8 @@
 
 
 <script>
+		var factura= new Array();
 
-
-
-	$("#subtotal_1").on({
-    "focus": function (event) {
-        $(event.target).select();
-    },
-    "keyup": function (event) {
-        $(event.target).val(function (index, value ) {
-            return value.replace(/\D/g, "")
-                        .replace(/([0-9])([0-9]{2})$/, '$1.$2')
-                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-        });
-    }
-});
-		window.onload=calcular_precio();
-
-	function calcular_precio(idx)
-	{
-
-		var cantidad = $("#cantidad_" + idx).val();
-		var precio = $("#precio_" + idx).val();
-		var impuesto = $("#impuest_" + idx).val();
 		var subtotal = 0;
 		var total =0;
 		var subtotalimpuesto = 0;
@@ -465,10 +446,28 @@
 		var totalimpuesto = 0;
 		var totalfactura = 0;
 
+
 		const options2 = { style: 'currency', currency: 'USD' };
 		const numberFormat2 = new Intl.NumberFormat('en-US', options2);
 
 
+	function formatCurrency (locales, currency, fractionDigits, number) {
+	  var formatted = new Intl.NumberFormat(locales, {
+	    style: 'currency',
+	    currency: currency,
+	    minimumFractionDigits: fractionDigits
+	  }).format(number);
+	  return formatted;
+	}
+
+	window.onload=calcular_precio();
+
+	function calcular_precio(idx)
+	{
+
+		var cantidad = $("#cantidad_" + idx).val();
+		var precio = $("#precio_" + idx).val();
+		var impuesto = $("#impuest_" + idx).val();
 
 
 		subtotal = cantidad*precio;
@@ -502,75 +501,147 @@
        $("#totalcantidad").text(totalcantidad);
        $("#totalimpuesto").text(numberFormat2.format(totalimpuesto));
        $("#totalfactura").text(numberFormat2.format(totalfactura));
+
+        $("#resumentotalcantidad").text(totalcantidad);
+       	$("#resumentotalimpuesto").text(numberFormat2.format(totalimpuesto));
+       	$("#resumentotalfactura").text(numberFormat2.format(totalfactura));
+
+
+       	$("#val_factura").val(formatCurrency("es-CO", "COP", 2, totalfactura));
+
 	}
+
+	function calcular_cambio()
+	{
+		$("#val_recibido").on({
+	    "focus": function (event) {
+	        $(event.target).select();
+	    },
+	    "keyup": function (event) {
+	        $(event.target).val(function (index, value ) {
+	            return value.replace(/\D/g, "")
+	                        .replace(/([0-9])([0-9]{0})$/, '$1')
+	                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+	        });
+
+		    }
+		});
+
+
+		var monto = $("#val_recibido").val();
+		var montorecibido = monto.replace(/[$.]/g,'');
+
+		$("#val_cambio").val(formatCurrency("es-CO", "COP", 2,montorecibido-totalfactura));
+	}
+
+	function facturar(parametro)
+	{
+		var factura = new Array();
+		var count = <?php echo count(session('carrito')); ?>;
+		var nombre;
+		for (var i=1; i<= count; i++)
+		{
+			<?php $item = $item+1;?>
+			nombre ="<?php echo session('carrito.1.nombre') ?>";
+			console.log(nombre);
+
+
+			factura.push([nombre]);
+		}
+
+		console.log(factura);
+
+
+		/* $.post(baseUrl()+'ventas/grabar',
+              {
+				"numero": parseFloat($("numero_factura").text()),
+		        "cliente": 1,
+		        "iva": totalimpuesto,
+		        "subtotal": subtotal,
+		        "total": totalfactura,
+		        'detalle': factura,
+		         }, function(r){
+
+                  toastr.success('La factura se ha grabado correctamente');
+                  //location.reload();
+
+              },
+              'json')*/
+	}
+
 
 	$(document).ready(function(){
 
-var current_fs, next_fs, previous_fs; //fieldsets
-var opacity;
+		  $.ajaxSetup({
+	          headers: {
+	              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	          }
+	      });
 
-$(".next").click(function(){
+		var current_fs, next_fs, previous_fs; //fieldsets
+		var opacity;
 
-current_fs = $(this).parent();
-next_fs = $(this).parent().next();
+		$(".next").click(function(){
 
-//Add Class Active
-$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+		current_fs = $(this).parent();
+		next_fs = $(this).parent().next();
 
-//show the next fieldset
-next_fs.show();
-//hide the current fieldset with style
-current_fs.animate({opacity: 0}, {
-step: function(now) {
-// for making fielset appear animation
-opacity = 1 - now;
+		//Add Class Active
+		$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
-current_fs.css({
-'display': 'none',
-'position': 'relative'
-});
-next_fs.css({'opacity': opacity});
-},
-duration: 600
-});
-});
+		//show the next fieldset
+		next_fs.show();
+		//hide the current fieldset with style
+		current_fs.animate({opacity: 0}, {
+		step: function(now) {
+		// for making fielset appear animation
+		opacity = 1 - now;
 
-$(".previous").click(function(){
+		current_fs.css({
+		'display': 'none',
+		'position': 'relative'
+		});
+		next_fs.css({'opacity': opacity});
+		},
+		duration: 600
+		});
+		});
 
-current_fs = $(this).parent();
-previous_fs = $(this).parent().prev();
+		$(".previous").click(function(){
 
-//Remove class active
-$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+		current_fs = $(this).parent();
+		previous_fs = $(this).parent().prev();
 
-//show the previous fieldset
-previous_fs.show();
+		//Remove class active
+		$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 
-//hide the current fieldset with style
-current_fs.animate({opacity: 0}, {
-step: function(now) {
-// for making fielset appear animation
-opacity = 1 - now;
+		//show the previous fieldset
+		previous_fs.show();
 
-current_fs.css({
-'display': 'none',
-'position': 'relative'
-});
-previous_fs.css({'opacity': opacity});
-},
-duration: 600
-});
-});
+		//hide the current fieldset with style
+		current_fs.animate({opacity: 0}, {
+		step: function(now) {
+		// for making fielset appear animation
+		opacity = 1 - now;
 
-$('.radio-group .radio').click(function(){
-$(this).parent().find('.radio').removeClass('selected');
-$(this).addClass('selected');
-});
+		current_fs.css({
+		'display': 'none',
+		'position': 'relative'
+		});
+		previous_fs.css({'opacity': opacity});
+		},
+		duration: 600
+		});
+		});
 
-$(".submit").click(function(){
-return false;
-})
+		$('.radio-group .radio').click(function(){
+		$(this).parent().find('.radio').removeClass('selected');
+		$(this).addClass('selected');
+		});
 
-});
+		$(".submit").click(function(){
+		return false;
+		})
+	});
 </script>
 @endpush

@@ -16,6 +16,8 @@
 
 
         $(document).ready(function(){
+
+
           document.getElementById("documento").focus();
           $("#factura_cuerpo").hide();
           $("#factura_detalle").hide();
@@ -239,6 +241,7 @@
             }
             else
             {
+              console.log(factura);
               $.post(baseUrl()+'ventas/grabar',
               {
                 "numero": parseFloat($("numero_factura").text()),

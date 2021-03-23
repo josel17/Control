@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Factura;
 use App\Producto;
 use App\Repositories\ProductoRepositorio;
 use Illuminate\Contracts\Session\Session;
@@ -68,11 +69,12 @@ class CarritoController extends Controller
      */
     public function add(Request $request)
     {
-
+        $key = 1;
        if(isset($_POST['btn_add']))
         {
             switch ($_POST['btn_add']) {
                 case 'add':
+
                     $item
                     = array(
                         'id'=> $request->id,
@@ -103,7 +105,8 @@ class CarritoController extends Controller
                     }
 
 
-                    Session()->put('carrito.'.$item['id'],$item);
+                    Session()->put('carrito.'.$key,$item);
+                    $key = count(session('carrito'))+1;
                     return back()->with('info','Producto agregado al carrito.');
                 break;
                 case 'remove':
@@ -127,7 +130,19 @@ class CarritoController extends Controller
     public function view()
     {
         try {
-            return view('carrito.verCarrito');
+             $factura = Factura::get()->last();
+                if(is_null($factura))
+                {
+                  $numero_factura = 0001;
+                }
+                else
+                {
+                  $numero_factura = $factura->numero + 1;
+                }
+            return view('carrito.verCarrito',
+                [
+                    'numero_carrito' => $numero_factura,
+                ]);
         } catch (Exception $ex)
         {
             return back()->with('error','Ha ocurrido un error al cargar el carrito');
@@ -140,7 +155,7 @@ class CarritoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function facturar($id)
     {
         //
     }

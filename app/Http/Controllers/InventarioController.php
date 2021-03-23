@@ -31,7 +31,7 @@ class InventarioController extends Controller
 				[
 					'title' => 'Modulo control de diferenicas de inventario',
 					'inventario' => $inventario,
-					'fecha_movimiento' =>  Carbon::now()->format('m/d/yy'),
+					'fecha_movimiento' =>  Carbon::now()->format('m/d/y'),
 				]);
 		} catch (Exception $e) {
 
@@ -46,7 +46,7 @@ class InventarioController extends Controller
 	public function cargardatos(Request $request)
 	{
 		try {
-			$fecha_movimiento = Carbon::parse($request->fecha_movimiento)->format('yy-m-d');
+			$fecha_movimiento = Carbon::parse($request->fecha_movimiento)->format('Y-m-d');
 
 			//se selecciona el período activo
 			$periodo_actual = Periodo::select('id_estado','periodo','fecha_inicio','fecha_cierre','codigo')
@@ -57,11 +57,12 @@ class InventarioController extends Controller
 			 if(is_null($periodo_actual))
 			{
 				$inventario = null;
+				return back()->with('warning','No hay un periodo activo, genere un periodo para continuar');
 			}
 			else
 			{
 //se selecciona los movimientos para el rango de fechas seleccionado en el periodo activo
-				 $inventario = MovimientosProducto::select('movimientos_producto.codigo_material',DB::raw('SUM(movimientos_producto.cantidad) + SUM(diferencias.cantidad) AS cantidad_actual'))
+				 $inventario = MovimientosProducto::select('movimientos_producto.codigo_material',DB::raw('SUM(movimientos_producto.cantidad) + SUM(diferencias.cantidad_actual) AS cantidad_actual'))
                 ->join('diferencias','diferencias.codigo_material','=','movimientos_producto.codigo_material')
                 ->groupBy('movimientos_producto.codigo_material')
                 ->with('producto')
@@ -70,13 +71,15 @@ class InventarioController extends Controller
 
 			}
 
+
+
 //retorno a la vista de la petición.
 
 			   	return view('inventario.diferencias',
 				[
 					'title' => 'Modulo control de diferenicas de inventario',
 					'inventario' => $inventario,
-					'fecha_movimiento' =>  Carbon::parse($request->fecha_movimiento)->format('m/d/yy'),
+					'fecha_movimiento' =>  Carbon::parse($request->fecha_movimiento)->format('m/d/y'),
 				]);
 
 		} catch (Exception $e) {
@@ -112,7 +115,7 @@ class InventarioController extends Controller
 				[
 					'title' => 'Modulo control de diferenicas de inventario',
 					'inventario' => $inventario,
-					'fecha_movimiento' =>  Carbon::now()->format('m/d/yy'),
+					'fecha_movimiento' =>  Carbon::now()->format('m/d/y'),
 				])->with('error','error');
 
 		} catch (Exception $e) {

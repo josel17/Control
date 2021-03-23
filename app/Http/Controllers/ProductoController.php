@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Ume;
+use App\Categoria;
+use App\Diferencia;
 use App\Estado;
+use App\Http\Requests\SaveProductoRequest;
+use App\Laboratorio;
+use App\MaestraDetalle;
+use App\Presentacion;
 use App\Producto;
 use App\Proveedor;
-use App\Categoria;
-use App\Laboratorio;
-use App\Presentacion;
 use App\ReglaImpuesto;
-use App\MaestraDetalle;
+use App\Ume;
 use Illuminate\Http\Request;
-use App\Http\Requests\SaveProductoRequest;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
@@ -87,7 +89,9 @@ class ProductoController extends Controller
         try
         {
             $this->authorize('create',$producto);
-            Producto::create($request->validated());
+            //Producto::create($request->validated());
+            DB::table('diferencias')->insert(['id'=>1,'codigo_material'=>$request->codigo,'cantidad_actual'=>0,'cantidad_fisica'=>0,'fecha_inventario'=>NULL, 'fecha_vto'=>NULL,'id_periodo'=>NULL]);
+
             return back()->with('success','Producto creado exitosamente',[
 
             ]);

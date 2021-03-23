@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             //AssignRolesSeed::class,
             //UnidadMedidaSeed::class,
             //PresentacionProductosSeed::class,
-            ImpuestosSeed::class
+            //ImpuestosSeed::class,
+            MovimientosSeed::class
         );
 
     }

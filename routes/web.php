@@ -176,6 +176,7 @@ Route::group([
 			Route::get('ventas','VentasController@index')->name('ventas.index');
 			Route::get('ventas/facturar','VentasController@facturar')->name('ventas.facturar');
 			Route::post('ventas/grabar','VentasController@store');
+			Route::post('ventas/facturar','VentasController@store')->name('ventas.facturar.carrito');
 		});
 
 	//INVENARIO

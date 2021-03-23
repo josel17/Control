@@ -126,6 +126,8 @@ class VentasController extends Controller
     public function store(Request $request)
     {
       //pasar la información de la cabecera de la factura en el request a un Object
+
+
         $data = (object)
         [
             'numero' => $request->input('numero'),
@@ -135,6 +137,8 @@ class VentasController extends Controller
             'total' => $request->input('total'),
             'detalle' => [],
         ];
+
+
         //pasar el detalle de la factura al Object $factura
 
         $factura = $request->input('detalle');
@@ -151,6 +155,8 @@ class VentasController extends Controller
                     'total' => $factura[$i][7]
                  ];
             }
+
+            return $data->detalle;
 
            //Grabar la factura en la base de datos.
             return $this->_facturaRepo->grabarfactura($data);

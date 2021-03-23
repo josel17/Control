@@ -56,7 +56,7 @@ class FacturaRepositorio
 	 				$movimiento =
 	 				[
 	    				'codigo_material' => $value->producto_codigo,
-	    				'cantidad' =>$value->cantidad*-1,
+	    				'cantidad' => $value->cantidad-($value->cantidad*2),
 	    				'movimiento' => 202,
 	    				'fecha_movimiento' => $fecha,
 	    				'fecha_vto' => NULL,

@@ -16,11 +16,11 @@ class CreateMovimientosProductoTable extends Migration
         Schema::create('movimientos_producto', function (Blueprint $table) {
             $table->integerIncrements('id');
             $table->unsignedInteger('codigo_material')->nullable();
-            $table->unsignedInteger('cantidad')->nullable();
+            $table->Integer('cantidad');
             $table->unsignedInteger('movimiento');
             $table->date('fecha_movimiento')->nullable();
             $table->unsignedInteger('id_periodo')->nullable();
-            $table->date('fecha_vto');
+            $table->date('fecha_vto')->nullable();
             $table->string('presentacion')->nullable();
             $table->string('proveedor')->nullable();
             $table->unsignedInteger('orden')->nullable();
