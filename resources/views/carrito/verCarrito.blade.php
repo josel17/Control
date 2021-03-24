@@ -46,12 +46,13 @@
 												<table class=" table table-bordered	col-sm-11 al col-lg-11 al col-md-11 ">
 													<thead class="dark">
 														<tr>
-															<th style="width: 1%">#</th>
-															<th style="width: 30%">Nombe</th>
-															<th style="width: 10%">Cantidad</th>
-															<th style="width: 10%">Precio ($)</th>
-															<th style="width: 10%">Impuesto ($)</th>
-															<th style="width: 10%">Sub Total ($)</th>
+															<th style="width: 1%">Codigo</th>
+															<th style="width: 30%">Nombre</th>
+															<th style="width: 12%">Cantidad</th>
+															<th style="width: 12%">Precio ($)</th>
+															<th style="width: 12%">Impuesto ($)</th>
+															<th style="width: 12%">Sub Total ($)</th>
+															<th style="width: 12%">Total ($)</th>
 															<th style="width: 5%"></th>
 														</tr>
 													</thead>
@@ -61,13 +62,14 @@
 														<div class="d-none">{{$item=0}}</div>
 															@foreach(session('carrito') as $carrito)
 																<tr>
-																	<div class="d-none">{{$item=$item+1}}<input type="text" name="impuest_{{$carrito['id']}}" id="impuest_{{$carrito['id']}}" value="{{$carrito['impuesto']}}"></div>
-																	<th scope="row">{{$item}}</th>
+																	<div class="d-none">{{$item=$item+1}}<input type="text" name="impuest_{{$item}}" id="impuest_{{$item}}" value="{{$carrito['impuesto']}}"></div>
+																	<th scope="row">{{$carrito['codigo']}}</th>
 																	<th><input type="text" name="">{{$carrito['nombre']}}</th>
-																	<th><input type="number" name="cantidad_{{$carrito['id']}}" id="cantidad_{{$carrito['id']}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$carrito['id']}});"></th>
-																	<td><input type="text" name="precio_{{$carrito['id']}}" id="precio_{{$carrito['id']}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
-																	<td><input type="text" name="impuesto_{{$carrito['id']}}" id="impuesto_{{$carrito['id']}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
-																	<td><input type="text" name="subtotal_{{$carrito['id']}}" id="subtotal_{{$carrito['id']}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
+																	<th><input type="number" name="cantidad_{{$item}}" id="cantidad_{{$item}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$item}});"></th>
+																	<td><input type="text" name="precio_{{$item}}" id="precio_{{$item}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
+																	<td><input type="text" name="impuesto_{{$item}}" id="impuesto_{{$item}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
+																	<td><input type="text" name="subtotal_{{$item}}" id="subtotal_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']}}" class="form-control"></td>
+																	<td><input type="text" name="total_{{$item}}" id="total_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
 																	<td><a href="{{route('carrito.remove',$item)}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
 																</tr>
 															@endforeach
@@ -76,6 +78,7 @@
 																	<th><div id="totalcantidad"></div></th>
 																	<th><div id=""></div></th>
 																	<th><div id="totalimpuesto"></div></th>
+																	<th><div id="subtotalfactura"></div></th>
 																	<th><div id="totalfactura"></div></th>
 																</tr>
 														@else
@@ -94,12 +97,13 @@
 			                                		<table class="table">
 														<thead>
 															<tr>
-																<th>#</th>
+																<th>Codigo</th>
 																<th>Producto</th>
 																<th>Cantidad</th>
 																<th>Precio ($)</th>
 																<th>Iva ($)</th>
 																<th>Subtotal ($)</th>
+																<th>Total ($)</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -109,10 +113,11 @@
 															<tr>
 																<th scope="row">{{$item}}</th>
 																<td><div id="lblnombre">{{$carrito['nombre']}}</div></td>
-																<td><div id="lblcantidad_{{$carrito['id']}}">{{$carrito['cantidad']}}</div></td>
-																<td><div id="lblprecio_{{$carrito['id']}}">$ {{number_format($carrito['precio'],2,'.','.')}}</div></td>
-																<td><div id="lblimpuesto_{{$carrito['id']}}">$ {{number_format((($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
-																<td><div id="lblsubtotal_{{$carrito['id']}}">$ {{number_format($carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
+																<td><div id="lblcantidad_{{$item}}">{{$carrito['cantidad']}}</div></td>
+																<td><div id="lblprecio_{{$item}}">$ {{number_format($carrito['precio'],2,'.','.')}}</div></td>
+																<td><div id="lblimpuesto_{{$item}}">$ {{number_format((($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
+																<td><div id="lblsubtotal_{{$item}}">$ {{number_format($carrito['precio']*$carrito['cantidad'],2,'.','.')}}</div></td>
+																<td><div id="lbltotal_{{$item}}">$ {{number_format($carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100,2,'.','.')}}</div></td>
 															</tr>
 															<div class="d-none">{{$item=$item+1}}</div>
 															@endforeach
@@ -121,6 +126,7 @@
 																<th><div id="resumentotalcantidad"></div></th>
 																<th><div id=""></div></th>
 																<th><div id="resumentotalimpuesto"></div></th>
+																<th><div id="resumensubtotalfactura"></div></th>
 																<th><div id="resumentotalfactura"></div></th>
 															</tr>
 															@endif
@@ -141,7 +147,7 @@
 			                                    			<td>
 			                                    				<label>Valor factura:</label>
 			                                    				<div id="currency_col"></div>
-			                                    				<input type="text" name="val_factura" id="val_factura" size="5" class="" style="font-family: Arial; font-size: 30pt;">
+			                                    				<input type="text" name="val_factura" id="val_factura" size="5" class="" style="font-family: Arial; font-size: 30pt;" readonly="true">
 			                                    			</td>
 			                                    			<td>
 			                                    				<label>Efectivo:</label>
@@ -149,7 +155,7 @@
 			                                    			</td>
 			                                    			<td>
 			                                    				<label>Cambio:</label>
-			                                    				$ <input type="text" id="val_cambio" size="1" style="font-family: Arial; font-size: 30pt;">
+			                                    				$ <input type="text" id="val_cambio" size="1" style="font-family: Arial; font-size: 30pt;" readonly="true">
 			                                    			</td>
 			                                    		</tr>
 			                                    	</thead>
@@ -445,7 +451,7 @@
 		var totalcantidad = 0;
 		var totalimpuesto = 0;
 		var totalfactura = 0;
-
+		var subtotalfactura =0;
 
 		const options2 = { style: 'currency', currency: 'USD' };
 		const numberFormat2 = new Intl.NumberFormat('en-US', options2);
@@ -464,6 +470,14 @@
 
 	function calcular_precio(idx)
 	{
+		var subtotal = 0;
+		var total =0;
+		var subtotalimpuesto = 0;
+		var totalcantidad = 0;
+		var totalimpuesto = 0;
+		var totalfactura = 0;
+		var subtotalfactura =0;
+
 
 		var cantidad = $("#cantidad_" + idx).val();
 		var precio = $("#precio_" + idx).val();
@@ -485,6 +499,9 @@
 		$("#subtotal_" + idx).val(total);
 		$("#lblsubtotal_" + idx).text(total);
 
+		$("#total_" + idx).val(total);
+		$("#lbltotal_" + idx).text(total);
+
 
 		$("input[id^='cantidad_']").each(function() {
         	totalcantidad += Number($(this).val());
@@ -494,16 +511,22 @@
         	totalimpuesto += Number($(this).val());
        	});
 
-       $("input[id^='subtotal_']").each(function() {
+        $("input[id^='subtotal_']").each(function() {
+        	subtotalfactura += Number($(this).val());
+       	});
+
+       $("input[id^='total_']").each(function() {
         	totalfactura += Number($(this).val());
        	});
 
        $("#totalcantidad").text(totalcantidad);
        $("#totalimpuesto").text(numberFormat2.format(totalimpuesto));
+       $("#subtotalfactura").text(numberFormat2.format(subtotalfactura));
        $("#totalfactura").text(numberFormat2.format(totalfactura));
 
         $("#resumentotalcantidad").text(totalcantidad);
        	$("#resumentotalimpuesto").text(numberFormat2.format(totalimpuesto));
+       	$("#resumensubtotalfactura").text(numberFormat2.format(subtotalfactura));
        	$("#resumentotalfactura").text(numberFormat2.format(totalfactura));
 
 
@@ -529,32 +552,54 @@
 
 
 		var monto = $("#val_recibido").val();
+		var valorfactura = $("#val_factura").val();
 		var montorecibido = monto.replace(/[$.]/g,'');
 
-		$("#val_cambio").val(formatCurrency("es-CO", "COP", 2,montorecibido-totalfactura));
+
+		$("#val_cambio").val(formatCurrency("es-CO", "COP", 2,valorfactura-montorecibido));
 	}
 
 	function facturar(parametro)
 	{
 		var factura = new Array();
 		var count = <?php echo count(session('carrito')); ?>;
-		var nombre;
-		for (var i=1; i<= count; i++)
-		{
-			<?php $item = $item+1;?>
-			nombre ="<?php echo session('carrito.1.nombre') ?>";
-			console.log(nombre);
+		var posicion;
+		var item =0;
+
+		var subtotal = 0;
+		var subtotalimpuesto = 0;
+		var total=0;
+
+		var totalimpuesto=0;
+		var totalfactura=0;
+
+		 $("input[id^='impuesto_']").each(function() {
+        	totalimpuesto += Number($(this).val());
+       	});
+
+       $("input[id^='subtotal_']").each(function() {
+        	totalfactura += Number($(this).val());
+       	});
 
 
-			factura.push([nombre]);
+		<?php
+		foreach (session('carrito') as $key => $value) {
+			?>
+			console.log({{$value['impuesto']}});
+			subtotal = {{$value['cantidad']}}*{{$value['precio']}};
+			subtotalimpuesto = {{(($value['precio']*$value['cantidad'])*$value['impuesto'])/100}}
+			total = subtotal+subtotalimpuesto;
+
+			factura.push([item,"{{$value['codigo']}}","{{$value['nombre']}}","{{$value['cantidad']}}","{{$value['precio']}}",subtotal,subtotalimpuesto,total]);
+			item = item+1;
+			<?php
 		}
 
-		console.log(factura);
-
-
-		/* $.post(baseUrl()+'ventas/grabar',
+		?>
+		console.log(parseFloat({{$numero_carrito}}));
+		 $.post(baseUrl()+'ventas/grabar',
               {
-				"numero": parseFloat($("numero_factura").text()),
+				"numero": parseFloat("{{$numero_carrito}}"),
 		        "cliente": 1,
 		        "iva": totalimpuesto,
 		        "subtotal": subtotal,
@@ -566,7 +611,7 @@
                   //location.reload();
 
               },
-              'json')*/
+              'json')
 	}
 
 

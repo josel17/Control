@@ -5,9 +5,6 @@
 @section('content')
 {{setlocale(LC_MONETARY, 'it_IT')}}
 <div class="x_panel">
-	Carrito(0)
-</div>
-<div class="x_panel">
 	<form class="form-group" name="frm-buscar" method="POST" accept-charset="utf-8" >
 		@csrf
 		<div class="item form-group">
@@ -48,7 +45,7 @@
 										<label><i class="fa fa-shop"></i> {{$producto->laboratorio->nombre}}</label><br>
 										<form method="POST" name="item-car" action="{{route('carrito.vitrina.add')}}">
 											@csrf
-											<input class="d-none col-9" type="text" name="id" id="id" value="{{$producto->id}}">
+											<input class="d-none col-9" type="text" name="codigo" id="codigo" value="{{$producto->codigo}}">
 											<input class="d-none col-9" type="text" name="nombre" id="nombre" value="{{$producto->nombre}}">
 											<input class="d-none col-9" type="text" name="precio" id="precio" value="{{$producto->precio_venta}}">
 											<input class="d-none col-9" type="text" name="impuesto" id="impuesto" value="{{$producto->impuesto->tasa}}">
@@ -57,6 +54,7 @@
 											<button class="btn btn-success btn-sm" name="btn_add" value="add"><i class="fa fa-shopping-cart"></i></button>
 											<button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button>
 										</form>
+										<div id="resultado" name="resultado"></div>
 									</div>
 								</div>
 							</div>
@@ -88,6 +86,7 @@
 			      	dataType: 'json',
 			      	beforeSend: function () {
                         $("#resultado").html("Procesando, espere por favor...");
+
                 	},
 			      	headers: {
 					'X-CSRF-TOKEN': '{{ csrf_token()}}'

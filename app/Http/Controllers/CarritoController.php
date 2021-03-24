@@ -69,6 +69,7 @@ class CarritoController extends Controller
      */
     public function add(Request $request)
     {
+
         $key = 1;
        if(isset($_POST['btn_add']))
         {
@@ -77,7 +78,7 @@ class CarritoController extends Controller
 
                     $item
                     = array(
-                        'id'=> $request->id,
+                        'codigo'=> $request->codigo,
                         'nombre'=> $request->nombre,
                         'precio'=> $request->precio,
                         'impuesto' => $request->impuesto,
@@ -93,20 +94,19 @@ class CarritoController extends Controller
 
                         foreach ($carrito as $key => $value) {
                             $posicion=$posicion+1;
-                            if($value['id']==$item['id'])
+                            if($value['codigo']==$item['codigo'])
                             {
                                 $nuevacantidad=$value['cantidad']+1;
                                 $item['cantidad']=$nuevacantidad;
 
-                                session()->forget('carrito.'.$value['id']);
+                                session()->forget('carrito.'.$posicion);
                             }
                         }
 
                     }
 
+                    Session()->put('carrito.'.$item['codigo'],$item);
 
-                    Session()->put('carrito.'.$key,$item);
-                    $key = count(session('carrito'))+1;
                     return back()->with('info','Producto agregado al carrito.');
                 break;
                 case 'remove':

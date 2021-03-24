@@ -156,7 +156,7 @@ class VentasController extends Controller
                  ];
             }
 
-            return $data->detalle;
+
 
            //Grabar la factura en la base de datos.
             return $this->_facturaRepo->grabarfactura($data);
