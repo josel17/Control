@@ -24,6 +24,11 @@ class FacturaRepositorio
 	{
 		try {
 			DB::beginTransaction();
+			$factura = DB::table('facturas')->max('numero');
+			if($factura==$data->numero)
+			{
+				$data->numero = $data->numero+1;
+			}
 
 			$this->model->numero = $data->numero;
 			$this->model->cliente_documento = $data->cliente_documento;
@@ -41,6 +46,7 @@ class FacturaRepositorio
 					$obj->producto_codigo = $value['producto_codigo'];
 		 			$obj->cantidad = $value['cantidad'];
 		 			$obj->precio_unitario = $value['precio_unitario'];
+		 			$obj->subtotal = $value['subtotal'];
 		 			$obj->iva = $value['iva'];
 		 			$obj->total = $value['total'];
 
@@ -48,7 +54,7 @@ class FacturaRepositorio
 
 	 		}
 
-	 		$this->model->detalle()->saveMany($detalle);
+	 			$this->model->detalle()->saveMany($detalle);
 	 			$fecha = Carbon::now();
                 $fecha = $fecha->format('Y-m-d');
 
@@ -69,7 +75,7 @@ class FacturaRepositorio
 	 			}
 
 			DB::commit();
-
+			session()->flush();
 			return true;
 
 		} catch (Exception $e) {

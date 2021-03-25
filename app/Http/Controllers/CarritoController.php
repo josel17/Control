@@ -31,7 +31,7 @@ class CarritoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::with(['categoria','imagenes','laboratorio','impuesto'])->paginate(2);
+        $productos = Producto::with(['categoria','imagenes','laboratorio','impuesto'])->paginate(20);
         return view('carrito.vitrina',
             ['productos' => $productos]
         );

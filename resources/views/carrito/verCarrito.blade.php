@@ -161,19 +161,13 @@
 			                                    	</thead>
 			                                    </table>
 			                                </div> <button type="button" name="previous" class="previous action-button-previous @if(session()->exists('carrito') && count(session('carrito'))>0)  @else d-none @endif}"  value="Previous"><span class="fa fa-arrow-left"></span> Resumen</button>
+			                                @if(session()->exists('carrito') && count(session('carrito'))>0)
 			                                <button type="button" class=" next btn btn-success" name="btn_facturar" value="facturar" onclick="facturar({{json_encode(session('carrito'))}});">Facturar <span class="fa fa-arrow-right"></span></button>
+			                               	@endif
 			                            </fieldset>
 			                            <fieldset>
-			                                <div class="form-card">
-			                                    <h2 class="fs-title text-center">Success !</h2> <br><br>
-			                                    <div class="row justify-content-center">
-			                                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
-			                                    </div> <br><br>
-			                                    <div class="row justify-content-center">
-			                                        <div class="col-7 text-center">
-			                                            <h5>You Have Successfully Signed Up</h5>
-			                                        </div>
-			                                    </div>
+			                                <div class="form-card" id="contenido">
+
 			                                </div>
 			                            </fieldset>
 			                        </form>
@@ -470,6 +464,7 @@
 
 	function calcular_precio(idx)
 	{
+
 		var subtotal = 0;
 		var total =0;
 		var subtotalimpuesto = 0;
@@ -477,7 +472,6 @@
 		var totalimpuesto = 0;
 		var totalfactura = 0;
 		var subtotalfactura =0;
-
 
 		var cantidad = $("#cantidad_" + idx).val();
 		var precio = $("#precio_" + idx).val();
@@ -556,62 +550,120 @@
 		var montorecibido = monto.replace(/[$.]/g,'');
 
 
-		$("#val_cambio").val(formatCurrency("es-CO", "COP", 2,valorfactura-montorecibido));
+		$("#val_cambio").val(formatCurrency("es-CO", "COP", 2,montorecibido-totalfactura));
 	}
 
 	function facturar(parametro)
 	{
-		var factura = new Array();
-		var count = <?php echo count(session('carrito')); ?>;
-		var posicion;
-		var item =0;
+		var monto = $("#val_recibido").val();
 
-		var subtotal = 0;
-		var subtotalimpuesto = 0;
-		var total=0;
-
-		var totalimpuesto=0;
-		var totalfactura=0;
-
-		 $("input[id^='impuesto_']").each(function() {
-        	totalimpuesto += Number($(this).val());
-       	});
-
-       $("input[id^='subtotal_']").each(function() {
-        	totalfactura += Number($(this).val());
-       	});
-
-
-		<?php
-		foreach (session('carrito') as $key => $value) {
-			?>
-			console.log({{$value['impuesto']}});
-			subtotal = {{$value['cantidad']}}*{{$value['precio']}};
-			subtotalimpuesto = {{(($value['precio']*$value['cantidad'])*$value['impuesto'])/100}}
-			total = subtotal+subtotalimpuesto;
-
-			factura.push([item,"{{$value['codigo']}}","{{$value['nombre']}}","{{$value['cantidad']}}","{{$value['precio']}}",subtotal,subtotalimpuesto,total]);
-			item = item+1;
-			<?php
+		if(monto===null)
+		{
+			alert("No se ingreso un valor recibido, por lo que se grabara el valor total de la factura como aceptado.");
 		}
 
-		?>
-		console.log(parseFloat({{$numero_carrito}}));
-		 $.post(baseUrl()+'ventas/grabar',
-              {
-				"numero": parseFloat("{{$numero_carrito}}"),
-		        "cliente": 1,
-		        "iva": totalimpuesto,
-		        "subtotal": subtotal,
-		        "total": totalfactura,
-		        'detalle': factura,
-		         }, function(r){
+			var factura = new Array();
+			var count = <?php if(session()->exists('carrito') && count(session('carrito'))>0){echo count(session('carrito'));}?>;
+			var posicion;
+			var item =0;
 
-                  toastr.success('La factura se ha grabado correctamente');
-                  //location.reload();
+			var subtotal = 0;
+			var subtotalitem = 0;
+			var subtotalimpuesto = 0;
+			var total=0;
 
-              },
-              'json')
+			var totalimpuesto=0;
+			var totalfactura=0;
+
+			 $("input[id^='impuesto_']").each(function() {
+	        	totalimpuesto += Number($(this).val());
+	       	});
+
+			$("input[id^='subtotal_']").each(function() {
+	        	subtotal += Number($(this).val());
+	       	});
+	       $("input[id^='total_']").each(function() {
+	        	totalfactura += Number($(this).val());
+	       	});
+
+			<?php
+
+			if(session()->exists('carrito') && count(session('carrito'))>0)
+			{
+				foreach (session('carrito') as $key => $value) {
+					?>
+
+					subtotalitem = {{$value['cantidad']}}*{{$value['precio']}};
+					subtotalimpuesto = {{(($value['precio']*$value['cantidad'])*$value['impuesto'])/100}}
+					total = subtotalitem+subtotalimpuesto;
+
+					factura.push([item,"{{$value['codigo']}}","{{$value['nombre']}}","{{$value['cantidad']}}","{{$value['precio']}}",subtotalitem,subtotalimpuesto,total]);
+					item = item+1;
+					<?php
+				}
+			}
+
+			?>
+
+			$.ajax({
+				data:{numero:parseFloat("{{$numero_carrito}}"),cliente:1,iva:totalimpuesto,subtotal:subtotal,total:totalfactura,detalle:factura},
+				url:baseUrl()+'ventas/grabar',
+				type: 'POST',
+				dataType: 'json',
+				beforeSend: function () {
+	                        $("#contenido").html("<div class='text-center'><div class='spinner-border green' role='status'><span class='sr-only'>Loading...</span></div></div>");
+					    },
+				      	headers: {
+						'X-CSRF-TOKEN': '{{ csrf_token()}}'
+						}
+				  }).done(function(datos){
+				  	var html_content ='';
+				  	document.getElementById("contenido").innerHTML="";
+
+				  	if(datos.length<=0)
+				  	{
+				  		var html_content= 'No se encontraron datos';
+				  	}else
+				  	{
+				  		html_content ="<h2 class='fs-title text-center'>Factura Grabada Correctamente!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-check-circle fa-9x green justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5><a href='{{route('carrito.vitrina.index')}}' class='btn btn-link'>Seguir comprando!</a></h5></div></div>";
+
+
+				  	}
+				  		$('#contenido').html(html_content);
+			}).fail( function( jqXHR, textStatus, errorThrown ) {
+
+			  if (jqXHR.status === 0) {
+
+			      $("#contenido").html("<h2 class='fs-title text-center'>Ha ocurrido un error con la conexion, contacte al administrador!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-network-wired fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else if (jqXHR.status == 404) {
+
+			    $("#contenido").html("<h2 class='fs-title text-center'>Pagina no encontrada!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-eye-slash fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else if (jqXHR.status == 500) {
+
+			    $("#contenido").html("<h2 class='fs-title text-center'>Ha ocurrido un error en el servidor!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-times-circle fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else if (textStatus === 'parsererror') {
+
+			    $("#contenido").html("<h2 class='fs-title text-center'>Resuesta incorrecta!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-times-circle fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else if (textStatus === 'timeout') {
+
+			    $("#contenido").html("<h2 class='fs-title text-center'>La respuesta ha tardado mas de lo esperado!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-hourglass-end fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else if (textStatus === 'abort') {
+
+			    $("#contenido").html("<h2 class='fs-title text-center'>Respuesta rechasada!</h2><br><br><div class='row justify-content-center'><div class='col-2 justify-content-center'><span class='fa fa-times-circle fa-9x red justify-content-center'></span></div></div><br><br><div class='row justify-content-center'><div class='col-12 text-center'><h5></h5></div></div>");
+
+			  } else {
+			  	$("#contenido").html("<h2 class='fs-title text-center'>Contacte al administrador: <br>"+jqXHR.responseText+"</div>");
+
+
+			  }
+
+			});
+
 	}
 
 

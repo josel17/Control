@@ -151,6 +151,7 @@ class VentasController extends Controller
                     'producto_codigo' => $factura[$i][1],
                     'cantidad' => $factura[$i][3],
                     'precio_unitario' => $factura[$i][4],
+                    'subtotal' => $factura[$i][5],
                     'iva' => $factura[$i][6],
                     'total' => $factura[$i][7]
                  ];
@@ -159,6 +160,7 @@ class VentasController extends Controller
 
 
            //Grabar la factura en la base de datos.
+
             return $this->_facturaRepo->grabarfactura($data);
     }
 
