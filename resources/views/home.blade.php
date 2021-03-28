@@ -40,27 +40,27 @@
         <div class="col-md-10 text text-center" style="justify-content: center;">
             <div class="card">
                 <div class="card-header">Dashboard</div>
-                <div class="card-body text text-right"  style="justify-content: center;">
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-5 card text text-center" style="justify-content: center;">
-                        <a href="{{route('carrito.vitrina.index')}}" class="fa fa-shopping-cart fa-7x green"></a><br>
-                        <label>Ventas</label>
-                    </div>
-                    <div class="col-lg-1 col-1 col-sm-1 col-md-1"></div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-5 card text text-center" style="justify-content: center;">
-                        <a href="{{route('ventas.index')}}" class="fa fa-file-invoice-dollar fa-7x green"></a><br>
-                        <label>Facturas</label>
-                    </div>
-                    <div class="col-lg-1 col-1 col-sm-1 col-md-1"></div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-5 card text text-center" style="justify-content: center;">
-                        <a href="{{route('almacen.producto.index')}}" class="fa fa-box fa-7x green"></a><br>
-                        <label>Productos</label>
-                    </div>
-                    <div class="col-lg-1 col-1 col-sm-1 col-md-1"></div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-5 card text text-center" style="justify-content: center;">
-                        <a href="{{route('persona.index')}}" class="fa fa-user fa-7x green"></a><br>
-                        <label>Usuarios</label>
-                    </div>
+                <div class="card-body text text-right row"  style="justify-content: center;">
+                    <a class="btn btn-app" href="{{route('carrito.vitrina.index')}}">
+                        <span class="badge bg-green d-none">211</span>
+                        <i class="fa fa-shopping-cart green"></i> Vender
+                    </a>
+
+                    <a class="btn btn-app" href="{{route('almacen.producto.index')}}">
+                        <span class="badge bg-green d-none">211</span>
+                        <i class="fa fa-file-invoice-dollar green"></i> Productos
+                    </a>
+                    <a class="btn btn-app" href="{{route('ventas.index')}}">
+                        <span class="badge bg-green d-none">211</span>
+                        <i class="fa fa-file-invoice-dollar green"></i> Facturas
+                    </a>
+                    <a class="btn btn-app" href="{{route('persona.index')}}">
+                        <span class="badge bg-green d-none">211</span>
+                        <i class="fa fa-users green"></i> Usuarios
+                    </a>
+
                </div>
+
             </div>
         </div>
     </div>

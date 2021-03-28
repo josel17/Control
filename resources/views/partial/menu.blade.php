@@ -45,8 +45,6 @@
               <li>
                 <a class=""  href="{{route('persona.usuarios.roles.index')}}">Roles</a>
               </li>
-
-
             </ul>
         </li>
         <li class="{{ setActiveRoute('cliente*')}}">
@@ -88,34 +86,10 @@
               </li>
             </ul>
         </li>
-        <li class="{{ setActiveRoute('compras*')}}">
-          <a>
-            <i class="fa fa-shopping-cart {{ setActiveColor('compras*')}}"></i>
-              Compras
-              <span class="fa fa-chevron-down"></span>
-            </a>
-            <ul class="nav child_menu " style="{{ openmenu('compras*')}}">
-              <li class="{{ setActiveRoute('compras*')}}">
-                <a class="" href="{{route('compras.orden.index')}}  ">
-                  Orden de compra
-                </a>
-              </li>
-              <li class="{{ setActiveRoute('compra.ingresar*')}}">
-                <a class="" href="{{route('compra.orden.ingresar')}}  ">
-                  Ingresar Orden
-                </a>
-              </li>
-              <li class="{{ setActiveRoute('compra.verificar*')}}">
-                <a class="" href="{{route('compra.orden.verificar')}}  ">
-                  Verificar factura
-                </a>
-              </li>
-            </ul>
-        </li>
         <li class="{{ setActiveRoute('ventas*')}}">
           <a>
             <i class="fa fa-file-invoice {{ setActiveColor('ventas*')}}"></i>
-              Ventas
+              Ingresos
               <span class="fa fa-chevron-down"></span>
             </a>
             <ul class="nav child_menu " style="{{ openmenu('ventas*')}}">
@@ -124,6 +98,11 @@
                  Facturar
                 </a>
               </li>
+              <li class="{{ setActiveroute('carrito.vitrina*')}}">
+                  <a class="" href="{{route('carrito.vitrina.index')}}">
+                   Carrito
+                  </a>
+              </li>
               <li class="{{ setActiveroute('ventas.index*')}}">
                 <a class="" href="{{route('ventas.index')}}">
                  Facturas
@@ -131,16 +110,29 @@
               </li>
             </ul>
         </li>
-        <li class="{{ setActiveRoute('carrito*')}}">
+        <li class="{{ setActiveRoute('gastos*')}}">
           <a>
-            <i class="fa fa-shopping-cart {{ setActiveColor('carrito*')}}"></i>
-              Carrito
+            <i class="fa fa-shopping-cart {{ setActiveColor('gastos*')}}"></i>
+              Gastos
               <span class="fa fa-chevron-down"></span>
             </a>
-            <ul class="nav child_menu " style="{{ openmenu('carrito*')}}">
-               <li class="{{ setActiveroute('carrito.vitrina*')}}">
-                <a class="" href="{{route('carrito.vitrina.index')}}">
-                 Vitrina
+            <ul class="nav child_menu " style="{{ openmenu('gastos*')}}">
+              <li class="{{ setActiveRoute('gastos*')}}">
+                <a class="" href="{{route('gastos.orden.index')}}  ">
+                  Orden de compra
+                </a>
+              </li>
+              <li class="{{ setActiveRoute('compra.ingresar*')}}">
+                <a class="" href="{{route('compra.orden.ingresar')}}  ">
+                  Ingresar Orden
+                </a>
+              </li>
+              <li class="{{ setActiveRoute('gastos.pagos*')}}">
+                <a class="" href="{{route('gastos.pagos.index')}}">Gastos</a>
+              </li>
+              <li class="{{ setActiveRoute('compra.verificar*')}}">
+                <a class="" href="{{route('compra.orden.verificar')}}  ">
+                  Verificar factura
                 </a>
               </li>
             </ul>

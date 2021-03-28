@@ -136,7 +136,7 @@ class ComprasController extends Controller
 
         if(count($orden)===0)
         {
-          return redirect(route('compras.orden.index'))->with('warning','No se encontraron datos');
+          return redirect(route('gastos.orden.index'))->with('warning','No se encontraron datos');
         }
         return view('compras.pedido',[
             'fecha' => $orden[0]->created_at,
@@ -169,7 +169,7 @@ class ComprasController extends Controller
          {
          }else
          {
-           return redirect()->route('compras.orden.index')->with('error','Debes ingresar valores numericos ');
+           return redirect()->route('gastos.orden.index')->with('error','Debes ingresar valores numericos ');
          }
         }
 
@@ -224,7 +224,7 @@ class ComprasController extends Controller
            $detalle = DetalleOc::where('numero_orden',$doc['numero_orden'])->where('codigo_producto',$doc['codigo_producto'])->update(['cantidad' => $doc['cantidad'], 'valor_impuesto'=> $doc['valor_impuesto']]);
         }
         DB::commit();
-        return redirect()->route('compras.orden.index')->with('success','La orden de compra se ha grabado con exito');
+        return redirect()->route('gastos.orden.index')->with('success','La orden de compra se ha grabado con exito');
 
 
 
@@ -366,7 +366,7 @@ class ComprasController extends Controller
         }
         DB::commit();
 
-        return redirect()->route('compras.orden.index')->with('success','La orden de compra se ha grabado con exito');
+        return redirect()->route('gastos.orden.index')->with('success','La orden de compra se ha grabado con exito');
       } catch (Exception $ex)
       {
         DB::rollback();

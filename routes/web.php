@@ -147,15 +147,21 @@ Route::group([
 	Route::group([
 		'middleware' => 'auth'],
 		function(){
-			Route::get('compras','ComprasController@index')->name('compras.orden.index');
-			Route::get('compras/form','ComprasController@form')->name('compras.orden.form');
-			Route::get('compras/crear','ComprasController@select_proveedor')->name('compras.orden.select_proveedor');
-			Route::post('compras/pedido','ComprasController@orden')->name('compras.orden.pedido');
-			Route::post('compras/procesar','ComprasController@procesar')->name('compras.orden.procesar');
-			Route::get('compras/{orden}','ComprasController@edit')->name('compras.orden.edit');
-			Route::put('compras','ComprasController@update')->name('compras.orden.update');
-			Route::patch('compras/{orden}','ComprasController@destroy')->name('compras.orden.destroy');
+			Route::get('gastos/compras','ComprasController@index')->name('gastos.orden.index');
+			Route::get('gastos/form','ComprasController@form')->name('gastos.orden.form');
+			Route::get('gastos/crear','ComprasController@select_proveedor')->name('gastos.orden.select_proveedor');
+			Route::post('gastos/pedido','ComprasController@orden')->name('gastos.orden.pedido');
+			Route::post('gastos/procesar','ComprasController@procesar')->name('gastos.orden.procesar');
+			Route::get('gastos/{orden}','ComprasController@edit')->name('gastos.orden.edit');
+			Route::put('gastos','ComprasController@update')->name('gastos.orden.update');
+			Route::patch('gastos/{orden}','ComprasController@destroy')->name('gastos.orden.destroy');
+		});
 
+//RUTAS PARA PAGOS
+	Route::group([
+		'middleware' => 'auth'],
+		function(){
+			Route::get('gastos/pagos','PagosController@store')->name('gastos.pagos.index');
 		});
 
 	//GESTIONAR ORDENES

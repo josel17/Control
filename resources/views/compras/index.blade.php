@@ -28,7 +28,7 @@
 				</div>
 				<div class="x_content">
 					<p class="text text-right" alt="Nueva Orden">
-						<a href="{{route('compras.orden.form')}} " class="btn btn-success  btn-round" data-target=".bs-example-modal-lg">
+						<a href="{{route('gastos.orden.form')}} " class="btn btn-success  btn-round" data-target=".bs-example-modal-lg">
 							<span class="fa fa-plus"></span>
 						</a>
 					</p>
@@ -53,7 +53,7 @@
 				  				@endif
 
 					  				@foreach ($compras as  $compra)
-					  				<form method="POST" action="{{route('compras.orden.destroy',$compra)}}">
+					  				<form method="POST" action="{{route('gastos.orden.destroy',$compra)}}">
 					  					@method('PATCH')
 					  					@csrf
 							  				<tr>
@@ -66,7 +66,7 @@
 											<td>{{$compra->user->username}}</td>
 											<td>
 												<a href="#" class="btn btn-link btn-sm"><span class="fa fa-file-pdf red" ></span></a>
-												<a {{$compra->estado->codigo == 4 ? 'href='.route('compras.orden.edit',$compra->id).'' : ''}} class="btn btn-link btn-sm">
+												<a {{$compra->estado->codigo == 4 ? 'href='.route('gastos.orden.edit',$compra->id).'' : ''}} class="btn btn-link btn-sm">
 									                	<span class="fa fa-pencil {{$compra->estado->codigo == 4 ? 'green' : 'gray'}}"></span>
 												</a>
 												<button class="btn btn-sm btn-link {{$compra->estado->codigo == 4 ? '' : ' disabled'}}" onclick="return confirm('¿Estás seguro de querer eliminar esta orden?')">
