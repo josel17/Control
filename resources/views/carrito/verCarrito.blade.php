@@ -43,17 +43,17 @@
 			                            </ul> <!-- fieldsets -->
 			                            <fieldset>
 			                               	<div>
-												<table class=" table table-bordered	col-sm-11 al col-lg-11 al col-md-11 ">
+												<table id="datatable-checkbox" class="table table-hover jambo_table bulk_action table-responsive bulk_action" style="width:100%">
 													<thead class="dark">
 														<tr>
-															<th style="width: 1%">Codigo</th>
-															<th style="width: 30%">Nombre</th>
-															<th style="width: 12%">Cantidad</th>
-															<th style="width: 12%">Precio ($)</th>
-															<th style="width: 12%">Impuesto ($)</th>
-															<th style="width: 12%">Sub Total ($)</th>
-															<th style="width: 12%">Total ($)</th>
-															<th style="width: 5%"></th>
+															<th style="width: 1%" class="">Codigo</th>
+															<th style="width: 30%" class="">Nombre</th>
+															<th style="width: 12%" class="">Cantidad</th>
+															<th style="width: 12%" class="">Precio ($)</th>
+															<th style="width: 12%" class="">Impuesto ($)</th>
+															<th style="width: 12%" class="">Sub Total ($)</th>
+															<th style="width: 12%" class="">Total ($)</th>
+															<th style="width: 5%" class=""></th>
 														</tr>
 													</thead>
 													<tbody>

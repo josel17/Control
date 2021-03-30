@@ -15,7 +15,7 @@ class CreateDiferenciasTable extends Migration
     {
         Schema::create('diferencias', function (Blueprint $table) {
             $table->integerIncrements('id');
-            $table->unsignedInteger('codigo_material');
+            $table->unsignedInteger('codigo_producto');
             $table->integer('cantidad_actual');
             $table->integer('cantidad_fisica');
             $table->date('fecha_inventario')->nullable();

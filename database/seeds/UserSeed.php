@@ -16,9 +16,15 @@ class UserSeed extends Seeder
 	User::create(['id'=>'1',
 	'username'=>'admin',
 	'id_persona'=>'1',
-	//'email_verified_at'=>'',
-	'password'=>'$2y$10$nHuvePMWPrKVX1IkEHr//.vcV9te/1Rur3UAcl.RmtRISumh8NGEi',
-	'descripcion'=>'Usuario Administrador creado por el sistema',]);
+    'nombre' => null,
+	'email_verified_at'=>null,
+	'password'=>'$2y$10$0MneaZPGeyafc/Q8JqGNsu1YXzklsWV0Mq3j7LEG/NbDJIQa9qWgy',
+    'id_rol' => 1,
+	'observacion'=>'Usuario Administrador creado por el sistema',
+    'estado' => 1,
+    'remember_token' => '',
+    ]);
+
     }
 
 

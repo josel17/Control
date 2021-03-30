@@ -1,5 +1,6 @@
 <?php
 
+use App\Ume;
 use Illuminate\Database\Seeder;
 
 class UnidadMedidaSeed extends Seeder

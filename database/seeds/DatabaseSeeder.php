@@ -28,14 +28,14 @@ class DatabaseSeeder extends Seeder
             //DepartamentosSeed::class,
             //CiudadesSeed::class,
             //PersonaSeed::class,
-            //UserSeed::class,
             //RolesSeed::class,
+            //UserSeed::class,
             //PermisosSeed::class,
             //AssignRolesSeed::class,
             //UnidadMedidaSeed::class,
             //PresentacionProductosSeed::class,
             //ImpuestosSeed::class,
-            MovimientosSeed::class
+            //MovimientosSeed::class
         );
 
     }

@@ -65,33 +65,33 @@
                   <td>
                     <div class="d-none d-sm-block">
                       <a href="{{route('almacen.producto.view',$producto)}} ">
-                                              <span class="fa fa-eye green fa-1x"></span>
-                                          </a>
-                                          <a href="{{route('almacen.producto.show',$producto)}} ">
-                                              <span class="fa fa-pencil green fa-1x"></span>
-                                          </a>
-                                          <button class="btn btn-sm btn-link" onclick="return confirm('¿Estás seguro de querer eliminar este producto?')">
-                                            <span class="fa fa-trash red fa-1x"></span>
-                                          </button>
-                                      </div>
-                                      <div class="d-md-none">
-                                          <div class="dropdown">
-                                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                                  <i class="fa fa-wrench"></i>
-                                              </a>
-                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item green" href="{{route('almacen.producto.view',$producto)}}">
-                                                      <span class="fa fa-eye green"></span> Ver
-                                                  </a>
-                                                  <a  class="dropdown-item green" href="{{route('almacen.producto.show',$producto)}} ">
-                                                      <span class="fa fa-pencil green"></span> Actualizar
-                                                  </a>
-                                                   <button class="btn btn-sm btn-link dropdown-item " onclick="return confirm('¿Estás seguro de querer eliminar este producto?')">
-                                                <span class="fa fa-trash red fa-2x"></span>
-                                              </button>
-                                              </div>
-                                          </div>
-                                      </div>
+                      <span class="fa fa-eye green fa-1x"></span>
+                        </a>
+                        <a href="{{route('almacen.producto.show',$producto)}} ">
+                            <span class="fa fa-pencil green fa-1x"></span>
+                        </a>
+                        <button class="btn btn-sm btn-link" onclick="return confirm('¿Estás seguro de querer eliminar este producto?')">
+                          <span class="fa fa-trash red fa-1x"></span>
+                        </button>
+                    </div>
+                    <div class="d-md-none">
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item green" href="{{route('almacen.producto.view',$producto)}}">
+                                    <span class="fa fa-eye green"></span> Ver
+                                </a>
+                                <a  class="dropdown-item green" href="{{route('almacen.producto.show',$producto)}} ">
+                                    <span class="fa fa-pencil green"></span> Actualizar
+                                </a>
+                                 <button class="btn btn-sm btn-link dropdown-item " onclick="return confirm('¿Estás seguro de querer eliminar este producto?')">
+                              <span class="fa fa-trash red fa-2x"></span>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
                   </td>
                   </tr>
                 </form>

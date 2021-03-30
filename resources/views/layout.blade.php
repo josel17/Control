@@ -4,6 +4,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <link rel="shortcut icon" href="../images/square.ico">
 <head>
+
     <title>{{ config('app.name', 'title') }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -39,7 +40,6 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-
 
 
   </head>

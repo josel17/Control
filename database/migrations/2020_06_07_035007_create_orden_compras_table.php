@@ -14,7 +14,7 @@ class CreateOrdenComprasTable extends Migration
     public function up()
     {
         Schema::create('orden_compras', function (Blueprint $table) {
-            $table->unsignedInteger('id')->unique();
+            $table->unsignedInteger('id')->unique()->increments()->start_from(1);
             $table->unsignedInteger('numero')->primary();
             $table->unsignedInteger('id_empresa');
             $table->unsignedInteger('id_proveedor');
@@ -25,7 +25,7 @@ class CreateOrdenComprasTable extends Migration
             $table->unsignedInteger('id_estado');
             $table->text('observaciones');
             $table->timestamps();
-            $table->increments('id')->start_from(1);
+
             $table->foreign('id_empresa')->references('id')->on('datos_empresas');
             $table->foreign('id_proveedor')->references('id')->on('proveedores');
             $table->foreign('id_user')->references('id')->on('users');

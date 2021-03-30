@@ -7,6 +7,7 @@ use App\OrdenCompra;
 use App\Persona;
 use App\Producto;
 use Illuminate\Http\Request;
+Use SEO;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,12 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-
+        SEO::setTitle('Página SEO');
+        SEO::setDescription('Ejemplo de descripción de la página');
+        SEO::opengraph()->setUrl('http://nigmacode.com');
+        SEO::setCanonical('https://nigmacode.com');
+        SEO::opengraph()->addProperty('type', 'articles');
+        SEO::twitter()->setSite('@Nigmacode');
         $this->middleware('auth');
     }
 
@@ -28,6 +34,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
 
         if(session()->exists('carrito'))
         {
