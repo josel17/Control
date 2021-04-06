@@ -18,11 +18,11 @@
 	      	</div>
 	      	<div class="x_content">
 	        	<br>
-	        	@isset($user->username)
-		        	<form action="{{route('persona.user.update',$user)}}" method="POST" >
+	        	@isset($usuario->username)
+		        	<form action="{{route('persona.user.update',$usuario)}}" method="POST" name="frm_update">
 		        		@method('PATCH')
 		        @else
-		        	<form action="{{route('persona.user.store')}}" method="POST">
+		        	<form action="{{route('persona.user.store')}}" method="POST" name="frm_save">
 		        @endif
 		        @csrf
 		        	<div class="row">
@@ -30,7 +30,7 @@
 							 <div class="mb-3">
 		                        <label>Nombre de usuario</label>
 		                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-		                          <input type="text" name="username" placeholder="Nombre de usuario" value="{{old('username',$user->username)}}" class="flat form-control has-feedback-left {{ $errors->has('username') ? 'is-invalid' : '' }}" >
+		                          <input type="text" name="username" placeholder="Nombre de usuario" value="{{old('username',$usuario->username)}}" class="flat form-control has-feedback-left {{ $errors->has('username') ? 'is-invalid' : '' }}" >
 		                          <span class="fa fa-user  form-control-feedback left blue" aria-hidden="true"></span>
 		                          @error('username')
 		                            <span class="invalid-feedback" role="alert">
@@ -87,33 +87,65 @@
 							</div>
 			          	</div>
 		          	</div>
-		          	<div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-		          		<span class="red">* Dejar en blanco si no desea cambiar la contraseña</span>
+		          	@isset($usuario->username)
+		          	<div class="row p-3">
+		          		<div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+		          			<span class="red">* Dejar en blanco si no desea cambiar la contraseña</span>
+		          		</div>
 		          	</div>
-		          	<br><br>
+		          	@endisset
 		          	<div class="row">
-			          	<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12  form-group">
+			          	<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+			          		<div class="mb3">
+			                    <label>Estado</label>
+			                    <div class="col-md-12 col-sm-12 col-xs-12 col-12 form-group">
+			                      <div name="estado" class=" form-control {{ $errors->has('estado') ? 'is-invalid' : '' }}">
+			                          <label class="form-check form-check-inline">
+			                            <p>
+			                              <input class="flat form-check-input" type="radio" name="estado" value="6">
+			                              Activo
+			                            </p>
+			                          </label>
+			                          <label class="form-check form-check-inline">
+			                            <p>
+			                              <input class="flat form-check-input" type="radio" name="estado" value="7">
+			                              Inactivo
+			                            </p>
+			                          </label>
+			                      </div>
+			                       @error('estado')
+			                          <span class="invalid-feedback">
+			                            <strong>{{ $message }} </strong>
+			                          </span>
+			                        @enderror
+			                    </div>
+		                    </div>
+		                </div>
+		            </div>
+		          	<div class="row">
+			          	<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12  form-group" >
 							<div class="mb-3">
 		                        <label>Observacion</label>
 		                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
-		                          	<textarea name="observacion" placeholder="Observacion" value="saludo" class="form-control">{{old('observacion',$user->observacion)}}</textarea>
+		                          	<textarea name="observacion" placeholder="Observacion" value="saludo" class="form-control">{{old('observacion',$usuario->observacion)}}</textarea>
 		                        </div>
 							</div>
 			          	</div>
 		          	</div>
+
 	          		<div class="row text-left">
 		          		@role('Admin')
 			          		<button type="submit" name="btnGuardar" value="Guardar" class="btn btn-success">
-				          		@isset($user)
+				          		@isset($usuario->username)
 				          				<li class="fa fa-pen-alt"></li>
 				          			Actualizar
 				          		@else
-				          				<li class="fa fa-tras-save"></li>
+				          				<li class="fa fa-save"></li>
 				          			Guardar
 				          		@endif
 			          		</button>
 
-		          			@isset($user)
+		          			@isset($usuario->username)
 			          			<button type="submit" name="btnEliminar" value="Eliminar" class="btn btn-danger">
 			          				<li class="fa fa-trash-alt"></li>
 			          				Eliminar
@@ -148,29 +180,32 @@
 						</label>
 					</div>
 				</div>
-				@if($user->username)
+				@if($usuario->username)
 					<div class="col-md-12 col-sm-12 col-lg-12">
 						@role('Admin')
-							<form action="{{route('persona.user.update.role', $user)}}" method="POST">
+							<form action="{{route('persona.user.update.role', $usuario)}}" method="POST">
 								@csrf
 								@method('PUT')
 								@foreach($roles as $role)
 				      				<div class="checkbox">
 										<label>
 											<div class="icheckbox_flat-green red" >
-												<input name="roles[]" type="checkbox" class="flat" value="{{ $role->id }}" {{$user->roles->contains($role->id) ? 'checked' : ''}}>
+												<input name="roles[]" type="checkbox" class="flat" value="{{ $role->id }}" {{$usuario->roles->contains($role->id) ? 'checked' : ''}}>
 											</div> {{$role->name}}
 
 				                    	</label>
 				                  	</div>
 				      			@endforeach
 				      			<br>
-		                		<button type="submit" class="btn btn-success">Actualizar Rol</button>
+		                		<button type="submit" class="btn btn-success">
+		                			<li class="fa fa-pen-alt"></li>
+		                			Actualizar Rol
+		                		</button>
 			      			</form>
 			      		@else
 			      			<div>
 			      				<ul class="list-group">
-			      					@forelse($user->roles as $role)
+			      					@forelse($usuario->roles as $role)
 			      						<li class="list-group-item">{{$role->name}}</li>
 			      					@empty
 			      						<li class="list-group-item">No se han asignado roles</li>
@@ -195,21 +230,24 @@
 	        	<div class="clearfix"></div>
 	      	</div>
 	      	<div class="x_content">
-				@if($user->username)
+				@if($usuario->username)
 					<div class="col-md-12 col-sm-12 col-lg-12">
 						@role('Admin')
-							<form action="{{route('persona.user.update.permissions', $user)}}" method="POST">
+							<form action="{{route('persona.user.update.permissions', $usuario)}}" method="POST">
 								@csrf
 								@method('PUT')
 								@include('partial.permisos');
 					      			<br><br><br>
-		                		<button type="submit" class="btn btn-success">Actualizar Permisos</button>
+		                		<button type="submit" class="btn btn-success">
+									<li class="fa fa-pen-alt"></li>
+		                			Actualizar Permisos
+		                		</button>
 			      			</form>
 			      		@else
 			      			<div>
 			      				<ul class="list-group">
 
-			      					@forelse($user->permissions as $permissions)
+			      					@forelse($usuario->permissions as $permissions)
 			      						<li class="list-group-item">{{$permissions->name}}</li>
 
 			      					@empty

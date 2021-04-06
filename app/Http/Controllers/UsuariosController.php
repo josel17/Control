@@ -6,6 +6,7 @@ use App\User;
 use App\Persona;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\SaveUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Permission;
@@ -18,10 +19,10 @@ class UsuariosController extends Controller
         $this->middleware('auth');
     }
  /**
-     * Metodo para llamar la vista principal de los usuarios y crear la información de usuarios. 
+     * Metodo para llamar la vista principal de los usuarios y crear la información de usuarios.
      *
-     * @param Persona $persona 
-     * @return Vista principal de los usuarios. 
+     * @param Persona $persona
+     * @return Vista principal de los usuarios.
      */
 	public function index(Persona $persona)
 	{
@@ -29,23 +30,25 @@ class UsuariosController extends Controller
 		{
 			$datos = User::where('id_persona',$persona->id)->first();
 
+
 			if(isset($datos))
 			{
-				$user = $datos;
+				$usuario = $datos;
 			}
 			else
 			{
-				$user = new User;
+				$usuario = new User;
 			}
-      //Consultar la lista de roles y permisos creados 
+
+      //Consultar la lista de roles y permisos creados
 			$role = Role::all();
 			$permissions = Permission::orderBy('display_name','ASC')->get();
-			
-			//Retornar la vista usuarios.index con los objetos Roles, Permisos, Persona. 
+
+			//Retornar la vista usuarios.index con los objetos Roles, Permisos, Persona.
 			return view('usuarios.index',[
 				'persona' => $persona,
 				'roles' => $role,
-				'user' => $user,
+				'usuario' => $usuario,
 				'permissions' => $permissions,
 			]);
 		}else
@@ -53,78 +56,98 @@ class UsuariosController extends Controller
 			return back()->withInput('info','No tienes permisos para ver usuarios');
 		}
 	}
-	
+
 	 /**
-	     * Actualizar la información del usuario con sus permisos y roles. 
+	     * Actualizar la información del usuario con sus permisos y roles.
 	     *
 	     * @param User $usuario
 	     * @param UpdateUserRequest $request
-	     * @return respuesta del servidor según el estado de la transacción 
+	     * @return respuesta del servidor según el estado de la transacción
 	     */
 	public function update(User $usuario, UpdateUserRequest $request)
 	{
-		$usuario->update($request->validated());
-		return back()->with('success','Usuario actualizados con éxito');
+		try {
+			$usuario->update($request->validated());
+			return back()->with('success','Usuario actualizados con éxito');
+
+		} catch (Exception $e) {
+			return back()->with('warning','Se ha presentado un error: Info = '.$e->message());
+		}
 	}
-	
+
 	 /**
-	     * Crear la información para el nuevo usuario. 
+	     * Crear la información para el nuevo usuario.
 	     *
-	     * @param SaveUserRequest $request. 
+	     * @param SaveUserRequest $request.
 	     * @return respuesta del servidor según el estado de la transacción
 	     */
 	public function store(SaveUserRequest $request)
 	{
-		User::create($request->validated());
-		return back()->with('success','Usuario creado con éxito');
+
+		DB::beginTransaction();
+		try {
+			User::create($request->validated());
+			DB::commit();
+			return back()->with('success','Usuario creado con éxito');
+
+		} catch (Exception $e) {
+			DB::rollback();
+			return back()->with('warning','Se ha presentado un error: Info = '.$e->message());
+		}
 	}
-	
+
 	 /**
 	 * Actualizar la información de rol del usuario cuando se desee
 	 *
 	 * @param Request $request, User $user.
-	 * @return respuesta del servidor según el estado de la transacción. 
+	 * @return respuesta del servidor según el estado de la transacción.
 	 */
-	public function updaterole(Request $request, User $user)
+	public function updaterole(Request $request, User $usuario)
 	{
 
 		//Eliminamos todos los roles del usuario
-		$user->roles()->detach();
+		$usuario->roles()->detach();
 
 		//Preguntamos si el susuario desea cambiar el rol y si lo desea
 		//registramos los roles que trae el array y si no se desean cambiar roles
 		//no realizamos ninguna accion
 		if($request->filled('roles'))
 		{
-			$user->assignRole($request->roles);
+			$usuario->assignRole($request->roles);
 		}
-		//Asignar nuevamente los roles al usuario. 
-		$user->syncRoles($request->roles);
+		//Asignar nuevamente los roles al usuario.
+		$usuario->syncRoles($request->roles);
+
 		return back()->with('success','Los roles se han actualizado');
 	}
-	
+
 	 /**
-	  * Metodo para actualizar los permisos al usuario. 
+	  * Metodo para actualizar los permisos al usuario.
 	  *
-	  * @param Request $request, 
-	  * @param User $user
-	  * @return respuesta del servidor según el estado de la transacción. 
+	  * @param Request $request,
+	  * @param User $usuario
+	  * @return respuesta del servidor según el estado de la transacción.
 	  */
-	public function updatepermission(Request $request, User $user)
+	public function updatepermission(Request $request, User $usuario)
 	{
+		try {
 
-		//Eliminamos todos los permisos del usuario
-		$user->permissions()->detach();
+			//Eliminamos todos los permisos del usuario
+			$usuario->permissions()->detach();
 
-		//Preguntamos si el susuario desea cambiar los permisos y lo desea
-		//registramos los permisos que trae el array y si no se desean cmabiar permisos
-		//no realizamos ninguna accion
-		if($request->filled('permissions'))
-		{
-			$user->givePermissionTo($request->permissions);
+			//Preguntamos si el susuario desea cambiar los permisos y lo desea
+			//registramos los permisos que trae el array y si no se desean cmabiar permisos
+			//no realizamos ninguna accion
+			if($request->filled('permissions'))
+			{
+				$usuario->givePermissionTo($request->permissions);
+			}
+				$usuario->syncPermissions($request->permissions);
+
+			return back()->with('success','Los permisos se han actualizado');
+		} catch (Exception $e) {
+			return back()->with('error','Se ha presentado un error: ',$e->message());
 		}
-
-		return back()->with('success','Los permisos se han actualizado');
 	}
 
 }

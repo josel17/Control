@@ -21,22 +21,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(
-            //EstadoSeed::class,
-            //MaestraSeed::class,
-            //MaestraDetalleSeed::class,
-            //DepartamentosSeed::class,
-            //CiudadesSeed::class,
-            //PersonaSeed::class,
-            //RolesSeed::class,
-            //UserSeed::class,
-            //PermisosSeed::class,
-            //AssignRolesSeed::class,
-            //UnidadMedidaSeed::class,
-            //PresentacionProductosSeed::class,
-            //ImpuestosSeed::class,
-            //MovimientosSeed::class
-        );
-
+        $this->call(EstadoSeed::class);
+        $this->call(MaestraSeed::class);
+        $this->call(MaestraDetalleSeed::class);
+        $this->call(DepartamentosSeed::class);
+        $this->call(CiudadesSeed::class);
+        $this->call(PersonaSeed::class);
+        $this->call(RolesSeed::class);
+        $this->call(UserSeed::class);
+        $this->call(PermisosSeed::class);
+        $this->call(AssignRolesSeed::class);
+        $this->call(UnidadMedidaSeed::class);
+        $this->call(PresentacionProductosSeed::class);
+        $this->call(ImpuestosSeed::class);
+        $this->call(MovimientosSeed::clas);
     }
 }

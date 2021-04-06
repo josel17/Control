@@ -64,12 +64,12 @@
 																<tr>
 																	<div class="d-none">{{$item=$item+1}}<input type="text" name="impuest_{{$item}}" id="impuest_{{$item}}" value="{{$carrito['impuesto']}}"></div>
 																	<th scope="row">{{$carrito['codigo']}}</th>
-																	<th><input type="text" name="">{{$carrito['nombre']}}</th>
+																	<th>{{$carrito['nombre']}}</th>
 																	<th><input type="number" name="cantidad_{{$item}}" id="cantidad_{{$item}}" class="form-control" value="{{$carrito['cantidad']}}" onkeyup="calcular_precio({{$item}});"></th>
 																	<td><input type="text" name="precio_{{$item}}" id="precio_{{$item}}" value="{{$carrito['precio']}}" class="form-control" @if(Auth()->user()->hasPermissionTo('Edit Prices')) @else  readonly @endif></td>
 																	<td><input type="text" name="impuesto_{{$item}}" id="impuesto_{{$item}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
-																	<td><input type="text" name="subtotal_{{$item}}" id="subtotal_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']}}" class="form-control"></td>
-																	<td><input type="text" name="total_{{$item}}" id="total_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control"></td>
+																	<td><input type="text" name="subtotal_{{$item}}" id="subtotal_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']}}" class="form-control" readonly></td>
+																	<td><input type="text" name="total_{{$item}}" id="total_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control" readonly></td>
 																	<td><a href="{{route('carrito.remove',$item)}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
 																</tr>
 															@endforeach

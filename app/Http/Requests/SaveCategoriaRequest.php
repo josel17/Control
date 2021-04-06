@@ -25,7 +25,7 @@ class SaveCategoriaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => ['required',Rule::unique('categoria')->ignore($this->route('categorias'))],
+            'nombre' => ['required',Rule::unique('categoria')->ignore($this->route('categorias/'))],
             'id_estado' => 'required',
             'descripcion' => ['max:255','required'],
             'user_register_id' => '',

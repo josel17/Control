@@ -48,6 +48,7 @@ class PersonaController extends Controller
      */
 	public function store(SavePersonaRequest $request)
 	{
+
 	  try {
 	    $request->tipo = 1;
 	    Persona::create($request->validated());

@@ -27,7 +27,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-				<form method="get" action="{{route('compras.orden.select_proveedor')}} ">
+				<form method="get" action="{{route('gastos.orden.select_proveedor')}} ">
 					@csrf
 						<div class="col-md-12 col-sm-12 col-lg-12" >
 							<label class="col-md-5 col-sm-5 col-lg-5">Seleccionar proveedor</label>
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 				</form>
-				<form action="{{route('compras.orden.pedido')}}" method="POST">
+				<form action="{{route('gastos.orden.pedido')}}" method="POST">
 					@csrf
 						@if(count($productos)<=0)
 						@else

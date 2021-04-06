@@ -89,8 +89,8 @@ class ProductoController extends Controller
         try
         {
             $this->authorize('create',$producto);
-            //Producto::create($request->validated());
-            DB::table('diferencias')->insert(['id'=>1,'codigo_material'=>$request->codigo,'cantidad_actual'=>0,'cantidad_fisica'=>0,'fecha_inventario'=>NULL, 'fecha_vto'=>NULL,'id_periodo'=>NULL]);
+            Producto::create($request->validated());
+            DB::table('diferencias')->insert(['codigo_material'=>$request->codigo,'cantidad_actual'=>0,'cantidad_fisica'=>0,'fecha_inventario'=>NULL, 'fecha_vto'=>NULL,'id_periodo'=>NULL]);
 
             return back()->with('success','Producto creado exitosamente',[
 

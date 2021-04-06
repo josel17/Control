@@ -3,7 +3,7 @@
 @section('title','Carrito de compras')
 
 @section('content')
-{{setlocale(LC_MONETARY, 'it_IT')}}
+
 <div class="x_panel">
 	<form class="form-group" name="frm-buscar" method="POST" accept-charset="utf-8" >
 		@csrf
@@ -27,7 +27,9 @@
 								<div class="">
 									<div class="pricing_features">
 										<ul class="list-unstyled text-left">
-											<div><img src="./images/picture.jpg" width="100%" height="40%"></div>
+											<div>
+												@if($producto->imagenes->count() >= 1)<img src="{{$producto->imagenes->first()->url}}" width="50%" height="40%">@else	<span class="fa fa-image fa-7x"></span> @endif
+											</div>
 										</ul>
 									</div>
 								</div>

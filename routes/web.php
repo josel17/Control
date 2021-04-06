@@ -50,11 +50,11 @@ Route::group([
 	 	Route::post('usuario','UsuariosController@store')->name('persona.user.store');
 
 	 	Route::middleware('role:Admin')
-	 	->put('usuario/{user}','UsuariosController@updatepermission')
+	 	->put('usuario/{usuario}','UsuariosController@updatepermission')
 	 	->name('persona.user.update.permissions');
 
 	 	Route::middleware('role:Admin')
-			 	->put('usuarios/{user}','UsuariosController@updaterole')
+			 	->put('usuarios/{usuario}','UsuariosController@updaterole')
 			 	->name('persona.user.update.role');
 
 	});

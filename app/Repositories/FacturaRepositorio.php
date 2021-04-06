@@ -75,7 +75,7 @@ class FacturaRepositorio
 	 			}
 
 			DB::commit();
-			session()->flush();
+			session()->forget('carrito');
 			return true;
 
 		} catch (Exception $e) {

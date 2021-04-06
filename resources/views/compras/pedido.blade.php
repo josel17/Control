@@ -25,10 +25,10 @@
         </div>
         <div class="x_content">
           @if(isset($detalle))
-            <form method="POST" action="{{route('compras.orden.update')}}">
+            <form method="POST" action="{{route('gastos.orden.update')}}">
               @method('PUT')
           @else
-            <form method="POST" action="{{route('compras.orden.procesar')}}">
+            <form method="POST" action="{{route('gastos.orden.procesar')}}">
           @endif
             @csrf
             <div id="datos" class="d d-none">

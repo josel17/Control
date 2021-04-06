@@ -103,7 +103,7 @@ class InventarioController extends Controller
 			if(count($diferencias)>=1)
 			{
 				for ($i=0; $i < count($diferencias); $i++) {
-					$diferencias[$i]->cantidad = $diferencias[$i]->cantidad_fisica;
+					$diferencias[$i]->cantidad_actual = $diferencias[$i]->cantidad_fisica;
 					$diferencias[$i]->save();
 				}
 

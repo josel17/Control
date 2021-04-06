@@ -37,6 +37,8 @@ class SaveUserRequest extends FormRequest
                     'username' => ['required', Rule::unique('users')->ignore($this->route('usuario'))],
                     'id_persona' => 'required',
                     'observacion' => '',
+                    'password' => 'required',
+                    'estado' => 'required',
             ];
 
             if($this->filled('password'))
@@ -49,9 +51,10 @@ class SaveUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'username.required' => 'Nombre de usuario es requeridosss',
+            'username.required' => 'Nombre de usuario es requerido',
             'id_persona.required' => 'Se necesita un responsable para la cuenta',
             'password.required' => 'Se necesita una contraseña',
+            'estado.required' => 'Seleccione el estado del usuario',
 
         ];
     }
