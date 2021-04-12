@@ -28,7 +28,7 @@
 									<div class="pricing_features">
 										<ul class="list-unstyled text-left">
 											<div>
-												@if($producto->imagenes->count() >= 1)<img src="{{$producto->imagenes->first()->url}}" width="50%" height="40%">@else	<span class="fa fa-image fa-7x"></span> @endif
+												@if($producto->imagenes->count() >= 1)<img src="{{$producto->imagenes->last()->url}}" width="50%" height="40%">@else<span class="fa fa-image fa-7x"></span> @endif
 											</div>
 										</ul>
 									</div>
@@ -52,7 +52,6 @@
 											<input class="d-none col-9" type="text" name="precio" id="precio" value="{{$producto->precio_venta}}">
 											<input class="d-none col-9" type="text" name="impuesto" id="impuesto" value="{{$producto->impuesto->tasa}}">
 											<input class="d-none col-9" type="number" name="cantidad" id="cantidad" value="1">
-
 											<button class="btn btn-success btn-sm" name="btn_add" value="add"><i class="fa fa-shopping-cart"></i></button>
 											<button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button>
 										</form>
@@ -94,15 +93,18 @@
 					}
 			  }).done(function(datos){
 			  	var html_content ='';
+			  	var index =0;
 			  	document.getElementById("contenido").innerHTML="";
 				  	if(datos.length<=0)
 				  	{
 				  		var html_content= 'No se encontraron datos';
 				  	}else
 				  	{
+				  		/*+datos[i].imagenes[datos[i].imagenes.length-1].url+*/
+
 			  		for(var i=0; i<datos.length; ++i)
 
-			  		html_content += '<div class="col-md-4 col-sm-6  col-lg-2 col-12"><div class="pricing"><div class="x_content" id="contenido"><div class=""><div class="pricing_features"><ul class="list-unstyled text-left"><a href=""><img src="./images/picture.jpg" width="100%" height="100%"></a></ul></div></div><div class="pricing_footer ui-ribbon-container"><div class="ui-ribbon-wrapper d-none"><div class="ui-ribbon">30% Off</div></div><div class="text-left"><label class="" role="">'+datos[i].nombre+'</label></div><div class="message_wrapper text-left"><label><i class="fa fa-dollar"></i> '+new Intl.NumberFormat("en-IN").format(datos[i].precio_venta)+'</label><br><label><i class="d-nonefa fa-shop"></i> '+datos[i].laboratorio.nombre+'</label><br><form action="{{route('carrito.vitrina.add')}}" method="POST" name="item-car">@csrf<input class="d-none col-9" type="text" name="id" id="id" value="'+datos[i].id+'"><input class="d-none col-9" type="text" name="nombre" id="nombre" value="'+datos[i].nombre+'"><input class="d-none col-9" type="text" name="precio" id="precio" value="'+datos[i].precio_venta+'"><input class="d-none col-9" type="number" name="cantidad" id="cantidad" value="1"><input class="d-none col-9" type="text" name="impuesto" id="impuesto" value="'+datos[i].impuesto.tasa+'"><button class="btn btn-success btn-sm" name="btn_add" value="add"><i class="fa fa-shopping-cart"></i></button><button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button></form></div></div></div></div></div>';
+			  		html_content += '<div class="col-md-4 col-sm-6  col-lg-2 col-12"><div class="pricing"><div class="x_content" id="contenido"><div class=""><div class="pricing_features"><ul class="list-unstyled text-left"><div><span class="fa fa-image fa-7x"></span></div></ul></div></div><div class="pricing_footer ui-ribbon-container"><div class="ui-ribbon-wrapper d-none"><div class="ui-ribbon">30% Off</div></div><div class="text-left"><label class="" role="">'+datos[i].nombre+'</label></div><div class="message_wrapper text-left"><label><i class="fa fa-dollar"></i>'+datos[i].precio_venta+'</label><br><label><i class="fa fa-shop"></i> '+datos[i].laboratorio.nombre+'</label><br><form method="POST" name="item-car" action="{{route('carrito.vitrina.add')}}">@csrf<input class="d-none col-9" type="text" name="codigo" id="codigo" value="'+datos[i].codigo+'"><input class="d-none col-9" type="text" name="nombre" id="nombre" value="'+datos[i].nombre+'"><input class="d-none col-9" type="text" name="precio" id="precio" value="'+datos[i].precio_venta+'"><input class="d-none col-9" type="text" name="impuesto" id="impuesto" value="'+datos[i].impuesto.tasa+'"><input class="d-none col-9" type="number" name="cantidad" id="cantidad" value="1"><button class="btn btn-success btn-sm" name="btn_add" value="add"><i class="fa fa-shopping-cart"></i></button><button class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button></form></div></div></div></div></div>';
 			  	}
 			  		$('#contenido').html(html_content);
 			  });

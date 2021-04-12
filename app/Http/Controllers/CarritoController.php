@@ -49,6 +49,7 @@ class CarritoController extends Controller
         $result =  $this->_productoRepo->buscarxnombre($parametrosBusqueda);
         return $result;
 
+
     }
 
     /**
@@ -181,7 +182,6 @@ class CarritoController extends Controller
     public function remove($id)
     {
         try {
-
                 session()->forget("carrito.".$id);
                 return back()->with('success','Producto eliminado del carrito.');
            } catch (Exception $e) {

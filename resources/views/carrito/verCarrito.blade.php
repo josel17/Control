@@ -70,7 +70,7 @@
 																	<td><input type="text" name="impuesto_{{$item}}" id="impuesto_{{$item}}" value="{{(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control form-control-plaintext" readonly="true"></td>
 																	<td><input type="text" name="subtotal_{{$item}}" id="subtotal_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']}}" class="form-control" readonly></td>
 																	<td><input type="text" name="total_{{$item}}" id="total_{{$item}}" value="{{$carrito['precio']*$carrito['cantidad']+(($carrito['precio']*$carrito['cantidad'])*$carrito['impuesto'])/100}}" class="form-control" readonly></td>
-																	<td><a href="{{route('carrito.remove',$item)}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
+																	<td><a href="{{route('carrito.remove',$carrito['codigo'])}}" role="button"  name="btn_add" value="remove" class="btn btn-link"><span class="fa fa-trash red"></span></a></td>
 																</tr>
 															@endforeach
 																<tr>
@@ -564,7 +564,7 @@
 
 			var factura = new Array();
 			var count = <?php if(session()->exists('carrito') && count(session('carrito'))>0){echo count(session('carrito'));}?>;
-			var posicion;
+			var posicion=0;
 			var item =0;
 
 			var subtotal = 0;

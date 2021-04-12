@@ -232,4 +232,17 @@ Route::group([
 	Route::get('buscarproveedor','ComprasController@buscarproveedor')->name('orden.buscarproveedor');
 	Route::get('pdf/{id}','PdfController@generar')->name('pdf.generar');
 	Route::get('buscarpedido/{nopedido}','FacturacionController@buscarpedido');
+	Route::get('storage-link',function(){
+
+			/*Artisan::call('storage:link');*/
+
+            if (file_exists(public_path('storage'))) {
+                return "The  link already exists.";
+              } else {
+            	app('files')->link(storage_path('app/public'), public_path('storage'));
+
+                return "The link has been connected to.";
+            }
+
+	});
 
