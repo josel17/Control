@@ -9,6 +9,7 @@
 
     <title>{{config('app.name')}}</title>
 
+    @stack('styles')
     <!-- Bootstrap -->
     <link href="../vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->

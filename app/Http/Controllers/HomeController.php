@@ -18,12 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        SEO::setTitle('Página SEO');
-        SEO::setDescription('Ejemplo de descripción de la página');
-        SEO::opengraph()->setUrl('http://nigmacode.com');
-        SEO::setCanonical('https://nigmacode.com');
-        SEO::opengraph()->addProperty('type', 'articles');
-        SEO::twitter()->setSite('@Nigmacode');
+
         $this->middleware('auth');
     }
 
@@ -55,8 +50,6 @@ class HomeController extends Controller
             'facturas' => count($facturas),
             'ordenes' => count($ordenes),
             'ordenPendiente' => count($ordenPendiente)
-
-
         ]);
     }
 }
